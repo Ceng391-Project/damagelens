@@ -4,8 +4,8 @@ from pathlib import Path
 import markdown
 
 R = Path(__file__).parent.parent.parent / "docs" / "disaster-report"
-ORDER = [("README", "Genel bakış"), ("01-deprem", "Deprem"), ("02-sel", "Sel"), ("03-heyelan", "Heyelan"), ("04-hortum", "Hortum"),
-         ("05-dolu", "Dolu"), ("06-asiri-sicak", "Aşırı sıcak"), ("07-yangin", "Yangın")]
+ORDER = [("README", "Overview"), ("01-earthquake", "Earthquake"), ("02-flood", "Flood"), ("03-landslide", "Landslide"), ("04-tornado", "Tornado"),
+         ("05-hail", "Hail"), ("06-extreme-heat", "Extreme heat"), ("07-fire", "Fire")]
 
 sections, nav = [], []
 for slug, label in ORDER:
@@ -15,7 +15,7 @@ for slug, label in ORDER:
     html = html.replace("<table>", '<div class="tw"><table>').replace("</table>", "</table></div>")
     html = re.sub(r'<p><img alt="([^"]*)" src="([^"]+)" />\s*<em>([^<]*)</em></p>',
                   r'<figure><img alt="\1" src="\2" loading="lazy"><figcaption>\3</figcaption></figure>', html)
-    sid = "genel" if slug == "README" else slug
+    sid = "overview" if slug == "README" else slug
     sections.append(f'<section id="{sid}" class="rep">{html}</section>')
     nav.append(f'<a href="#{sid}" data-t="{sid}">{label}</a>')
 
@@ -61,13 +61,13 @@ a {{ color: var(--accent); }}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono&display=swap">
 <header><h1>DamageLens</h1>
-<p>Afet türlerine göre uydu ve hava görüntüsü analizi. CENG391 — deprem, sel, heyelan, hortum, dolu, aşırı sıcak ve yangın için açık verilerle yapılan testler: yöntemler, metrikler, grafikler ve rastgele vakalar.</p></header>
+<p>Satellite and aerial image analysis by hazard type. CENG391 — tests on earthquake, flood, landslide, tornado, hail, extreme heat and fire with open data: methods, metrics, charts and random cases.</p></header>
 <nav><div class="in">{''.join(nav)}</div></nav>
 <main>{''.join(sections)}</main>
 <script>
 const tabs = [...document.querySelectorAll("nav a")], reps = [...document.querySelectorAll(".rep")];
 function show(id) {{
-  if (!reps.some(r => r.id === id)) id = "genel";
+  if (!reps.some(r => r.id === id)) id = "overview";
   reps.forEach(r => r.classList.toggle("on", r.id === id));
   tabs.forEach(t => t.classList.toggle("on", t.dataset.t === id));
 }}
@@ -75,7 +75,7 @@ document.addEventListener("click", e => {{
   const a = e.target.closest('a[href^="#"]'); if (!a) return;
   e.preventDefault(); const id = a.getAttribute("href").slice(1); show(id); history.replaceState(null, "", "#" + id); window.scrollTo(0, 0);
 }});
-show(location.hash.slice(1) || "genel");
+show(location.hash.slice(1) || "overview");
 </script>
 """
 (R / "index.html").write_text(page)
