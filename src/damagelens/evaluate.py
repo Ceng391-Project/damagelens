@@ -23,7 +23,7 @@ def evaluate_model(path, split="test", shifts=(0,), register=False):
     for px in shifts:
         pre = misregister_pre(data, px) if px else [p.pre for p in data]
         if register:
-            pre = [register_phase(b, a)[0] for a, b in zip(pre, post)]
+            pre = [register_phase(b, a)[0] for a, b in zip(pre, post, strict=False)]
         out[px] = {k: float(v) for k, v in binary_scores(predict(model, np.stack(pre), post) > thr, gt).items()}
     return out
 
@@ -33,7 +33,8 @@ def evaluate_baselines(names=tuple(BASELINES), split="test"):
     out = {}
     for n in names:
         fn = BASELINES[n]
-        score = lambda d: np.stack([fn(p.pre, p.post) for p in d])
+        def score(d, fn=fn):
+            return np.stack([fn(p.pre, p.post) for p in d])
         sv, st = score(val), score(test)
         lo, hi = np.percentile(sv, [50, 99.5])
         thr, _ = best_threshold(sv, np.stack([p.mask for p in val]), grid=np.linspace(lo, hi, 15))

@@ -1,6 +1,6 @@
 import json
 import re
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 from functools import partial
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -71,7 +71,7 @@ class Handler(SimpleHTTPRequestHandler):
         except (ValueError, KeyError, TypeError, AssertionError):
             return self._json(dict(error="bad annotation"), HTTPStatus.BAD_REQUEST)
         out = dict(tile=tid, status=status, user=str(ann.get("user", ""))[:40], polygons=polys,
-                   updated=datetime.now(timezone.utc).isoformat(timespec="seconds"))
+                   updated=datetime.now(UTC).isoformat(timespec="seconds"))
         f = self.area / "annotations" / f"{tid}.json"; f.parent.mkdir(exist_ok=True)
         tmp = f.with_suffix(".tmp"); tmp.write_text(json.dumps(out, indent=1)); tmp.replace(f)
         return self._json(dict(ok=True, updated=out["updated"]))

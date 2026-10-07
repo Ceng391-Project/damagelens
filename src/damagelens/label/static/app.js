@@ -146,6 +146,9 @@ function setClass(c) {
 }
 
 function setStatus(s) {
+  if (s === "done" && !$("user").value.trim()) {  // CI rejects done tiles without a labeler name
+    $("save-state").textContent = "enter your name before marking a tile done"; $("save-state").className = "error"; $("user").focus(); return;
+  }
   if (draft.length >= 3) closeDraft();
   ann.status = ann.status === s ? "todo" : s; setStatusChip(); changed();
 }
