@@ -1,0 +1,847 @@
+{
+ "name": "antakya-center",
+ "lon": 36.16,
+ "lat": 36.21,
+ "side_m": 2048.0,
+ "gsd": 0.5,
+ "crs": "EPSG:32637",
+ "tile": 512,
+ "pre_date": "2022-12-22",
+ "post_date": "2023-02-08",
+ "created": "2026-10-07T17:12:19+00:00",
+ "source": "Maxar Open Data, Kahramanmaras-turkey-earthquake-23 (CC BY-NC 4.0)",
+ "tiles": [
+  {
+   "id": "antakya-center_000",
+   "row": 0,
+   "col": 0,
+   "x0": 243662.04035686472,
+   "y0": 4012004.728318018,
+   "pre_shift_px": [
+    0.0,
+    14.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.011112213134765625
+  },
+  {
+   "id": "antakya-center_001",
+   "row": 0,
+   "col": 512,
+   "x0": 243918.04035686472,
+   "y0": 4012004.728318018,
+   "pre_shift_px": [
+    0.0,
+    13.5
+   ],
+   "registered": true,
+   "snow_cloud": 0.017963409423828125
+  },
+  {
+   "id": "antakya-center_002",
+   "row": 0,
+   "col": 1024,
+   "x0": 244174.04035686472,
+   "y0": 4012004.728318018,
+   "pre_shift_px": [
+    0.0,
+    10.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.009979248046875
+  },
+  {
+   "id": "antakya-center_003",
+   "row": 0,
+   "col": 1536,
+   "x0": 244430.04035686472,
+   "y0": 4012004.728318018,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.010196685791015625
+  },
+  {
+   "id": "antakya-center_004",
+   "row": 0,
+   "col": 2048,
+   "x0": 244686.04035686472,
+   "y0": 4012004.728318018,
+   "pre_shift_px": [
+    1.5,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.007862091064453125
+  },
+  {
+   "id": "antakya-center_005",
+   "row": 0,
+   "col": 2560,
+   "x0": 244942.04035686472,
+   "y0": 4012004.728318018,
+   "pre_shift_px": [
+    -2.25,
+    19.5
+   ],
+   "registered": true,
+   "snow_cloud": 0.001007080078125
+  },
+  {
+   "id": "antakya-center_006",
+   "row": 0,
+   "col": 3072,
+   "x0": 245198.04035686472,
+   "y0": 4012004.728318018,
+   "pre_shift_px": [
+    -2.0,
+    17.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.005550384521484375
+  },
+  {
+   "id": "antakya-center_007",
+   "row": 0,
+   "col": 3584,
+   "x0": 245454.04035686472,
+   "y0": 4012004.728318018,
+   "pre_shift_px": [
+    0.0,
+    8.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.013820648193359375
+  },
+  {
+   "id": "antakya-center_008",
+   "row": 512,
+   "col": 0,
+   "x0": 243662.04035686472,
+   "y0": 4011748.728318018,
+   "pre_shift_px": [
+    19.75,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.019855499267578125
+  },
+  {
+   "id": "antakya-center_009",
+   "row": 512,
+   "col": 512,
+   "x0": 243918.04035686472,
+   "y0": 4011748.728318018,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.0208892822265625
+  },
+  {
+   "id": "antakya-center_010",
+   "row": 512,
+   "col": 1024,
+   "x0": 244174.04035686472,
+   "y0": 4011748.728318018,
+   "pre_shift_px": [
+    3.75,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.0141754150390625
+  },
+  {
+   "id": "antakya-center_011",
+   "row": 512,
+   "col": 1536,
+   "x0": 244430.04035686472,
+   "y0": 4011748.728318018,
+   "pre_shift_px": [
+    0.0,
+    29.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.02680206298828125
+  },
+  {
+   "id": "antakya-center_012",
+   "row": 512,
+   "col": 2048,
+   "x0": 244686.04035686472,
+   "y0": 4011748.728318018,
+   "pre_shift_px": [
+    3.0,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.015064239501953125
+  },
+  {
+   "id": "antakya-center_013",
+   "row": 512,
+   "col": 2560,
+   "x0": 244942.04035686472,
+   "y0": 4011748.728318018,
+   "pre_shift_px": [
+    0.0,
+    16.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.0269775390625
+  },
+  {
+   "id": "antakya-center_014",
+   "row": 512,
+   "col": 3072,
+   "x0": 245198.04035686472,
+   "y0": 4011748.728318018,
+   "pre_shift_px": [
+    0.0,
+    16.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.008358001708984375
+  },
+  {
+   "id": "antakya-center_015",
+   "row": 512,
+   "col": 3584,
+   "x0": 245454.04035686472,
+   "y0": 4011748.728318018,
+   "pre_shift_px": [
+    0.0,
+    14.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.04135894775390625
+  },
+  {
+   "id": "antakya-center_016",
+   "row": 1024,
+   "col": 0,
+   "x0": 243662.04035686472,
+   "y0": 4011492.728318018,
+   "pre_shift_px": [
+    0.0,
+    31.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.00673675537109375
+  },
+  {
+   "id": "antakya-center_017",
+   "row": 1024,
+   "col": 512,
+   "x0": 243918.04035686472,
+   "y0": 4011492.728318018,
+   "pre_shift_px": [
+    0.0,
+    9.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.0207061767578125
+  },
+  {
+   "id": "antakya-center_018",
+   "row": 1024,
+   "col": 1024,
+   "x0": 244174.04035686472,
+   "y0": 4011492.728318018,
+   "pre_shift_px": [
+    6.5,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.01624298095703125
+  },
+  {
+   "id": "antakya-center_019",
+   "row": 1024,
+   "col": 1536,
+   "x0": 244430.04035686472,
+   "y0": 4011492.728318018,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.02283477783203125
+  },
+  {
+   "id": "antakya-center_020",
+   "row": 1024,
+   "col": 2048,
+   "x0": 244686.04035686472,
+   "y0": 4011492.728318018,
+   "pre_shift_px": [
+    -1.25,
+    1.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.022937774658203125
+  },
+  {
+   "id": "antakya-center_021",
+   "row": 1024,
+   "col": 2560,
+   "x0": 244942.04035686472,
+   "y0": 4011492.728318018,
+   "pre_shift_px": [
+    0.0,
+    21.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.04132080078125
+  },
+  {
+   "id": "antakya-center_022",
+   "row": 1024,
+   "col": 3072,
+   "x0": 245198.04035686472,
+   "y0": 4011492.728318018,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.04727935791015625
+  },
+  {
+   "id": "antakya-center_023",
+   "row": 1024,
+   "col": 3584,
+   "x0": 245454.04035686472,
+   "y0": 4011492.728318018,
+   "pre_shift_px": [
+    0.0,
+    21.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.061389923095703125
+  },
+  {
+   "id": "antakya-center_024",
+   "row": 1536,
+   "col": 0,
+   "x0": 243662.04035686472,
+   "y0": 4011236.728318018,
+   "pre_shift_px": [
+    0.0,
+    20.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.0157470703125
+  },
+  {
+   "id": "antakya-center_025",
+   "row": 1536,
+   "col": 512,
+   "x0": 243918.04035686472,
+   "y0": 4011236.728318018,
+   "pre_shift_px": [
+    0.0,
+    9.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.01883697509765625
+  },
+  {
+   "id": "antakya-center_026",
+   "row": 1536,
+   "col": 1024,
+   "x0": 244174.04035686472,
+   "y0": 4011236.728318018,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.01284027099609375
+  },
+  {
+   "id": "antakya-center_027",
+   "row": 1536,
+   "col": 1536,
+   "x0": 244430.04035686472,
+   "y0": 4011236.728318018,
+   "pre_shift_px": [
+    -0.25,
+    14.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.032318115234375
+  },
+  {
+   "id": "antakya-center_028",
+   "row": 1536,
+   "col": 2048,
+   "x0": 244686.04035686472,
+   "y0": 4011236.728318018,
+   "pre_shift_px": [
+    0.0,
+    -15.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.023509979248046875
+  },
+  {
+   "id": "antakya-center_029",
+   "row": 1536,
+   "col": 2560,
+   "x0": 244942.04035686472,
+   "y0": 4011236.728318018,
+   "pre_shift_px": [
+    0.0,
+    19.5
+   ],
+   "registered": true,
+   "snow_cloud": 0.036777496337890625
+  },
+  {
+   "id": "antakya-center_030",
+   "row": 1536,
+   "col": 3072,
+   "x0": 245198.04035686472,
+   "y0": 4011236.728318018,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.03936004638671875
+  },
+  {
+   "id": "antakya-center_031",
+   "row": 1536,
+   "col": 3584,
+   "x0": 245454.04035686472,
+   "y0": 4011236.728318018,
+   "pre_shift_px": [
+    0.0,
+    16.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.053462982177734375
+  },
+  {
+   "id": "antakya-center_032",
+   "row": 2048,
+   "col": 0,
+   "x0": 243662.04035686472,
+   "y0": 4010980.728318018,
+   "pre_shift_px": [
+    0.0,
+    13.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.011383056640625
+  },
+  {
+   "id": "antakya-center_033",
+   "row": 2048,
+   "col": 512,
+   "x0": 243918.04035686472,
+   "y0": 4010980.728318018,
+   "pre_shift_px": [
+    0.0,
+    4.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.01386260986328125
+  },
+  {
+   "id": "antakya-center_034",
+   "row": 2048,
+   "col": 1024,
+   "x0": 244174.04035686472,
+   "y0": 4010980.728318018,
+   "pre_shift_px": [
+    -0.75,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.0178985595703125
+  },
+  {
+   "id": "antakya-center_035",
+   "row": 2048,
+   "col": 1536,
+   "x0": 244430.04035686472,
+   "y0": 4010980.728318018,
+   "pre_shift_px": [
+    0.0,
+    33.5
+   ],
+   "registered": true,
+   "snow_cloud": 0.02239227294921875
+  },
+  {
+   "id": "antakya-center_036",
+   "row": 2048,
+   "col": 2048,
+   "x0": 244686.04035686472,
+   "y0": 4010980.728318018,
+   "pre_shift_px": [
+    0.0,
+    8.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.0260009765625
+  },
+  {
+   "id": "antakya-center_037",
+   "row": 2048,
+   "col": 2560,
+   "x0": 244942.04035686472,
+   "y0": 4010980.728318018,
+   "pre_shift_px": [
+    0.0,
+    24.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.10580062866210938
+  },
+  {
+   "id": "antakya-center_038",
+   "row": 2048,
+   "col": 3072,
+   "x0": 245198.04035686472,
+   "y0": 4010980.728318018,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.03539276123046875
+  },
+  {
+   "id": "antakya-center_039",
+   "row": 2048,
+   "col": 3584,
+   "x0": 245454.04035686472,
+   "y0": 4010980.728318018,
+   "pre_shift_px": [
+    0.0,
+    15.5
+   ],
+   "registered": true,
+   "snow_cloud": 0.038677215576171875
+  },
+  {
+   "id": "antakya-center_040",
+   "row": 2560,
+   "col": 0,
+   "x0": 243662.04035686472,
+   "y0": 4010724.728318018,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.0198211669921875
+  },
+  {
+   "id": "antakya-center_041",
+   "row": 2560,
+   "col": 512,
+   "x0": 243918.04035686472,
+   "y0": 4010724.728318018,
+   "pre_shift_px": [
+    0.0,
+    18.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.025913238525390625
+  },
+  {
+   "id": "antakya-center_042",
+   "row": 2560,
+   "col": 1024,
+   "x0": 244174.04035686472,
+   "y0": 4010724.728318018,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.02392578125
+  },
+  {
+   "id": "antakya-center_043",
+   "row": 2560,
+   "col": 1536,
+   "x0": 244430.04035686472,
+   "y0": 4010724.728318018,
+   "pre_shift_px": [
+    0.0,
+    9.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.020111083984375
+  },
+  {
+   "id": "antakya-center_044",
+   "row": 2560,
+   "col": 2048,
+   "x0": 244686.04035686472,
+   "y0": 4010724.728318018,
+   "pre_shift_px": [
+    0.0,
+    7.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.021450042724609375
+  },
+  {
+   "id": "antakya-center_045",
+   "row": 2560,
+   "col": 2560,
+   "x0": 244942.04035686472,
+   "y0": 4010724.728318018,
+   "pre_shift_px": [
+    0.0,
+    24.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.041187286376953125
+  },
+  {
+   "id": "antakya-center_046",
+   "row": 2560,
+   "col": 3072,
+   "x0": 245198.04035686472,
+   "y0": 4010724.728318018,
+   "pre_shift_px": [
+    0.25,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.025012969970703125
+  },
+  {
+   "id": "antakya-center_047",
+   "row": 2560,
+   "col": 3584,
+   "x0": 245454.04035686472,
+   "y0": 4010724.728318018,
+   "pre_shift_px": [
+    0.0,
+    29.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.034786224365234375
+  },
+  {
+   "id": "antakya-center_048",
+   "row": 3072,
+   "col": 0,
+   "x0": 243662.04035686472,
+   "y0": 4010468.728318018,
+   "pre_shift_px": [
+    -14.25,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.02671051025390625
+  },
+  {
+   "id": "antakya-center_049",
+   "row": 3072,
+   "col": 512,
+   "x0": 243918.04035686472,
+   "y0": 4010468.728318018,
+   "pre_shift_px": [
+    0.0,
+    10.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.0149078369140625
+  },
+  {
+   "id": "antakya-center_050",
+   "row": 3072,
+   "col": 1024,
+   "x0": 244174.04035686472,
+   "y0": 4010468.728318018,
+   "pre_shift_px": [
+    0.0,
+    7.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.02944183349609375
+  },
+  {
+   "id": "antakya-center_051",
+   "row": 3072,
+   "col": 1536,
+   "x0": 244430.04035686472,
+   "y0": 4010468.728318018,
+   "pre_shift_px": [
+    0.0,
+    12.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.025012969970703125
+  },
+  {
+   "id": "antakya-center_052",
+   "row": 3072,
+   "col": 2048,
+   "x0": 244686.04035686472,
+   "y0": 4010468.728318018,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.01929473876953125
+  },
+  {
+   "id": "antakya-center_053",
+   "row": 3072,
+   "col": 2560,
+   "x0": 244942.04035686472,
+   "y0": 4010468.728318018,
+   "pre_shift_px": [
+    0.0,
+    26.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.030406951904296875
+  },
+  {
+   "id": "antakya-center_054",
+   "row": 3072,
+   "col": 3072,
+   "x0": 245198.04035686472,
+   "y0": 4010468.728318018,
+   "pre_shift_px": [
+    0.0,
+    13.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.026622772216796875
+  },
+  {
+   "id": "antakya-center_055",
+   "row": 3072,
+   "col": 3584,
+   "x0": 245454.04035686472,
+   "y0": 4010468.728318018,
+   "pre_shift_px": [
+    0.0,
+    19.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.0168914794921875
+  },
+  {
+   "id": "antakya-center_056",
+   "row": 3584,
+   "col": 0,
+   "x0": 243662.04035686472,
+   "y0": 4010212.728318018,
+   "pre_shift_px": [
+    0.0,
+    22.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.01924896240234375
+  },
+  {
+   "id": "antakya-center_057",
+   "row": 3584,
+   "col": 512,
+   "x0": 243918.04035686472,
+   "y0": 4010212.728318018,
+   "pre_shift_px": [
+    0.0,
+    2.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.009754180908203125
+  },
+  {
+   "id": "antakya-center_058",
+   "row": 3584,
+   "col": 1024,
+   "x0": 244174.04035686472,
+   "y0": 4010212.728318018,
+   "pre_shift_px": [
+    0.0,
+    31.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.0295867919921875
+  },
+  {
+   "id": "antakya-center_059",
+   "row": 3584,
+   "col": 1536,
+   "x0": 244430.04035686472,
+   "y0": 4010212.728318018,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.01723480224609375
+  },
+  {
+   "id": "antakya-center_060",
+   "row": 3584,
+   "col": 2048,
+   "x0": 244686.04035686472,
+   "y0": 4010212.728318018,
+   "pre_shift_px": [
+    0.0,
+    8.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.017261505126953125
+  },
+  {
+   "id": "antakya-center_061",
+   "row": 3584,
+   "col": 2560,
+   "x0": 244942.04035686472,
+   "y0": 4010212.728318018,
+   "pre_shift_px": [
+    -2.25,
+    18.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.021392822265625
+  },
+  {
+   "id": "antakya-center_062",
+   "row": 3584,
+   "col": 3072,
+   "x0": 245198.04035686472,
+   "y0": 4010212.728318018,
+   "pre_shift_px": [
+    -2.25,
+    20.5
+   ],
+   "registered": true,
+   "snow_cloud": 0.024295806884765625
+  },
+  {
+   "id": "antakya-center_063",
+   "row": 3584,
+   "col": 3584,
+   "x0": 245454.04035686472,
+   "y0": 4010212.728318018,
+   "pre_shift_px": [
+    0.0,
+    20.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.016757965087890625
+  }
+ ]
+}

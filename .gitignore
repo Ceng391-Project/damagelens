@@ -12,3 +12,5 @@ outputs/
 /runs/
 *.egg-info/
 .pytest_cache/
+labels/*/tiles/
+labels/*/labels.geojson
