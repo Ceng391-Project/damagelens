@@ -32,6 +32,8 @@ Fizibilite tamamlandı: ödevin her adımı açık veriyle uçtan uca çalışt�
 | **U-Net, sadece KATE-CD** | **0.552** | **0.382** |
 
 ### Diğer afet türleri (özet)
+Ayrıntılı raporlar (her afet için yöntem, tablolar, grafikler, rastgele vakalar, sınırlar): [docs/disaster-report/](docs/disaster-report/README.md). Tek sayfalık sürüm: `docs/disaster-report/index.html` (yerelde tarayıcıda açılır).
+
 ![Afet türlerine göre](docs/figures/disaster_overview.png)
 
 | Afet | Veri | Ana sonuç |
