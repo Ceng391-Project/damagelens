@@ -13,7 +13,7 @@ from sklearn.metrics import roc_auc_score, roc_curve
 from eo import read_to_grid, s2_mosaic, worldcover
 
 ROOT = Path(__file__).parent
-D = ROOT / "data" / "hail"
+D = ROOT.parent.parent / "data" / "hail"
 OUT = ROOT / "outputs" / "hail"
 OUT.mkdir(parents=True, exist_ok=True)
 

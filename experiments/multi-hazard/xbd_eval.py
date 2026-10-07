@@ -95,7 +95,7 @@ res = dict(per_event={ev: dict(type=TYPE[ev], **metrics(pix[ev], bld[ev])) for e
 tot_p = sum(by_type_pix.values()); tot_b = sum(by_type_bld.values()); res["overall"] = metrics(tot_p, tot_b)
 
 # 6 Şubat zero-shot on KATE-CD (binary: model class >= 2 vs damage polygons), two input scales
-kate = pq.read_table(ROOT.parent / "feasibility" / "data" / "kate-cd" / "test.parquet").to_pylist()
+kate = pq.read_table(ROOT.parent.parent / "data" / "kate-cd" / "test.parquet").to_pylist()
 dec = lambda c: np.array(Image.open(io.BytesIO(c["bytes"])).convert("RGB"))
 kx = np.stack([np.concatenate([dec(r["pre_image"]), dec(r["post_image"])], -1) for r in kate])
 ky = np.stack([(np.array(Image.open(io.BytesIO(r["label"]["bytes"]))) > 0) for r in kate])

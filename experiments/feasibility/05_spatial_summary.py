@@ -19,7 +19,7 @@ from skimage.registration import phase_cross_correlation
 from common import OUT
 
 ROOT = Path(__file__).parent
-meta = json.load(open(ROOT.parent / "disaster-eval/data/maxar_tr/index.json"))
+meta = json.load(open(ROOT.parent.parent / "data/maxar_tr/index.json"))
 CENTER = (36.925, 37.585)  # Kahramanmaraş city centre (lon, lat)
 SIDE_M, CELL_M, T = 1536, 48, 512
 UTM = "EPSG:32637"

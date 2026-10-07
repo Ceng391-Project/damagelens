@@ -6,7 +6,7 @@ import pyarrow.parquet as pq
 from PIL import Image
 
 ROOT = Path(__file__).parent
-DATA = ROOT / "data"
+DATA = ROOT.parent.parent / "data"
 OUT = ROOT / "outputs"
 
 
@@ -27,7 +27,7 @@ def load_xbd(min_damage=3, size=512):
     # xBD t2_mask: 0 bg, 1 no-damage, 2 minor, 3 major, 4 destroyed
     out = []
     # first 4 of the 17 xBD train shards, as in the feasibility run (download_data.sh xbd)
-    for f in sorted((ROOT.parent / "disaster-eval" / "data" / "xbd").glob("train-0000[0-3]-of-00017.parquet")):
+    for f in sorted((DATA / "xbd").glob("train-0000[0-3]-of-00017.parquet")):
         for r in pq.read_table(f).to_pylist():
             pre, post = _img(r["t1_image"]), _img(r["t2_image"])
             m2 = _mask(r["t2_mask"])

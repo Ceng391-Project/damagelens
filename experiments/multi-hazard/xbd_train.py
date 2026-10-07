@@ -10,7 +10,7 @@ import torch.nn.functional as F
 from seg import DEV, augment
 
 ROOT = Path(__file__).parent
-D = ROOT / "data" / "xbd512"
+D = ROOT.parent.parent / "data" / "xbd512"
 OUT = ROOT / "outputs" / "xbd"
 OUT.mkdir(parents=True, exist_ok=True)
 EPOCHS, BS = 12, 8

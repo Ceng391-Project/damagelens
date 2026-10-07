@@ -20,7 +20,7 @@ BBOX, RES = [-0.65, 39.15, -0.30, 39.48], 0.0001
 S2_BANDS = ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B09", "B11", "B12"]  # Sen1Floods11 has B10 between B09 and B11
 tr, W, H = grid(BBOX, RES)
 
-gt_gdf = gpd.read_file(ROOT / "data/valencia/EMSR773_AOI01_DEL_PRODUCT_observedEventA_v1.json")
+gt_gdf = gpd.read_file(ROOT.parent.parent / "data/valencia/EMSR773_AOI01_DEL_PRODUCT_observedEventA_v1.json")
 gt = rasterize([g for g in gt_gdf.geometry], out_shape=(H, W), transform=tr).astype(bool)
 wc = worldcover(BBOX, RES)
 perm = wc == 80
@@ -52,7 +52,7 @@ s2_ok = np.isfinite(s2).all(0); s1_ok = np.isfinite(s1).all(0)
 spec_stats = np.load(OUT / "s1f11_stats.npz") if (OUT / "s1f11_stats.npz").exists() else None
 if spec_stats is None:
     import rasterio
-    D = ROOT / "data/sen1floods11/sen1floods11_v1.1"
+    D = ROOT.parent.parent / "data/sen1floods11/sen1floods11_v1.1"
     ids = [l.split(",")[0].strip() for l in open(D / "splits/flood_train_data.txt") if l.strip()]
     acc = {k: [] for k in ("s2", "s1")}
     for i in ids:

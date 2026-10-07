@@ -22,7 +22,7 @@ from seg import DEV
 ROOT = Path(__file__).parent
 OUT = ROOT / "outputs" / "earthquake_maxar"
 OUT.mkdir(parents=True, exist_ok=True)
-meta = json.load(open(ROOT / "data/maxar_tr/index.json"))
+meta = json.load(open(ROOT.parent.parent / "data/maxar_tr/index.json"))
 CITIES = {"Antakya (Hatay)": [36.10, 36.15, 36.25, 36.40], "Kahramanmaraş merkez": [36.88, 37.55, 36.97, 37.61],
           "Gaziantep merkez": [37.30, 37.03, 37.43, 37.10], "İslahiye / Nurdağı": [36.55, 36.98, 36.72, 37.20]}
 N_PER_CITY, SIZE, GSD = 16, 512, 0.5

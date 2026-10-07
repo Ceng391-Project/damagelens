@@ -9,8 +9,8 @@ import pyarrow.parquet as pq
 from PIL import Image
 
 ROOT = Path(__file__).parent
-SRC = ROOT / "data" / "xbd"
-DST = ROOT / "data" / "xbd512"
+SRC = ROOT.parent.parent / "data" / "xbd"
+DST = ROOT.parent.parent / "data" / "xbd512"
 S = 512
 
 

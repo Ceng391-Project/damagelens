@@ -6,5 +6,5 @@
 - `run_all.sh` — the three training runs (KATE only, xBD only, xBD → KATE)
 - `03_figure.py` — prediction figure for the three models
 - `04_gaps.py` — classical baselines (CVA, 1−SSIM, PCA-kmeans, Otsu) + alignment sensitivity and phase-correlation registration
-- `05_spatial_summary.py` — end-to-end on raw Maxar Open Data (Kahramanmaraş centre): mosaic → registration → model → 48 m damage grid; needs `../download_data.sh maxar`
-- `data/`, `outputs/` — gitignored; fill with `../download_data.sh kate`
+- `05_spatial_summary.py` — end-to-end on raw Maxar Open Data (Kahramanmaraş centre): mosaic → registration → model → 48 m damage grid; needs `../../download_data.sh maxar`
+- `data/`, `outputs/` — gitignored; fill with `../../download_data.sh kate` (data now lives in the repo-root `data/`)

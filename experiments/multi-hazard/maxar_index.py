@@ -5,7 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 BASE = "https://maxar-opendata.s3.amazonaws.com/events/Kahramanmaras-turkey-earthquake-23/"
-OUT = Path(__file__).parent / "data" / "maxar_tr" / "index.json"
+OUT = Path(__file__).parent.parent.parent / "data" / "maxar_tr" / "index.json"
 
 
 def load(u):

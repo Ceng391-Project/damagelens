@@ -11,7 +11,7 @@ from sklearn.metrics import precision_recall_curve
 from seg import binary_scores, predict, train_binary
 
 ROOT = Path(__file__).parent
-D = ROOT / "data" / "landslide4sense"
+D = ROOT.parent.parent / "data" / "landslide4sense"
 OUT = ROOT / "outputs" / "landslide"
 OUT.mkdir(parents=True, exist_ok=True)
 

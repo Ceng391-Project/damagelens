@@ -12,7 +12,7 @@ import torch
 from seg import binary_scores, predict, train_binary
 
 ROOT = Path(__file__).parent
-D = ROOT / "data" / "sen1floods11" / "sen1floods11_v1.1"
+D = ROOT.parent.parent / "data" / "sen1floods11" / "sen1floods11_v1.1"
 OUT = ROOT / "outputs" / "flood"
 OUT.mkdir(parents=True, exist_ok=True)
 

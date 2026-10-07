@@ -12,7 +12,7 @@ from PIL import Image
 from seg import binary_scores, predict, train_binary
 
 ROOT = Path(__file__).parent
-D = ROOT / "data" / "landslide_uav"
+D = ROOT.parent.parent / "data" / "landslide_uav"
 OUT = ROOT / "outputs" / "landslide_uav"
 OUT.mkdir(parents=True, exist_ok=True)
 MEAN, STD = np.array([0.485, 0.456, 0.406]), np.array([0.229, 0.224, 0.225])
