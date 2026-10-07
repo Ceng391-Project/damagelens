@@ -2,12 +2,11 @@
 
 **Disaster Damage Assessment from Satellite and Aerial Images** — öncesi/sonrası uydu ve hava görüntülerinden hasar tespiti.
 
-
 CENG391 Introduction to Image Understanding, 2026 Fall, term project **#30**, group G15 (3 kişi).
 
 > Develop a change/damage assessment system using pre-event and post-event aerial/satellite images. Align image pairs, identify changed regions, classify or segment damaged structures/areas, and summarize damage spatially. Compare simple image-difference/feature baselines with a learned change-detection approach.
 
-Ana vaka: **6 Şubat 2023 Kahramanmaraş depremleri**. Ek olarak sistem sel, heyelan, hortum, dolu, aşırı sıcak ve yangın üzerinde de denendi (`disaster-eval/`).
+Kapsam afet türüne bağlı değil: öncesi/sonrası görüntüden hasarlı **yapıları** (çok sınıflı bina hasarı) ve hasarlı **alanları** (ikili maske: yanık, taşkın, tarım hasarı) çıkarmak. Ana vaka **6 Şubat 2023 Kahramanmaraş depremleri**; aynı hat hortum, yangın, sel ve dolu üzerinde de denendi (`experiments/multi-hazard/`).
 
 ## Durum
 
@@ -15,11 +14,11 @@ Fizibilite tamamlandı: ödevin her adımı açık veriyle uçtan uca çalışt�
 
 | Ödev adımı | Kodda | Şu anki sonuç |
 |---|---|---|
-| Öncesi/sonrası görüntü | `download_data.sh`, `disaster-eval/maxar_index.py` | KATE-CD (Maxar + Pleiades, 0,3–0,5 m), xBD, ham Maxar Open Data, NAIP uçak görüntüsü |
-| Görüntü çiftlerini hizalama | `feasibility/04_gaps.py`, `05_spatial_summary.py` | Faz korelasyonu. Ham Maxar çiftlerinde medyan 16 px (~8 m) kayma ölçüldü |
-| Değişen bölgeleri bulma, hasarı segmentleme | `feasibility/02_train.py`, `disaster-eval/xbd_train.py` | KATE-CD test F1 **0.55**; xBD 5 sınıf xView2 skoru **0.62** |
-| Mekânsal özet | `feasibility/05_spatial_summary.py` | Kahramanmaraş merkezi 1,5 km², 48 m hücre ısı haritası |
-| Baseline vs öğrenilmiş model | `feasibility/01_stats_baseline.py`, `04_gaps.py` | 5 klasik yöntem F1 0.08–0.09, U-Net 0.55 |
+| Öncesi/sonrası görüntü | `damagelens.data` (`kate`, `xbd`, `maxar`) | KATE-CD (Maxar + Pleiades, 0,3–0,5 m), xBD, ham Maxar Open Data, NAIP uçak görüntüsü |
+| Görüntü çiftlerini hizalama | `damagelens.align` (faz korelasyonu, ORB + RANSAC) | Ham Maxar çiftlerinde medyan 12–16 px (~6–8 m) kayma ölçüldü |
+| Değişen bölgeleri bulma, hasarı segmentleme | `damagelens.models`, `damagelens.train` | KATE-CD test F1 **0.55**; xBD 5 sınıf xView2 skoru **0.62** |
+| Mekânsal özet | `damagelens.summarize`, `app/demo.py` | Kahramanmaraş merkezi 1,5 km², 48 m hücre ısı haritası |
+| Baseline vs öğrenilmiş model | `damagelens.baselines`, `damagelens.evaluate` | 5 klasik yöntem F1 0.08–0.09, U-Net 0.55 |
 
 ![KATE-CD tahminleri](docs/figures/kate_predictions.png)
 ![Klasik yöntemler ve hizalama hatası](docs/figures/baselines_alignment.png)
@@ -54,34 +53,46 @@ Ayrıntılı raporlar (her afet için yöntem, tablolar, grafikler, rastgele vak
 
 ```bash
 uv venv --python 3.12 .venv && source .venv/bin/activate
-uv pip install -r requirements.txt
+uv pip install -r requirements.txt -e ".[dev]"
 ./download_data.sh kate        # ~450 MB, ana deney için yeterli
 ./download_data.sh maxar       # ham Maxar sahneleri için STAC indeksi (görüntü anında okunur)
+pytest                         # 8 hızlı test, veri gerekmez
 ```
 
-Diğer setler: `./download_data.sh xbd` (~24 GB), `flood`, `landslide`, `valencia`, `all`. Dolu, sıcak ve yangın verileri kendi betiklerinde Planetary Computer, NOAA ve Meteostat'tan gerektiğinde çekilir.
+Diğer setler: `./download_data.sh xbd` (~24 GB), `flood`, `landslide`, `valencia`, `all`. Hepsi `data/` altına iner.
 
 ## Çalıştırma
 
 ```bash
-python feasibility/01_stats_baseline.py           # istatistik + görüntü farkı baseline
-bash feasibility/run_all.sh                       # U-Net: KATE, xBD, xBD→KATE (~16 dk/koşu, M4)
-python feasibility/03_figure.py
-python feasibility/04_gaps.py                     # klasik baseline'lar + hizalama deneyi
-python feasibility/05_spatial_summary.py          # ham Maxar → hizalama → model → hasar haritası
+damagelens-train --name kate_base                                     # 6 kanallı U-Net, KATE-CD (~25 dk, M4)
+damagelens-train --name kate_robust --shift-px 16 --negatives 200      # kaydırma augmentation'ı + hasarsız negatifler
+damagelens-eval  --model runs/kate_base/model.pt --shifts 0 8 16 32 --register
+damagelens-eval  --baselines                                          # görüntü farkı, CVA, 1−SSIM, PCA-kmeans
+python app/demo.py --model runs/kate_base/model.pt                    # ham Maxar → hizalama → model → hasar haritası
 ```
 
-Çoklu afet deneyleri ve rapor üretimi: `disaster-eval/README.md`. Önce `xbd_prep.py → xbd_train.py` (~1,5 saat), sonra `gpu_queue.sh`. GPU işlerini aynı anda çalıştırmayın, 16 GB'lık bir Mac swap'a düşüyor.
+Çıktılar `runs/<ad>/` altına yazılır (`model.pt` + eşik ve metrikleri içeren `model.json`). `app/demo.py` varsayılan olarak Kahramanmaraş merkezini kullanır; `--lon --lat --side-m` ile başka bir alan seçilebilir.
 
 ## Repo yapısı
 
 ```
-feasibility/      KATE-CD deneyleri: baseline'lar, U-Net, hizalama, mekânsal özet
-disaster-eval/    xBD 5 sınıf model + sel, heyelan, hortum, dolu, sıcak, yangın deneyleri, rapor üreticileri
-docs/figures/     README grafikleri
-download_data.sh  veri indirme
+src/damagelens/            asıl sistem
+  data/                    KATE-CD, xBD, Maxar Open Data okuyucuları, karolama
+  align/                   faz korelasyonu, ORB + RANSAC afin hizalama
+  baselines/               görüntü farkı, CVA, 1−SSIM, PCA-kmeans; dNBR, NDVI, NDWI farkları
+  models/                  6 kanallı U-Net (öncesi + sonrası RGB)
+  augment.py               çevirme/döndürme, öncesi görüntüye rastgele kaydırma
+  train.py, evaluate.py    CLI: damagelens-train, damagelens-eval
+  summarize.py             karo karo hizala + tahmin et, hücre bazlı hasar özeti
+  metrics.py               piksel F1/IoU, xView2 skoru, bina bazlı karışıklık matrisi
+app/demo.py                uçtan uca demo, ham Maxar sahnesi
+tests/                     hızlı birim testleri
+experiments/feasibility/   fizibilite betikleri (01–05), sayılar bunlardan
+experiments/multi-hazard/  xBD 5 sınıf model, deprem dışı afet deneyleri, rapor üreticileri
+docs/                      README grafikleri, afet raporları
+download_data.sh           veri indirme
 ```
-`data/` ve `outputs/` klasörleri, model ağırlıkları (`*.pt`) ve ara dosyalar git'e girmez.
+`data/`, `runs/`, `outputs/` klasörleri ve model ağırlıkları git'e girmez. `experiments/` donmuş deney kodudur; yeni iş `src/damagelens/` içinde yapılır.
 
 ## Dikkat edilmesi gerekenler
 
@@ -99,10 +110,10 @@ download_data.sh  veri indirme
 Rol önerisi: **(A)** veri + hizalama + baseline'lar · **(B)** öğrenilmiş model · **(C)** değerlendirme + mekânsal özet + arayüz + rapor.
 
 - [ ] (A) KATE-CD lisansını ve orijinal karelerde koordinat olup olmadığını ITÜ CSCRS'e sor
-- [ ] (A) Öznitelik tabanlı hizalama ekle (SIFT/ORB + RANSAC), faz korelasyonuyla karşılaştır
-- [ ] (A) Kar/bulut maskesi ve depreme yakın tarihli öncesi görüntü seçimi
-- [ ] (A) Hasarsız negatif kareler: Maxar'ın hasar görmemiş mahallelerinden ve xBD'nin hasarsız binalarından
-- [ ] (B) Eğitimde ±16 px kaydırma, renk ve gölge augmentation'ı
+- [ ] (A) ORB + RANSAC hizalamayı (`damagelens.align.register_orb`, hazır) faz korelasyonuyla gerçek Maxar çiftlerinde karşılaştır
+- [ ] (A) Piksel bazlı kar/bulut maskesi (tarih seçimi hazır: `damagelens.data.maxar.pick_dates`)
+- [ ] (A) Gerçek hasarsız negatif kareler: Maxar'ın hasar görmemiş mahallelerinden ve xBD'nin hasarsız binalarından (şimdilik sentetik: `--negatives`)
+- [ ] (B) Renk ve gölge augmentation'ı (kaydırma hazır: `--shift-px`)
 - [ ] (B) Siamese / değişim odaklı bir model (örn. ChangeFormer) ile 6 kanallı U-Net'i karşılaştır
 - [ ] (B) Tam çözünürlüklü xBD ile ön eğitim ve sınıf dengesizliği için focal loss
 - [ ] (C) 3 seed veya k-fold değerlendirme, ortalama ± standart sapma
@@ -115,4 +126,4 @@ Rol önerisi: **(A)** veri + hizalama + baseline'lar · **(B)** öğrenilmiş mo
 - KATE-CD: https://huggingface.co/datasets/CSCRS/kate-cd (ITÜ CSCRS)
 - xBD / xView2: https://xview2.org, mirror https://huggingface.co/datasets/hannan022/xview2-xbd
 - Maxar Open Data Program: https://maxar-opendata.s3.amazonaws.com/events/catalog.json
-- Sen1Floods11, Landslide4Sense, İHA heyelan seti, Copernicus EMS EMSR773, NOAA MRMS/SPC/NWS DAT, MODIS LST, Meteostat, NIFC, EFFIS: ayrıntılar `disaster-eval/` betiklerinde
+- Sen1Floods11, Landslide4Sense, İHA heyelan seti, Copernicus EMS EMSR773, NOAA MRMS/SPC/NWS DAT, MODIS LST, Meteostat, NIFC, EFFIS: ayrıntılar `experiments/multi-hazard/` betiklerinde
