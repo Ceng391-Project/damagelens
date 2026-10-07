@@ -1,4 +1,7 @@
-# Disaster Damage Assessment from Satellite and Aerial Images
+# DamageLens
+
+**Disaster Damage Assessment from Satellite and Aerial Images** — öncesi/sonrası uydu ve hava görüntülerinden hasar tespiti.
+
 
 CENG391 Introduction to Image Understanding, 2026 Fall, term project **#30**, group G15 (3 kişi).
 

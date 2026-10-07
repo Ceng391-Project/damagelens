@@ -1,4 +1,4 @@
-# disaster-eval — per-disaster satellite/aerial experiments
+# DamageLens · disaster-eval — per-disaster satellite/aerial experiments
 
 Run order (all write to `outputs/`, then `build_reports.py` + `build_html.py` write `../docs/disaster-report/`):
 - `xbd_prep.py` → `xbd_train.py` → `xbd_eval.py` — 5-class building damage U-Net on xBD (all disaster types) + KATE-CD zero-shot

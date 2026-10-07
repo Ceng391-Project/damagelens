@@ -1,4 +1,4 @@
-# Afet türlerine göre uydu ve hava görüntüsü analizi — rapor dizini
+# DamageLens — afet türlerine göre uydu ve hava görüntüsü analizi
 
 Her rapor: veri ve yer gerçeği, yöntemler, metrik tabloları, grafikler, rastgele vaka görselleri, sınırlar ve kaynaklar.
 Kod ve ham çıktılar: `disaster-eval/` (her deney bir betik, sonuçlar `disaster-eval/outputs/`).

@@ -19,7 +19,7 @@ for slug, label in ORDER:
     sections.append(f'<section id="{sid}" class="rep">{html}</section>')
     nav.append(f'<a href="#{sid}" data-t="{sid}">{label}</a>')
 
-page = f"""<title>Afet Görüntü Analizi</title>
+page = f"""<title>DamageLens</title>
 <style>
 /* layout: sticky tab rail across the top, one report visible at a time, reading column ~72ch with wide figures */
 :root {{
@@ -60,8 +60,8 @@ a {{ color: var(--accent); }}
 @media (max-width: 600px) {{ body {{ font-size: 15px; }} .rep h1 {{ font-size: 1.5rem; }} }}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono&display=swap">
-<header><h1>Afet türlerine göre uydu ve hava görüntüsü analizi</h1>
-<p>CENG391 — deprem, sel, heyelan, hortum, dolu, aşırı sıcak ve yangın için açık verilerle yapılan testler: yöntemler, metrikler, grafikler ve rastgele vakalar.</p></header>
+<header><h1>DamageLens</h1>
+<p>Afet türlerine göre uydu ve hava görüntüsü analizi. CENG391 — deprem, sel, heyelan, hortum, dolu, aşırı sıcak ve yangın için açık verilerle yapılan testler: yöntemler, metrikler, grafikler ve rastgele vakalar.</p></header>
 <nav><div class="in">{''.join(nav)}</div></nav>
 <main>{''.join(sections)}</main>
 <script>
