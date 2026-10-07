@@ -1,6 +1,6 @@
 # disaster-eval — per-disaster satellite/aerial experiments
 
-Run order (all write to `outputs/`, then `build_reports.py` + `build_html.py` write `../reports/disasters/`):
+Run order (all write to `outputs/`, then `build_reports.py` + `build_html.py` write `../docs/disaster-report/`):
 - `xbd_prep.py` → `xbd_train.py` → `xbd_eval.py` — 5-class building damage U-Net on xBD (all disaster types) + KATE-CD zero-shot
 - `flood_sen1floods11.py`, `flood_valencia.py` — water mapping, Valencia 2024 vs Copernicus EMS EMSR773
 - `landslide_l4s.py`, `landslide_uav.py` — Landslide4Sense (satellite) and UAV landslide set

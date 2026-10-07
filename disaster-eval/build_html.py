@@ -3,7 +3,7 @@ from pathlib import Path
 
 import markdown
 
-R = Path(__file__).parent.parent / "reports" / "disasters"
+R = Path(__file__).parent.parent / "docs" / "disaster-report"
 ORDER = [("README", "Genel bakış"), ("01-deprem", "Deprem"), ("02-sel", "Sel"), ("03-heyelan", "Heyelan"), ("04-hortum", "Hortum"),
          ("05-dolu", "Dolu"), ("06-asiri-sicak", "Aşırı sıcak"), ("07-yangin", "Yangın")]
 

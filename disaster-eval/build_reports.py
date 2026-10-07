@@ -10,7 +10,7 @@ import numpy as np
 ROOT = Path(__file__).parent
 O = ROOT / "outputs"
 F = ROOT.parent / "feasibility" / "outputs"
-R = ROOT.parent / "reports" / "disasters"
+R = ROOT.parent / "docs" / "disaster-report"
 IMG = R / "img"
 IMG.mkdir(parents=True, exist_ok=True)
 J = lambda p: json.load(open(p))
