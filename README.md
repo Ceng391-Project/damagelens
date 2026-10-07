@@ -60,11 +60,10 @@ Ayrıntılı raporlar (her afet için yöntem, tablolar, grafikler, rastgele vak
 ## Kurulum
 
 ```bash
-uv venv --python 3.12 .venv && source .venv/bin/activate
-uv pip install -r requirements.txt -e ".[dev]"
+uv sync                        # Python 3.12 + all locked dependencies (uv.lock) into .venv
 ./download_data.sh kate        # ~450 MB, ana deney için yeterli
 ./download_data.sh maxar       # ham Maxar sahneleri için STAC indeksi (görüntü anında okunur)
-pytest                         # 10 hızlı test, veri gerekmez
+uv run pytest                  # 10 hızlı test, veri gerekmez
 ```
 
 Diğer setler: `./download_data.sh xbd` (~24 GB), `flood`, `landslide`, `valencia`, `all`. Hepsi `data/` altına iner.

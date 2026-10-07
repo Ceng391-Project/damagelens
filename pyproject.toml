@@ -7,7 +7,7 @@ name = "damagelens"
 version = "0.1.0"
 description = "Disaster damage assessment from pre/post satellite and aerial images"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11,<3.14"
 dependencies = [
   "torch>=2.4",
   "segmentation-models-pytorch==0.5.0",
@@ -22,8 +22,25 @@ dependencies = [
   "pyproj",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = ["pytest"]
+# only the frozen scripts under experiments/ need these
+experiments = [
+  "pandas",
+  "h5py",
+  "geopandas",
+  "shapely",
+  "pystac-client",
+  "planetary-computer",
+  "meteostat>=2.1",
+  "requests",
+  "huggingface-hub",
+  "markdown",
+  "torchvision",
+]
+
+[tool.uv]
+default-groups = ["dev", "experiments"]
 
 [project.scripts]
 damagelens-train = "damagelens.train:main"
