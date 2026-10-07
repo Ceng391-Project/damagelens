@@ -34,7 +34,7 @@ function shardFilter() {
 function updateProgress() {
   const st = manifest.status;
   const n = order.length, done = order.filter((id) => st[id] === "done").length, skip = order.filter((id) => st[id] === "skip").length;
-  $("progress").textContent = `${done} bitti · ${skip} atlandı · ${n - done - skip} kaldı (${n})`;
+  $("progress").textContent = `${done} done · ${skip} skipped · ${n - done - skip} left (${n})`;
 }
 
 async function openTile(i) {
@@ -56,7 +56,7 @@ function setStatusChip() {
 function updateCounts() {
   const n = { damaged: 0, destroyed: 0, intact: 0 };
   ann.polygons.forEach((p) => n[p.cls]++);
-  $("counts").textContent = `bu karoda: ${n.damaged} hasarlı, ${n.destroyed} yıkık, ${n.intact} hasarsız`;
+  $("counts").textContent = `this tile: ${n.damaged} damaged, ${n.destroyed} destroyed, ${n.intact} intact`;
 }
 
 function resetView() {
@@ -115,7 +115,7 @@ function inside([x, y], pts) {
 function changed() { dirty = true; updateCounts(); draw(); scheduleSave(); }
 
 function scheduleSave() {
-  $("save-state").textContent = "kaydediliyor…"; $("save-state").className = "saving";
+  $("save-state").textContent = "saving…"; $("save-state").className = "saving";
   clearTimeout(saveTimer); saveTimer = setTimeout(flush, 400);
 }
 
@@ -127,9 +127,9 @@ async function flush() {
   try {
     await api(`/api/ann/${ann.tile}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
     manifest.status[ann.tile] = ann.status; updateProgress();
-    $("save-state").textContent = "kaydedildi"; $("save-state").className = "saved";
+    $("save-state").textContent = "saved"; $("save-state").className = "saved";
   } catch (err) {
-    dirty = true; $("save-state").textContent = "kaydedilemedi: sunucu çalışıyor mu?"; $("save-state").className = "error";
+    dirty = true; $("save-state").textContent = "not saved: is the server still running?"; $("save-state").className = "error";
   } finally { saving = false; }
   if (dirty) scheduleSave();
 }
@@ -224,7 +224,7 @@ window.addEventListener("beforeunload", (e) => { if (dirty) { flush(); e.prevent
 
 (async function init() {
   manifest = await api("/api/manifest");
-  document.title = `DamageLens etiketleme · ${manifest.name}`;
+  document.title = `DamageLens labeling · ${manifest.name}`;
   $("pre-date").textContent = manifest.pre_date; $("post-date").textContent = manifest.post_date;
   $("shard").value = store.get("dl-shard", "all");
   shardFilter(); updateProgress(); fitCanvases();
