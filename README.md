@@ -65,7 +65,7 @@ Everything in this repo runs through [uv](https://docs.astral.sh/uv/) — no man
 uv sync                        # Python 3.12 + all locked dependencies (uv.lock) into .venv
 ./download_data.sh kate        # ~450 MB, enough for the main experiment
 ./download_data.sh maxar       # STAC index for raw Maxar scenes (imagery is read on demand)
-uv run pytest                  # 10 fast tests, no data needed
+uv run pytest                  # fast tests, no data needed
 ```
 
 Other sets: `./download_data.sh xbd` (~24 GB), `flood`, `landslide`, `valencia`, `all`. Everything lands in `data/`. Add a dependency with `uv add <package>` (or `uv add --group experiments <package>` for experiment-only packages) and commit the updated `uv.lock`.
@@ -96,6 +96,14 @@ uv run damagelens-label prepare gaziantep-center --lon 37.38 --lat 37.07 --side-
 - When three people share an area, choose 1/3, 2/3 or 3/3 in the "share" menu so tiles do not overlap.
 - Ready areas: `antakya-center` (pre 2022-12-22, closest to the event — start here) and `kahramanmaras-center` (pre 2022-07-26).
 - For training: `damagelens.label.load_labeled("antakya-center")` (KATE-CD convention: damaged + destroyed = 1). For maps: `damagelens-label export <area>` → `labels.geojson`.
+
+## Workflow and CI
+
+- One issue → one linked `feat/<no>-<name>` branch → one PR with `Closes #<no>`. Commit messages are one line: `type(scope): ... (#<no>)`.
+- **Labels are shared through git.** Label on your issue branch (e.g. `feat/2-raw-maxar-labels`), then commit `labels/<area>/annotations/*.json` and open or update the PR. Tiles stay local and are rebuilt from the manifest.
+- **CI** (`.github/workflows/ci.yml`) runs on every PR and on pushes to `main`: `uv lock --check`, ruff, a repo-hygiene check (no data, weights, tiles or local working files), `pytest`, `damagelens-label validate`, and a labeling-progress table in the run summary.
+- **Claude review** (`.github/workflows/claude-review.yml`) reviews each non-draft PR against [`.github/review-guidelines.md`](.github/review-guidelines.md) — our own rules on evaluation leakage, pre/post frames, labels, licences and data — and posts inline comments plus one summary. Mention `@claude` in a PR or issue comment to ask it to do something (`.github/workflows/claude.yml`).
+- Claude needs an `ANTHROPIC_API_KEY` repository secret (Settings → Secrets and variables → Actions). Without it the review job is skipped and CI still passes.
 
 ## Repository layout
 
