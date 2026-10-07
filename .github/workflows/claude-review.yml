@@ -1,0 +1,51 @@
+name: Claude review
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+
+concurrency:
+  group: claude-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      - name: Check for the API key
+        id: key
+        env:
+          HAS_KEY: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+        run: |
+          echo "present=$HAS_KEY" >> "$GITHUB_OUTPUT"
+          [ "$HAS_KEY" = true ] || echo "::notice::ANTHROPIC_API_KEY is not set; skipping the Claude review."
+      - uses: anthropics/claude-code-action@v1
+        if: steps.key.outputs.present == 'true'
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            You are reviewing a pull request for DamageLens, a course project that detects disaster damage from pre/post
+            satellite and aerial images. The PR branch is checked out in the working directory.
+
+            1. Read `.github/review-guidelines.md` and review ONLY against those project rules. Do not give a general code review.
+            2. Look at the diff with `gh pr diff` and the description with `gh pr view`. Read surrounding code when needed to be sure.
+            3. For each real violation, post an inline comment with `mcp__github_inline_comment__create_inline_comment` (with `confirmed: true`)
+               on the exact line, starting with **Blocking**, **Should fix** or **Nit**, and say what concretely goes wrong.
+            4. Finish with exactly one top-level comment via `gh pr comment`: a short verdict and a bullet list of the findings (or one line saying
+               the guidelines are met). Keep it short.
+            Only post GitHub comments; do not reply with review text as messages. Write in English.
+          claude_args: |
+            --model claude-sonnet-5-5
+            --max-turns 30
+            --allowedTools "Read,Glob,Grep,mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
