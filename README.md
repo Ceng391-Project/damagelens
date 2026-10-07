@@ -31,7 +31,15 @@ Fizibilite tamamlandı: ödevin her adımı açık veriyle uçtan uca çalışt�
 | CVA / 1−SSIM / PCA-kmeans / CVA+Otsu | 0.083–0.094 | 0.043–0.050 |
 | U-Net, xBD ile eğitilmiş, Türkiye'ye doğrudan | 0.108 | 0.057 |
 | U-Net, xBD ön eğitim + KATE-CD ince ayar | 0.500 | 0.333 |
-| **U-Net, sadece KATE-CD** | **0.552** | **0.382** |
+| U-Net, sadece KATE-CD | 0.552 | 0.382 |
+| **U-Net, KATE-CD + ±16 px kaydırma + 200 hasarsız negatif** (`--shift-px 16 --negatives 200`) | **0.579** | **0.407** |
+
+Hizalama hatasına dayanıklılık (öncesi görüntü yapay kaydırıldı, hizalama yapmadan):
+
+| kayma (px) | 0 | 8 | 16 | 32 |
+|---|---|---|---|---|
+| U-Net, sadece KATE-CD | 0.552 | 0.468 | 0.365 | 0.328 |
+| U-Net, kaydırma + negatifler | 0.579 | 0.582 | 0.554 | 0.488 |
 
 ### Diğer afet türleri (özet)
 Ayrıntılı raporlar (her afet için yöntem, tablolar, grafikler, rastgele vakalar, sınırlar): [docs/disaster-report/](docs/disaster-report/README.md). Tek sayfalık sürüm: `docs/disaster-report/index.html` (yerelde tarayıcıda açılır).
@@ -96,7 +104,7 @@ download_data.sh           veri indirme
 
 ## Dikkat edilmesi gerekenler
 
-- **Etiketli testteki başarı ham sahneye taşınmıyor.** KATE-CD'de F1 0.55 alan model, ham Maxar görüntüsünde ağır hasarlı Kahramanmaraş merkezinde piksellerin yalnızca ~%0,4'ünü hasarlı buluyor. Projenin asıl problemi bu.
+- **Etiketli testteki başarı ham sahneye taşınmıyor.** KATE-CD'de F1 0.55–0.58 alan modeller, ham Maxar görüntüsünde ağır hasarlı Kahramanmaraş merkezinde piksellerin yalnızca %0,6'sını (kaydırma + negatif modeli %0,09) hasarlı buluyor; eşik 0,3'e indirilse bile %1'in altında. Sorun eşik veya hizalama değil, alan farkı (farklı sahne seçimi, mevsim, işleme). Projenin asıl problemi bu ve çözümü ham Maxar'dan biraz etiketli veriyle ince ayar.
 - **KATE-CD'nin her karesinde hasar var.** Model hiç hasarsız sahne görmedi, yanlış alarm oranı ölçülemiyor. Eğitime hasarsız negatifler eklenmeli.
 - **KATE-CD koordinatsız**, mekânsal özetin sayısal doğrulaması için koordinatlı bir yer gerçeği lazım. Türkiye için bina bazlı başka açık bir set bulamadık: HOT OSM dosyası boş çıktı, Copernicus EMS EMSR648 giriş istiyor.
 - **Mevsim, bakış açısı, kar ve bulut:** öncesi görüntüler yaz 2022, sonrası Şubat 2023. Kar ve bulut her iki modelde sahte hasar üretiyor. Mümkünse Aralık 2022 ve Ocak 2023 öncesi kareleri kullanın.
@@ -117,7 +125,7 @@ Rol önerisi: **(A)** veri + hizalama + baseline'lar · **(B)** öğrenilmiş mo
 - [ ] (B) Siamese / değişim odaklı bir model (örn. ChangeFormer) ile 6 kanallı U-Net'i karşılaştır
 - [ ] (B) Tam çözünürlüklü xBD ile ön eğitim ve sınıf dengesizliği için focal loss
 - [ ] (C) 3 seed veya k-fold değerlendirme, ortalama ± standart sapma
-- [ ] (C) Ham Maxar sahneleri için etiketli küçük bir test alanı (birkaç yüz bina, elle) ya da koordinatlı yer gerçeği
+- [ ] **(C, öncelikli)** Ham Maxar sahnelerinden elle etiketli küçük bir set (birkaç yüz bina; Kahramanmaraş/Antakya), hem test hem ince ayar için
 - [ ] (C) Mahalle/il düzeyinde hasar özeti ve basit bir harita arayüzü
 - [ ] (C) Final rapor ve sunum
 
