@@ -28,7 +28,7 @@ TYPE = {
     "socal-fire": "fire", "santa-rosa-wildfire": "fire", "woolsey-fire": "fire", "portugal-wildfire": "fire", "pinery-bushfire": "fire",
     "guatemala-volcano": "volcano", "lower-puna-volcano": "volcano",
 }
-CLS = ["arka plan", "hasarsız", "az hasar", "ağır hasar", "yıkılmış"]
+CLS = ["background", "no damage", "minor", "major", "destroyed"]
 COL = np.array([[0, 0, 0], [60, 180, 75], [255, 225, 25], [245, 130, 48], [230, 25, 75]], np.uint8)
 
 model = smp.Unet("resnet18", encoder_weights=None, in_channels=6, classes=5).to(DEV)
@@ -94,7 +94,7 @@ res = dict(per_event={ev: dict(type=TYPE[ev], **metrics(pix[ev], bld[ev])) for e
            building_confusion={t: by_type_bld[t].tolist() for t in by_type_bld}, n_test_images=len(items))
 tot_p = sum(by_type_pix.values()); tot_b = sum(by_type_bld.values()); res["overall"] = metrics(tot_p, tot_b)
 
-# 6 Şubat zero-shot on KATE-CD (binary: model class >= 2 vs damage polygons), two input scales
+# 6 February zero-shot on KATE-CD (binary: model class >= 2 vs damage polygons), two input scales
 kate = pq.read_table(ROOT.parent.parent / "data" / "kate-cd" / "test.parquet").to_pylist()
 dec = lambda c: np.array(Image.open(io.BytesIO(c["bytes"])).convert("RGB"))
 kx = np.stack([np.concatenate([dec(r["pre_image"]), dec(r["post_image"])], -1) for r in kate])
@@ -122,14 +122,14 @@ if CKPT != "xbd_unet5.pt":
 types = [t for t in ["earthquake", "tsunami", "flood", "hurricane", "tornado", "fire", "volcano"] if t in res["per_type"]]
 fig, ax = plt.subplots(1, 2, figsize=(17, 5))
 x = np.arange(len(types)); w = .2
-for j, (k, lab) in enumerate([("loc_f1", "Bina bulma F1"), ("dmg_f1", "Hasar sınıf F1 (harmonik)"), ("xview2", "xView2 skoru"), ("building_damaged_f1", "Bina bazlı hasarlı/hasarsız F1")]):
+for j, (k, lab) in enumerate([("loc_f1", "Building localisation F1"), ("dmg_f1", "Damage class F1 (harmonic)"), ("xview2", "xView2 score"), ("building_damaged_f1", "Building-level damaged/undamaged F1")]):
     ax[0].bar(x + (j - 1.5) * w, [res["per_type"][t][k] for t in types], w, label=lab)
-ax[0].set_xticks(x, types); ax[0].set_ylim(0, 1); ax[0].legend(fontsize=8); ax[0].grid(axis="y", alpha=.3); ax[0].set_title("xBD test: afet türüne göre performans")
+ax[0].set_xticks(x, types); ax[0].set_ylim(0, 1); ax[0].legend(fontsize=8); ax[0].grid(axis="y", alpha=.3); ax[0].set_title("xBD test: performance by hazard type")
 evs = sorted(res["per_event"], key=lambda e: (TYPE[e], e))
 cm_ = plt.get_cmap("tab10"); tc = {t: cm_(i) for i, t in enumerate(types)}
 ax[1].bar(range(len(evs)), [res["per_event"][e]["building_damaged_f1"] for e in evs], color=[tc[TYPE[e]] for e in evs])
 ax[1].set_xticks(range(len(evs)), evs, rotation=60, ha="right", fontsize=8); ax[1].set_ylim(0, 1); ax[1].grid(axis="y", alpha=.3)
-ax[1].set_title("Olay bazında bina hasarlı/hasarsız F1 (renk = afet türü)")
+ax[1].set_title("Per-event building damaged/undamaged F1 (colour = hazard)")
 plt.tight_layout(); plt.savefig(OUT / "per_type.png", dpi=100); plt.close()
 
 fig, ax = plt.subplots(1, len(types), figsize=(4 * len(types), 4))
@@ -139,9 +139,9 @@ for a, t in zip(ax, types):
     for i in range(4):
         for j in range(5):
             a.text(j, i, f"{b[i, j]:.2f}", ha="center", va="center", fontsize=7, color="w" if b[i, j] > .5 else "k")
-    a.set_xticks(range(5), ["kaçan"] + CLS[1:], rotation=45, ha="right", fontsize=7); a.set_yticks(range(4), CLS[1:], fontsize=7)
-    a.set_title(f"{t} (n={int(by_type_bld[t][1:].sum())})", fontsize=9); a.set_xlabel("tahmin", fontsize=7)
-ax[0].set_ylabel("gerçek")
+    a.set_xticks(range(5), ["missed"] + CLS[1:], rotation=45, ha="right", fontsize=7); a.set_yticks(range(4), CLS[1:], fontsize=7)
+    a.set_title(f"{t} (n={int(by_type_bld[t][1:].sum())})", fontsize=9); a.set_xlabel("prediction", fontsize=7)
+ax[0].set_ylabel("truth")
 plt.tight_layout(); plt.savefig(OUT / "confusion_by_type.png", dpi=100); plt.close()
 
 for t in types:
@@ -150,18 +150,18 @@ for t in types:
         continue
     fig, ax = plt.subplots(len(ex), 4, figsize=(13, 3.3 * len(ex)), squeeze=False)
     for r, (ev, xx, yy, pp) in enumerate(ex):
-        ax[r, 0].imshow(xx[..., :3]); ax[r, 0].set_title(f"{ev} — öncesi", fontsize=9)
-        ax[r, 1].imshow(xx[..., 3:]); ax[r, 1].set_title("sonrası", fontsize=9)
-        ax[r, 2].imshow(COL[np.where(yy < 5, yy, 0)]); ax[r, 2].set_title("gerçek hasar", fontsize=9)
-        ax[r, 3].imshow(COL[pp]); ax[r, 3].set_title("model tahmini", fontsize=9)
+        ax[r, 0].imshow(xx[..., :3]); ax[r, 0].set_title(f"{ev} — pre", fontsize=9)
+        ax[r, 1].imshow(xx[..., 3:]); ax[r, 1].set_title("post", fontsize=9)
+        ax[r, 2].imshow(COL[np.where(yy < 5, yy, 0)]); ax[r, 2].set_title("true damage", fontsize=9)
+        ax[r, 3].imshow(COL[pp]); ax[r, 3].set_title("model prediction", fontsize=9)
         for a in ax[r]: a.axis("off")
     plt.tight_layout(); plt.savefig(OUT / f"samples_{t}.png", dpi=70); plt.close()
 
 idx = np.argsort(-ky.mean((1, 2)))[:3]
 fig, ax = plt.subplots(3, 5, figsize=(16, 10))
 for r, i in enumerate(idx):
-    pan = [(kx[i][..., :3], "öncesi"), (kx[i][..., 3:], "sonrası"), (ky[i], "KATE-CD etiketi"),
-           (kate_pred[512][i] > .5, "xBD modeli, 512 ölçek"), (kate_pred[256][i] > .5, "xBD modeli, 256 ölçek")]
+    pan = [(kx[i][..., :3], "pre"), (kx[i][..., 3:], "post"), (ky[i], "KATE-CD label"),
+           (kate_pred[512][i] > .5, "xBD model, 512 scale"), (kate_pred[256][i] > .5, "xBD model, 256 scale")]
     for c, (im, tt) in enumerate(pan):
         ax[r, c].imshow(im, cmap=None if im.ndim == 3 else "gray"); ax[r, c].set_title(tt, fontsize=9); ax[r, c].axis("off")
 plt.tight_layout(); plt.savefig(OUT / "kate_zero_shot.png", dpi=70); plt.close()

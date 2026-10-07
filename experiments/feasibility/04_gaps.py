@@ -57,11 +57,11 @@ prev = json.load(open(OUT / "04_gaps.json")) if os.path.exists(OUT / "04_gaps.js
 baselines = {}
 if prev: baselines = prev["baselines"]
 else:
-  t = tune(cva, np.arange(5, 41, 5)); baselines["CVA (Lab büyüklüğü)"] = evaluate_map(cva, test, t) | {"thr": t}
-  t = tune(ssim_change, np.arange(.1, .9, .1)); baselines["1−SSIM yapısal fark"] = evaluate_map(ssim_change, test, t) | {"thr": t}
+  t = tune(cva, np.arange(5, 41, 5)); baselines["CVA (Lab magnitude)"] = evaluate_map(cva, test, t) | {"thr": t}
+  t = tune(ssim_change, np.arange(.1, .9, .1)); baselines["1−SSIM structural change"] = evaluate_map(ssim_change, test, t) | {"thr": t}
   baselines["PCA-kmeans (Celik 2009)"] = evaluate_map(pca_kmeans, test, 0.5) | {"thr": 0.5}
   otsu = lambda a, b: (lambda c: c > threshold_otsu(c))(cva(a, b)).astype(float)
-  baselines["CVA + Otsu (eşik ayarsız)"] = evaluate_map(otsu, test, 0.5) | {"thr": "otsu"}
+  baselines["CVA + Otsu (no tuning)"] = evaluate_map(otsu, test, 0.5) | {"thr": "otsu"}
 res["baselines"] = baselines
 print(json.dumps(baselines, indent=1), flush=True)
 
@@ -98,23 +98,23 @@ for d in [0, 2, 4, 8, 16, 32]:
         sh = phase_cross_correlation(rgb2gray(b), rgb2gray(a), upsample_factor=4)[0]
         reg.append(np.clip(nd_shift(a.astype(np.float32), (sh[0], sh[1], 0), order=1, mode="nearest"), 0, 255).astype(np.uint8))
     pr = unet([(a, b) for a, (_, b, _) in zip(reg, test)]) > thr
-    cv = np.stack([cva(a, b) > baselines["CVA (Lab büyüklüğü)"]["thr"] for a, (_, b, _) in zip(pre_s, test)])
+    cv = np.stack([cva(a, b) > baselines["CVA (Lab magnitude)"]["thr"] for a, (_, b, _) in zip(pre_s, test)])
     align[d] = dict(unet_f1=float(scores(p, G)["f1"]), unet_f1_after_registration=float(scores(pr, G)["f1"]), cva_f1=float(scores(cv, G)["f1"]))
     print(d, align[d], flush=True)
 res["alignment"] = align
 json.dump(res, open(OUT / "04_gaps.json", "w"), indent=2)
 
 fig, ax = plt.subplots(1, 2, figsize=(15, 4.6))
-names = ["Görüntü farkı (01)"] + list(baselines) + ["U-Net (KATE-CD)"]
+names = ["Image difference (01)"] + list(baselines) + ["U-Net (KATE-CD)"]
 f01 = json.load(open(OUT / "01_stats_baseline.json"))["baseline_test"]["f1"]
 f1s = [f01] + [baselines[k]["f1"] for k in baselines] + [json.load(open(OUT / "kate_only.json"))["test"]["f1"]]
 ax[0].barh(names, f1s, color=["#9aa"] * (len(names) - 1) + ["#3b6ea5"]); ax[0].set_xlim(0, .7); ax[0].set_xlabel("F1 (KATE-CD test)")
 for i, v in enumerate(f1s): ax[0].text(v + .01, i, f"{v:.2f}", va="center")
-ax[0].set_title("Klasik değişim tespiti vs öğrenilmiş model"); ax[0].grid(axis="x", alpha=.3)
+ax[0].set_title("Classical change detection vs learned model"); ax[0].grid(axis="x", alpha=.3)
 ds = list(align)
-ax[1].plot(ds, [align[d]["unet_f1"] for d in ds], "o-", label="U-Net, kaydırılmış")
-ax[1].plot(ds, [align[d]["unet_f1_after_registration"] for d in ds], "s--", label="U-Net, faz korelasyonu ile hizalandıktan sonra")
-ax[1].plot(ds, [align[d]["cva_f1"] for d in ds], "^:", label="CVA, kaydırılmış")
-ax[1].set_xscale("symlog", linthresh=2); ax[1].set_xticks(ds, [str(d) for d in ds]); ax[1].set_xlabel("yapay hizalama hatası (piksel, ~0,4 m/px)"); ax[1].set_ylabel("F1")
-ax[1].legend(fontsize=8); ax[1].grid(alpha=.3); ax[1].set_title("Hizalama hatasına duyarlılık")
+ax[1].plot(ds, [align[d]["unet_f1"] for d in ds], "o-", label="U-Net, misregistered")
+ax[1].plot(ds, [align[d]["unet_f1_after_registration"] for d in ds], "s--", label="U-Net, after phase-correlation registration")
+ax[1].plot(ds, [align[d]["cva_f1"] for d in ds], "^:", label="CVA, misregistered")
+ax[1].set_xscale("symlog", linthresh=2); ax[1].set_xticks(ds, [str(d) for d in ds]); ax[1].set_xlabel("synthetic misregistration (px, ~0.4 m/px)"); ax[1].set_ylabel("F1")
+ax[1].legend(fontsize=8); ax[1].grid(alpha=.3); ax[1].set_title("Sensitivity to misregistration")
 plt.tight_layout(); plt.savefig(OUT / "04_gaps.png", dpi=100); plt.close()

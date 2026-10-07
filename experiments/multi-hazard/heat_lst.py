@@ -23,8 +23,8 @@ OUT.mkdir(parents=True, exist_ok=True)
 
 CITIES = {  # 2023 summer heatwaves
     "Phoenix": (33.43, -112.01), "Las Vegas": (36.08, -115.15), "El Paso": (31.81, -106.38),
-    "Sevilla": (37.42, -5.90), "Roma": (41.80, 12.24), "Palermo": (38.18, 13.10), "Atina": (37.94, 23.94),
-    "Antalya": (36.90, 30.79), "Adana": (36.98, 35.28), "Pekin": (40.08, 116.58),
+    "Seville": (37.42, -5.90), "Rome": (41.80, 12.24), "Palermo": (38.18, 13.10), "Athens": (37.94, 23.94),
+    "Antalya": (36.90, 30.79), "Adana": (36.98, 35.28), "Beijing": (40.08, 116.58),
 }
 YEARS = {"calib": 2022, "test": 2023}
 SINU = "+proj=sinu +R=6371007.181 +nadgrids=@null +wktext"
@@ -130,25 +130,25 @@ print(pd.DataFrame(per_city).T[["pearson_r", "rmse_c", "f1", "q_f1", "auc", "hea
 # charts
 fig, axs = plt.subplots(2, 5, figsize=(22, 8), sharey=False)
 for ax, (c, te) in zip(axs.ravel(), [(r.city.iloc[0], r) for r in rows]):
-    ax.plot(te.index, te.tmax, "k-", lw=1, label="İstasyon Tmax")
-    ax.plot(te.index, te.pred, "o", ms=3, color="#e07b39", label="LST→Tmax tahmini")
-    ax.axhline(per_city[c]["p90_tmax"], color="r", ls="--", lw=.8, label="aşırı sıcak eşiği (P90)")
-    ax.set_title(f"{c} r={per_city[c]['pearson_r']:.2f} F1(yüzdelik)={per_city[c]['q_f1']:.2f}", fontsize=10)
+    ax.plot(te.index, te.tmax, "k-", lw=1, label="Station Tmax")
+    ax.plot(te.index, te.pred, "o", ms=3, color="#e07b39", label="LST→Tmax estimate")
+    ax.axhline(per_city[c]["p90_tmax"], color="r", ls="--", lw=.8, label="extreme-heat threshold (P90)")
+    ax.set_title(f"{c} r={per_city[c]['pearson_r']:.2f} F1(quantile)={per_city[c]['q_f1']:.2f}", fontsize=10)
     ax.tick_params(axis="x", rotation=45, labelsize=7); ax.grid(alpha=.3)
 axs[0, 0].legend(fontsize=7)
-plt.suptitle("Yaz 2023: uydu (MODIS LST, 2022 ile kalibre) vs istasyon günlük maksimum sıcaklığı")
+plt.suptitle("Summer 2023: satellite (MODIS LST, calibrated on 2022) vs station daily maximum temperature")
 plt.tight_layout(); plt.savefig(OUT / "timeseries.png", dpi=85); plt.close()
 
 fig, ax = plt.subplots(1, 3, figsize=(17, 4.8))
 ax[0].scatter(allte.lst, allte.tmax, s=5, c=allte.heat, cmap="coolwarm")
-ax[0].set_xlabel("MODIS LST gündüz (°C)"); ax[0].set_ylabel("İstasyon Tmax (°C)"); ax[0].set_title("Yüzey sıcaklığı vs hava sıcaklığı (kırmızı = aşırı sıcak günü)"); ax[0].grid(alpha=.3)
+ax[0].set_xlabel("MODIS daytime LST (°C)"); ax[0].set_ylabel("Station Tmax (°C)"); ax[0].set_title("Surface vs air temperature (red = extreme-heat day)"); ax[0].grid(alpha=.3)
 fpr, tpr, _ = roc_curve(allte.heat, allte.z)
-ax[1].plot(fpr, tpr); ax[1].plot([0, 1], [0, 1], "k--", lw=.7); ax[1].set_title(f"Aşırı sıcak günü tespiti ROC (havuz AUC={pooled_auc:.2f})"); ax[1].set_xlabel("FPR"); ax[1].set_ylabel("TPR"); ax[1].grid(alpha=.3)
+ax[1].plot(fpr, tpr); ax[1].plot([0, 1], [0, 1], "k--", lw=.7); ax[1].set_title(f"Extreme-heat day detection ROC (pooled AUC={pooled_auc:.2f})"); ax[1].set_xlabel("FPR"); ax[1].set_ylabel("TPR"); ax[1].grid(alpha=.3)
 cs = list(per_city); x = np.arange(len(cs))
 ax[2].bar(x - .27, [per_city[c]["pearson_r"] for c in cs], .27, label="Pearson r (LST vs Tmax)")
-ax[2].bar(x, [per_city[c]["f1"] for c in cs], .27, label="F1 — doğrusal kalibrasyon")
-ax[2].bar(x + .27, [per_city[c]["q_f1"] for c in cs], .27, label="F1 — yüzdelik eşleme")
-ax[2].set_xticks(x, cs, rotation=40, ha="right"); ax[2].set_ylim(0, 1); ax[2].legend(); ax[2].grid(axis="y", alpha=.3); ax[2].set_title("Şehir bazında performans")
+ax[2].bar(x, [per_city[c]["f1"] for c in cs], .27, label="F1 — linear calibration")
+ax[2].bar(x + .27, [per_city[c]["q_f1"] for c in cs], .27, label="F1 — quantile matching")
+ax[2].set_xticks(x, cs, rotation=40, ha="right"); ax[2].set_ylim(0, 1); ax[2].legend(); ax[2].grid(axis="y", alpha=.3); ax[2].set_title("Per-city performance")
 plt.tight_layout(); plt.savefig(OUT / "metrics.png", dpi=100); plt.close()
 
 # anomaly map: mid-July 2023 8-day LST vs 2018–2022 same composite
@@ -176,7 +176,7 @@ im = ax.imshow(y23 - base, cmap="RdBu_r", vmin=-10, vmax=10, extent=[BBOX[0], BB
 for c, (la, lo) in CITIES.items():
     if BBOX[0] < lo < BBOX[2] and BBOX[1] < la < BBOX[3]:
         ax.plot(lo, la, "k^", ms=5); ax.text(lo + .3, la + .3, c, fontsize=8)
-plt.colorbar(im, label="LST anomalisi (°C)"); ax.set_title("Akdeniz, 12–19 Temmuz 2023 gündüz LST − 2018–2022 ortalaması (MODIS MOD11A2)")
+plt.colorbar(im, label="LST anomaly (°C)"); ax.set_title("Mediterranean, 12–19 July 2023 daytime LST − 2018–2022 mean (MODIS MOD11A2)")
 plt.tight_layout(); plt.savefig(OUT / "anomaly_map.png", dpi=90); plt.close()
 summary["anomaly_mean_land_c"] = float(np.nanmean(y23 - base))
 json.dump(summary, open(OUT / "results.json", "w"), indent=2)

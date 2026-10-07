@@ -86,12 +86,12 @@ p_unet_s2 = run_unet(ROOT / "outputs/flood/unet_S2.pt", x_s2) > .5
 p_unet_s1 = run_unet(ROOT / "outputs/flood/unet_S1.pt", x_s1) > .5
 
 preds = {
-    "NDWI eşik (S2, 31 Eki)": (ndwi > flood_thr["NDWI"], s2_ok),
-    "MNDWI eşik (S2, 31 Eki)": (mndwi > flood_thr["MNDWI"], s2_ok),
-    "U-Net S2 (Sen1Floods11'den aktarım)": (p_unet_s2, s2_ok),
-    "S1 VV eşik (1 Kas)": (s1[0] < flood_thr["S1 VV threshold"], s1_ok),
-    "S1 değişim VV(1 Kas)−VV(25 Eki) < −3 dB": ((s1[0] - s1_pre[0]) < -3, s1_ok & np.isfinite(s1_pre[0])),
-    "U-Net S1 (Sen1Floods11'den aktarım)": (p_unet_s1, s1_ok),
+    "NDWI threshold (S2, 31 Oct)": (ndwi > flood_thr["NDWI"], s2_ok),
+    "MNDWI threshold (S2, 31 Oct)": (mndwi > flood_thr["MNDWI"], s2_ok),
+    "U-Net S2 (transfer from Sen1Floods11)": (p_unet_s2, s2_ok),
+    "S1 VV threshold (1 Nov)": (s1[0] < flood_thr["S1 VV threshold"], s1_ok),
+    "S1 change VV(1 Nov)−VV(25 Oct) < −3 dB": ((s1[0] - s1_pre[0]) < -3, s1_ok & np.isfinite(s1_pre[0])),
+    "U-Net S1 (transfer from Sen1Floods11)": (p_unet_s1, s1_ok),
 }
 res = {}
 for k, (p, ok) in preds.items():
@@ -114,21 +114,21 @@ x = np.arange(len(names)); w = .2
 for j, m in enumerate(["precision", "recall", "f1", "iou"]):
     ax[0].bar(x + (j - 1.5) * w, [res[n][m] for n in names], w, label=m)
 ax[0].set_xticks(x, names, rotation=20, ha="right", fontsize=8); ax[0].set_ylim(0, 1); ax[0].legend(); ax[0].grid(axis="y", alpha=.3)
-ax[0].set_title("Valencia DANA (29 Eki 2024) — Copernicus EMS taşkın sınırına göre")
-ax[1].bar(x - .2, [res[n]["recall_cropland"] for n in names], .4, label="tarım alanı recall")
-ax[1].bar(x + .2, [res[n]["recall_urban"] for n in names], .4, label="yerleşim alanı recall")
+ax[0].set_title("Valencia DANA (29 Oct 2024) vs Copernicus EMS flood extent")
+ax[1].bar(x - .2, [res[n]["recall_cropland"] for n in names], .4, label="recall on cropland")
+ax[1].bar(x + .2, [res[n]["recall_urban"] for n in names], .4, label="recall on built-up")
 ax[1].set_xticks(x, names, rotation=20, ha="right", fontsize=8); ax[1].set_ylim(0, 1); ax[1].legend(); ax[1].grid(axis="y", alpha=.3)
-ax[1].set_title("Kentsel taşkın uydudan zor görünür")
+ax[1].set_title("Urban flooding is hard to see from orbit")
 plt.tight_layout(); plt.savefig(OUT / "metrics.png", dpi=100); plt.close()
 
 ext = [BBOX[0], BBOX[2], BBOX[1], BBOX[3]]
 rgb = np.clip(np.nan_to_num(s2[[3, 2, 1]]).transpose(1, 2, 0) * 3.5, 0, 1)
 fig, ax = plt.subplots(1, 4, figsize=(22, 6))
-ax[0].imshow(rgb, extent=ext); ax[0].set_title("Sentinel-2, 31 Eki 2024")
-ax[1].imshow(np.nan_to_num(s1[0], nan=-30), cmap="gray", vmin=-25, vmax=0, extent=ext); ax[1].set_title("Sentinel-1 VV (dB), 1 Kas 2024")
-ax[2].imshow(gt & ~perm, cmap="Blues", extent=ext); ax[2].set_title("Copernicus EMS taşkın alanı (yer gerçeği)")
+ax[0].imshow(rgb, extent=ext); ax[0].set_title("Sentinel-2, 31 Oct 2024")
+ax[1].imshow(np.nan_to_num(s1[0], nan=-30), cmap="gray", vmin=-25, vmax=0, extent=ext); ax[1].set_title("Sentinel-1 VV (dB), 1 Nov 2024")
+ax[2].imshow(gt & ~perm, cmap="Blues", extent=ext); ax[2].set_title("Copernicus EMS flood extent (ground truth)")
 best = max(res, key=lambda k: res[k]["f1"]); p, ok = preds[best]
 ov = np.ones((H, W, 3)) * .95; ev = ok & ~perm
 ov[p & gt & ev] = [0, .6, 0]; ov[p & ~gt & ev] = [.9, .2, .2]; ov[~p & gt & ev] = [.2, .3, .9]; ov[~ok] = [.7, .7, .7]
-ax[3].imshow(ov, extent=ext); ax[3].set_title(f"En iyi: {best}\nyeşil=doğru, kırmızı=yanlış alarm, mavi=kaçan, gri=bulut/veri yok", fontsize=9)
+ax[3].imshow(ov, extent=ext); ax[3].set_title(f"Best: {best}\ngreen=hit, red=false alarm, blue=missed, grey=cloud/no data", fontsize=9)
 plt.tight_layout(); plt.savefig(OUT / "maps.png", dpi=70); plt.close()
