@@ -64,7 +64,7 @@ uv venv --python 3.12 .venv && source .venv/bin/activate
 uv pip install -r requirements.txt -e ".[dev]"
 ./download_data.sh kate        # ~450 MB, ana deney için yeterli
 ./download_data.sh maxar       # ham Maxar sahneleri için STAC indeksi (görüntü anında okunur)
-pytest                         # 8 hızlı test, veri gerekmez
+pytest                         # 10 hızlı test, veri gerekmez
 ```
 
 Diğer setler: `./download_data.sh xbd` (~24 GB), `flood`, `landslide`, `valencia`, `all`. Hepsi `data/` altına iner.
@@ -78,6 +78,20 @@ damagelens-eval  --model runs/kate_base/model.pt --shifts 0 8 16 32 --register
 damagelens-eval  --baselines                                          # görüntü farkı, CVA, 1−SSIM, PCA-kmeans
 python app/demo.py --model runs/kate_base/model.pt                    # ham Maxar → hizalama → model → hasar haritası
 ```
+
+### Elle etiketleme (ham Maxar)
+
+```bash
+damagelens-label serve kahramanmaras-center     # http://127.0.0.1:8765 — eksik karoları manifestten üretir (~1 dk)
+damagelens-label status                          # ilerleme
+damagelens-label prepare antakya --lon 36.16 --lat 36.21 --side-m 2048   # yeni alan
+```
+
+- Öncesi ve sonrası yan yana; iki panelden birine tıklayarak poligon çizin, Enter ile kapatın. Sınıflar: `1` hasarlı, `2` yıkık, `3` hasarsız bina.
+- `B` basılıyken sonrası panelinde öncesi görünür (değişimi görmek için). `V` karoyu bitirir, `S` kullanılamaz karoyu atlar, `T` sıradaki boş karo.
+- Her değişiklik otomatik olarak `labels/<alan>/annotations/<karo>.json` dosyasına kaydedilir; bunlar git'e girer. Görüntü karoları girmez, manifestteki tarihlerden aynen yeniden üretilir.
+- Üç kişi aynı alanı paylaşırken üstteki "pay" menüsünden 1/3, 2/3 veya 3/3'ü seçin; karolar çakışmaz.
+- Eğitimde kullanmak için: `damagelens.label.load_labeled("kahramanmaras-center")` (KATE-CD biçimi: hasarlı + yıkık = 1). Harita için: `damagelens-label export <alan>` → `labels.geojson`.
 
 Çıktılar `runs/<ad>/` altına yazılır (`model.pt` + eşik ve metrikleri içeren `model.json`). `app/demo.py` varsayılan olarak Kahramanmaraş merkezini kullanır; `--lon --lat --side-m` ile başka bir alan seçilebilir.
 
@@ -93,7 +107,9 @@ src/damagelens/            asıl sistem
   train.py, evaluate.py    CLI: damagelens-train, damagelens-eval
   summarize.py             karo karo hizala + tahmin et, hücre bazlı hasar özeti
   metrics.py               piksel F1/IoU, xView2 skoru, bina bazlı karışıklık matrisi
+  label/                   elle etiketleme: karo hazırlama, yerel web arayüzü, etiket → maske/GeoJSON
 app/demo.py                uçtan uca demo, ham Maxar sahnesi
+labels/<alan>/             etiket manifesti ve poligonlar (git'te), karolar (git dışı)
 tests/                     hızlı birim testleri
 experiments/feasibility/   fizibilite betikleri (01–05), sayılar bunlardan
 experiments/multi-hazard/  xBD 5 sınıf model, deprem dışı afet deneyleri, rapor üreticileri
@@ -115,19 +131,12 @@ download_data.sh           veri indirme
 
 ## Yapılacaklar
 
-Rol önerisi: **(A)** veri + hizalama + baseline'lar · **(B)** öğrenilmiş model · **(C)** değerlendirme + mekânsal özet + arayüz + rapor.
+İşler issue olarak açık ve [DamageLens proje panosunda](https://github.com/orgs/Ceng391-Project/projects/1); her issue'nun bağlı bir `feat/<no>-<ad>` branch'i var. Rol etiketleri: **rol: A veri-hizalama**, **rol: B model**, **rol: C değerlendirme**.
 
-- [ ] (A) KATE-CD lisansını ve orijinal karelerde koordinat olup olmadığını ITÜ CSCRS'e sor
-- [ ] (A) ORB + RANSAC hizalamayı (`damagelens.align.register_orb`, hazır) faz korelasyonuyla gerçek Maxar çiftlerinde karşılaştır
-- [ ] (A) Piksel bazlı kar/bulut maskesi (tarih seçimi hazır: `damagelens.data.maxar.pick_dates`)
-- [ ] (A) Gerçek hasarsız negatif kareler: Maxar'ın hasar görmemiş mahallelerinden ve xBD'nin hasarsız binalarından (şimdilik sentetik: `--negatives`)
-- [ ] (B) Renk ve gölge augmentation'ı (kaydırma hazır: `--shift-px`)
-- [ ] (B) Siamese / değişim odaklı bir model (örn. ChangeFormer) ile 6 kanallı U-Net'i karşılaştır
-- [ ] (B) Tam çözünürlüklü xBD ile ön eğitim ve sınıf dengesizliği için focal loss
-- [ ] (C) 3 seed veya k-fold değerlendirme, ortalama ± standart sapma
-- [ ] **(C, öncelikli)** Ham Maxar sahnelerinden elle etiketli küçük bir set (birkaç yüz bina; Kahramanmaraş/Antakya), hem test hem ince ayar için
-- [ ] (C) Mahalle/il düzeyinde hasar özeti ve basit bir harita arayüzü
-- [ ] (C) Final rapor ve sunum
+- Öncelikli: #1 etiketleme aracı, #2 ham Maxar etiket seti, #3 ince ayar ve ham sahne değerlendirmesi
+- A: #4 KATE-CD lisansı, #5 ORB vs faz korelasyonu, #6 kar/bulut maskesi, #7 gerçek negatifler
+- B: #8 renk/gölge augmentation'ı, #9 Siamese model, #10 tam çözünürlüklü xBD + focal loss
+- C: #11 seed / k-fold, #12 mahalle düzeyinde özet + harita, #13 final rapor ve sunum
 
 ## Veri kaynakları
 
