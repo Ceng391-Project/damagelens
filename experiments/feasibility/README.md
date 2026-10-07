@@ -1,4 +1,4 @@
-# DamageLens · feasibility — #30 on the 6 Şubat 2023 earthquakes (KATE-CD)
+# DamageLens · feasibility — #30 on the 6 February 2023 earthquakes (KATE-CD)
 
 - `common.py` — loaders for KATE-CD / xBD parquet, pixel metrics
 - `01_stats_baseline.py` — KATE-CD stats + image-difference baseline (threshold picked on val)
