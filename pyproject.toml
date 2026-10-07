@@ -29,9 +29,13 @@ dev = ["pytest"]
 damagelens-train = "damagelens.train:main"
 damagelens-eval = "damagelens.evaluate:main"
 damagelens-summarize = "damagelens.summarize:main"
+damagelens-label = "damagelens.label.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"damagelens.label" = ["static/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
