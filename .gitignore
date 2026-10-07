@@ -2,10 +2,11 @@
 __pycache__/
 *.pyc
 .DS_Store
-data/
+/data/
 outputs/
 *.pt
 *.npz
 *.npy
 *.parquet
 *.part
+/runs/
