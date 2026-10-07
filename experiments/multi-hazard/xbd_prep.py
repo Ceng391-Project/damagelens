@@ -30,7 +30,7 @@ def prep(split, cap=None):
     keep = np.ones(len(names), bool)
     if cap:
         rng = np.random.default_rng(0)
-        for e in set(ev):
+        for e in sorted(set(ev)):
             idx = [i for i, x in enumerate(ev) if x == e]
             if len(idx) > cap:
                 keep[rng.choice(idx, len(idx) - cap, replace=False)] = False
