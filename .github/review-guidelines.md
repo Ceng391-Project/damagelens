@@ -40,3 +40,4 @@ Read by the Claude review workflow on every pull request. Review against these p
 ## Git
 - Commit messages: one line, `type(scope): ...`, referencing the issue (`(#12)`); no body, no trailers.
 - The PR description maps each part to its issue and uses `Closes #n`.
+- The PR title becomes the squash commit on `main`: `type(scope): summary`, lower-case, ≤72 characters, no `#` references (checked by CI).

@@ -100,6 +100,7 @@ uv run damagelens-label prepare gaziantep-center --lon 37.38 --lat 37.07 --side-
 ## Workflow and CI
 
 - One issue → one linked `feat/<no>-<name>` branch → one PR with `Closes #<no>`. Commit messages are one line: `type(scope): ... (#<no>)`.
+- `main` only accepts **squash merges** through a PR. The squash commit takes the PR title, so PR titles follow the same convention (`type(scope): lower-case summary`, ≤72 characters, no `#` references — GitHub appends the PR number); the `PR title` check enforces it.
 - **Labels are shared through git.** Label on your issue branch (e.g. `feat/2-raw-maxar-labels`), then commit `labels/<area>/annotations/*.json` and open or update the PR. Tiles stay local and are rebuilt from the manifest.
 - **CI** (`.github/workflows/ci.yml`) runs on every PR and on pushes to `main`: `uv lock --check`, ruff, a repo-hygiene check (no data, weights, tiles or local working files), `pytest`, `damagelens-label validate`, and a labeling-progress table in the run summary.
 - **Claude review** (`.github/workflows/claude-review.yml`) reviews each non-draft PR against [`.github/review-guidelines.md`](.github/review-guidelines.md) — our own rules on evaluation leakage, pre/post frames, labels, licences and data — and posts inline comments plus one summary. Mention `@claude` in a PR or issue comment to ask it to do something (`.github/workflows/claude.yml`).
