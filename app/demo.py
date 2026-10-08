@@ -42,12 +42,12 @@ def main(argv=None):
 
     ext = [0, a.side_m, 0, a.side_m]
     fig, ax = plt.subplots(1, 4, figsize=(24, 6.4))
-    ax[0].imshow(pre, extent=ext); ax[0].set_title(f"öncesi {d_pre}")
-    ax[1].imshow(post, extent=ext); ax[1].set_title(f"sonrası {d_post}")
+    ax[0].imshow(pre, extent=ext); ax[0].set_title(f"pre {d_pre}")
+    ax[1].imshow(post, extent=ext); ax[1].set_title(f"post {d_post}")
     ov = post.copy(); ov[mask] = (0.45 * ov[mask] + [140, 0, 0]).astype(np.uint8)
-    ax[2].imshow(ov, extent=ext); ax[2].set_title(f"hasar tahmini (eşik {thr:.2f})")
+    ax[2].imshow(ov, extent=ext); ax[2].set_title(f"damage prediction (thr {thr:.2f})")
     im = ax[3].imshow(grid, cmap="inferno", vmin=0, vmax=max(.3, float(grid.max())), extent=ext)
-    ax[3].set_title(f"{a.cell_m:.0f} m hücre başına hasarlı alan oranı"); plt.colorbar(im, ax=ax[3], fraction=.046)
+    ax[3].set_title(f"damaged area fraction per {a.cell_m:.0f} m cell"); plt.colorbar(im, ax=ax[3], fraction=.046)
     for q in ax: q.set_xlabel("m"); q.set_ylabel("m")
     plt.tight_layout(); plt.savefig(out / "map.png", dpi=70); plt.close()
     print(json.dumps(res, indent=1)); print("->", out)

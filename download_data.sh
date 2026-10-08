@@ -13,7 +13,7 @@ if [[ $what == kate || $what == all ]]; then  # ~450 MB
 fi
 if [[ $what == xbd || $what == all ]]; then  # ~24 GB raw; experiments/multi-hazard/xbd_prep.py turns it into ~9 GB of 512 px memmaps
   mkdir -p data/xbd
-  curl -s "https://huggingface.co/api/datasets/hannan022/xview2-xbd/tree/main/data" | python -c "import json,sys;[print(x['path'].split('/')[-1]) for x in json.load(sys.stdin)]" |
+  curl -s "https://huggingface.co/api/datasets/hannan022/xview2-xbd/tree/main/data" | uv run python -c "import json,sys;[print(x['path'].split('/')[-1]) for x in json.load(sys.stdin)]" |
     xargs -P 4 -I{} sh -c '[ -s data/xbd/{} ] || curl -sfL --retry 5 -o data/xbd/{} '"$HF"'/hannan022/xview2-xbd/resolve/main/data/{}'
 fi
 if [[ $what == flood || $what == all ]]; then  # ~1.8 GB
@@ -22,7 +22,7 @@ if [[ $what == flood || $what == all ]]; then  # ~1.8 GB
   tar xzf data/sen1floods11/s1f11.tar.gz -C data/sen1floods11 && rm data/sen1floods11/s1f11.tar.gz
 fi
 if [[ $what == landslide || $what == all ]]; then  # Landslide4Sense ~0.5 GB + UAV subset ~2 GB
-  python -c "from huggingface_hub import snapshot_download as s; s('ibm-nasa-geospatial/Landslide4sense', repo_type='dataset', local_dir='data/landslide4sense', max_workers=8)"
+  uv run python -c "from huggingface_hub import snapshot_download as s; s('ibm-nasa-geospatial/Landslide4sense', repo_type='dataset', local_dir='data/landslide4sense', max_workers=8)"
   mkdir -p data/landslide_uav
   for f in test-00000-of-00006 test-00001-of-00006 validation-00000-of-00005 train-00000-of-00019 train-00001-of-00019 train-00002-of-00019 train-00003-of-00019; do
     get "$HF/syeddhasnainn/landslide-uav-all/resolve/main/data/$f.parquet" data/landslide_uav/$f.parquet; done
@@ -33,6 +33,6 @@ if [[ $what == valencia || $what == all ]]; then  # Copernicus EMS EMSR773 delin
   (cd data/valencia && unzip -o -q del.zip)
 fi
 if [[ $what == maxar || $what == all ]]; then  # STAC index of Maxar Open Data, Kahramanmaraş 2023 (imagery is read on demand)
-  python experiments/multi-hazard/maxar_index.py
+  uv run python experiments/multi-hazard/maxar_index.py
 fi
 # hail (MRMS MESH), heat (MODIS + Meteostat), fire (Sentinel-2 + perimeters) download on demand inside their scripts.

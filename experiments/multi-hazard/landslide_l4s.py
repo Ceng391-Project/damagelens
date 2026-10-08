@@ -46,9 +46,9 @@ for t in np.arange(-0.2, 0.6, 0.05):
 t, sl = best[1]
 preds, probs, hist = {}, {}, {}
 Xt, Yt = data["test"]
-preds["NDVI + eğim kuralı"] = (ndvi(Xt) < t) & (Xt[:, 12] > sl)
+preds["NDVI + slope rule"] = (ndvi(Xt) < t) & (Xt[:, 12] > sl)
 
-for name, idx in [("U-Net RGB (Google Earth benzeri)", [3, 2, 1]), ("U-Net 12 bant S2", list(range(12))), ("U-Net S2 + eğim + DEM", None)]:
+for name, idx in [("U-Net RGB (Google-Earth-like)", [3, 2, 1]), ("U-Net 12-band S2", list(range(12))), ("U-Net S2 + slope + DEM", None)]:
     print("training", name, flush=True)
     model, h = train_binary(norm(Xtr, idx), data["train"][1], norm(Xv, idx), Yv, epochs=40, bs=32, pos_weight=3.0)
     hist[name] = h
@@ -67,11 +67,11 @@ x = np.arange(len(names)); w = .2
 for j, m in enumerate(["precision", "recall", "f1", "iou"]):
     ax[0].bar(x + (j - 1.5) * w, [res[n][m] for n in names], w, label=m)
 ax[0].set_xticks(x, names, rotation=15, ha="right"); ax[0].set_ylim(0, 1); ax[0].legend(); ax[0].grid(axis="y", alpha=.3)
-ax[0].set_title("Heyelan tespiti, Landslide4Sense test (800 kare)")
+ax[0].set_title("Landslide detection, Landslide4Sense test (800 chips)")
 for n, p in probs.items():
     pr, rc, _ = precision_recall_curve((Yt == 1).ravel()[::7], p.ravel()[::7])
     ax[1].plot(rc, pr, label=n)
-ax[1].set_xlabel("recall"); ax[1].set_ylabel("precision"); ax[1].legend(fontsize=8); ax[1].grid(alpha=.3); ax[1].set_title("Precision–recall eğrileri")
+ax[1].set_xlabel("recall"); ax[1].set_ylabel("precision"); ax[1].legend(fontsize=8); ax[1].grid(alpha=.3); ax[1].set_title("Precision–recall curves")
 plt.tight_layout(); plt.savefig(OUT / "metrics.png", dpi=100); plt.close()
 
 rng = np.random.default_rng(3)
@@ -79,8 +79,8 @@ cand = np.where(Yt.mean((1, 2)) > 0.05)[0]; pick = rng.choice(cand, 5, replace=F
 fig, ax = plt.subplots(5, 5, figsize=(15, 15))
 for r, k in enumerate(pick):
     rgb = Xt[k][[3, 2, 1]].astype(np.float32).transpose(1, 2, 0); rgb = np.clip(rgb / np.percentile(rgb, 98), 0, 1)
-    pan = [(rgb, "RGB"), (Yt[k], "Etiket"), (preds["NDVI + eğim kuralı"][k], "NDVI+eğim"),
-           (preds["U-Net RGB (Google Earth benzeri)"][k], "U-Net RGB"), (preds["U-Net S2 + eğim + DEM"][k], "U-Net S2+eğim+DEM")]
+    pan = [(rgb, "RGB"), (Yt[k], "Label"), (preds["NDVI + slope rule"][k], "NDVI+slope"),
+           (preds["U-Net RGB (Google-Earth-like)"][k], "U-Net RGB"), (preds["U-Net S2 + slope + DEM"][k], "U-Net S2+slope+DEM")]
     for c, (im, tt) in enumerate(pan):
         ax[r, c].imshow(im, cmap=None if im.ndim == 3 else "Reds"); ax[r, c].set_title(tt, fontsize=9); ax[r, c].axis("off")
 plt.tight_layout(); plt.savefig(OUT / "samples.png", dpi=75); plt.close()

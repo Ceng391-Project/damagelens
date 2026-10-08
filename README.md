@@ -1,137 +1,150 @@
 # DamageLens
 
-**Disaster Damage Assessment from Satellite and Aerial Images** — öncesi/sonrası uydu ve hava görüntülerinden hasar tespiti.
+**Disaster Damage Assessment from Satellite and Aerial Images** — damage detection from pre/post-event satellite and aerial imagery.
 
-CENG391 Introduction to Image Understanding, 2026 Fall, term project **#30**, group G15 (3 kişi).
+CENG391 Introduction to Image Understanding, 2026 Fall, term project **#30**, group G15 (3 people).
 
 > Develop a change/damage assessment system using pre-event and post-event aerial/satellite images. Align image pairs, identify changed regions, classify or segment damaged structures/areas, and summarize damage spatially. Compare simple image-difference/feature baselines with a learned change-detection approach.
 
-Kapsam afet türüne bağlı değil: öncesi/sonrası görüntüden hasarlı **yapıları** (çok sınıflı bina hasarı) ve hasarlı **alanları** (ikili maske: yanık, taşkın, tarım hasarı) çıkarmak. Ana vaka **6 Şubat 2023 Kahramanmaraş depremleri**; aynı hat hortum, yangın, sel ve dolu üzerinde de denendi (`experiments/multi-hazard/`).
+The scope is not tied to one hazard: from pre/post imagery we extract damaged **structures** (multi-class building damage) and damaged **areas** (binary masks: burned, flooded, crop damage). The main case is the **6 February 2023 Kahramanmaraş earthquakes**; the same pipeline was also tried on tornado, fire, flood and hail (`experiments/multi-hazard/`).
 
-## Durum
+## Status
 
-Fizibilite tamamlandı: ödevin her adımı açık veriyle uçtan uca çalıştırıldı.
+Feasibility is done: every step of the assignment was run end to end on open data.
 
-| Ödev adımı | Kodda | Şu anki sonuç |
+| Assignment step | In code | Current result |
 |---|---|---|
-| Öncesi/sonrası görüntü | `damagelens.data` (`kate`, `xbd`, `maxar`) | KATE-CD (Maxar + Pleiades, 0,3–0,5 m), xBD, ham Maxar Open Data, NAIP uçak görüntüsü |
-| Görüntü çiftlerini hizalama | `damagelens.align` (faz korelasyonu, ORB + RANSAC) | Ham Maxar çiftlerinde medyan 12–16 px (~6–8 m) kayma ölçüldü |
-| Değişen bölgeleri bulma, hasarı segmentleme | `damagelens.models`, `damagelens.train` | KATE-CD test F1 **0.55**; xBD 5 sınıf xView2 skoru **0.62** |
-| Mekânsal özet | `damagelens.summarize`, `app/demo.py` | Kahramanmaraş merkezi 1,5 km², 48 m hücre ısı haritası |
-| Baseline vs öğrenilmiş model | `damagelens.baselines`, `damagelens.evaluate` | 5 klasik yöntem F1 0.08–0.09, U-Net 0.55 |
+| Pre/post imagery | `damagelens.data` (`kate`, `xbd`, `maxar`) | KATE-CD (Maxar + Pleiades, 0.3–0.5 m), xBD, raw Maxar Open Data, NAIP aircraft imagery |
+| Align image pairs | `damagelens.align` (phase correlation, ORB + RANSAC) | Raw Maxar pairs are misregistered by a median 12–16 px (~6–8 m) |
+| Find changed regions, segment damage | `damagelens.models`, `damagelens.train` | KATE-CD test F1 **0.55**; xBD 5-class xView2 score **0.60** |
+| Spatial summary | `damagelens.summarize`, `app/demo.py` | Kahramanmaraş centre, 1.5 km², 48 m cell heat map |
+| Baselines vs learned model | `damagelens.baselines`, `damagelens.evaluate` | 5 classical methods F1 0.08–0.09, U-Net 0.55 |
 
-![KATE-CD tahminleri](docs/figures/kate_predictions.png)
-![Klasik yöntemler ve hizalama hatası](docs/figures/baselines_alignment.png)
-![Ham Maxar görüntüsünden mekânsal özet](docs/figures/spatial_summary_kahramanmaras.png)
+![KATE-CD predictions](docs/figures/kate_predictions.png)
+![Classical methods and misregistration](docs/figures/baselines_alignment.png)
+![Spatial summary from raw Maxar imagery](docs/figures/spatial_summary_kahramanmaras.png)
 
-### 6 Şubat — KATE-CD test (38 kare, piksel bazlı)
-| Yöntem | F1 | IoU |
+### 6 February — KATE-CD test (38 tiles, pixel level)
+| Method | F1 | IoU |
 |---|---|---|
-| Görüntü farkı (Lab + histogram eşleme) | 0.083 | 0.043 |
+| Image difference (Lab + histogram matching) | 0.083 | 0.043 |
 | CVA / 1−SSIM / PCA-kmeans / CVA+Otsu | 0.083–0.094 | 0.043–0.050 |
-| U-Net, xBD ile eğitilmiş, Türkiye'ye doğrudan | 0.108 | 0.057 |
-| U-Net, xBD ön eğitim + KATE-CD ince ayar | 0.500 | 0.333 |
-| U-Net, sadece KATE-CD | 0.552 | 0.382 |
-| **U-Net, KATE-CD + ±16 px kaydırma + 200 hasarsız negatif** (`--shift-px 16 --negatives 200`) | **0.579** | **0.407** |
+| U-Net 5-class trained on xBD, applied to Türkiye directly (resolution matched) | 0.139 | 0.075 |
+| U-Net, xBD pretraining + KATE-CD fine-tuning | 0.500 | 0.333 |
+| U-Net, KATE-CD only | 0.552 | 0.382 |
+| **U-Net, KATE-CD + ±16 px shift + 200 undamaged negatives** (`--shift-px 16 --negatives 200`) | **0.579** | **0.407** |
 
-Hizalama hatasına dayanıklılık (öncesi görüntü yapay kaydırıldı, hizalama yapmadan):
+Robustness to misregistration (pre image shifted synthetically, no registration):
 
-| kayma (px) | 0 | 8 | 16 | 32 |
+| shift (px) | 0 | 8 | 16 | 32 |
 |---|---|---|---|---|
-| U-Net, sadece KATE-CD | 0.552 | 0.468 | 0.365 | 0.328 |
-| U-Net, kaydırma + negatifler | 0.579 | 0.582 | 0.554 | 0.488 |
+| U-Net, KATE-CD only | 0.552 | 0.468 | 0.365 | 0.328 |
+| U-Net, shift + negatives | 0.579 | 0.582 | 0.554 | 0.488 |
 
-### Diğer afet türleri (özet)
-Ayrıntılı raporlar (her afet için yöntem, tablolar, grafikler, rastgele vakalar, sınırlar): [docs/disaster-report/](docs/disaster-report/README.md). Tek sayfalık sürüm: `docs/disaster-report/index.html` (yerelde tarayıcıda açılır).
+### Other hazards (summary)
+Detailed reports (method, tables, charts, random cases, limitations per hazard): [docs/disaster-report/](docs/disaster-report/README.md). Single-page version: `docs/disaster-report/index.html` (open locally in a browser).
 
-![Afet türlerine göre](docs/figures/disaster_overview.png)
+![By hazard type](docs/figures/disaster_overview.png)
 
-| Afet | Veri | Ana sonuç |
+| Hazard | Data | Headline result |
 |---|---|---|
-| Sel | Sen1Floods11 (11 ülke), Valencia DANA 2024 vs Copernicus EMS | IoU 0.82; Valencia F1 0.66 |
-| Heyelan | Landslide4Sense (uydu), İHA seti | F1 0.63 / 0.82 |
-| Hortum | xBD; Rolling Fork 2023 NAIP uçak görüntüsü vs NWS EF noktaları | bina F1 0.77; uçak görüntüsünde AUC 0.57 |
-| Dolu | Sentinel-2 ΔNDVI vs NOAA MESH, Nebraska 2022 | ≥60 mm AUC 0.84, ≥25 mm ≈0.6 |
-| Aşırı sıcak | MODIS LST vs istasyon, 10 şehir, yaz 2023 | r 0.65, gün tespiti AUC 0.82 |
-| Yangın | Sentinel-2 dNBR vs NIFC/EFFIS sınırları; xBD | IoU 0.54–0.86; bina F1 0.79 |
+| Flood | Sen1Floods11 (11 countries), Valencia DANA 2024 vs Copernicus EMS | IoU 0.82; Valencia F1 0.66 |
+| Landslide | Landslide4Sense (satellite), UAV set | F1 0.63 / 0.82 |
+| Tornado | xBD; Rolling Fork 2023 NAIP aircraft imagery vs NWS EF points | building F1 0.76; AUC 0.57 on aerial imagery |
+| Hail | Sentinel-2 ΔNDVI vs NOAA MESH, Nebraska 2022 | ≥60 mm AUC 0.84, ≥25 mm ≈0.6 |
+| Extreme heat | MODIS LST vs stations, 10 cities, summer 2023 | r 0.65, day detection AUC 0.82 |
+| Fire | Sentinel-2 dNBR vs NIFC/EFFIS perimeters; xBD | IoU 0.54–0.86; building F1 0.81 |
 
-![xBD afet türüne göre](docs/figures/xbd_per_type.png)
+![xBD by hazard type](docs/figures/xbd_per_type.png)
 
-## Kurulum
+## Setup
 
-```bash
-uv venv --python 3.12 .venv && source .venv/bin/activate
-uv pip install -r requirements.txt -e ".[dev]"
-./download_data.sh kate        # ~450 MB, ana deney için yeterli
-./download_data.sh maxar       # ham Maxar sahneleri için STAC indeksi (görüntü anında okunur)
-pytest                         # 8 hızlı test, veri gerekmez
-```
-
-Diğer setler: `./download_data.sh xbd` (~24 GB), `flood`, `landslide`, `valencia`, `all`. Hepsi `data/` altına iner.
-
-## Çalıştırma
+Everything in this repo runs through [uv](https://docs.astral.sh/uv/) — no manual venv, pip or requirements file. Please use uv for everything.
 
 ```bash
-damagelens-train --name kate_base                                     # 6 kanallı U-Net, KATE-CD (~25 dk, M4)
-damagelens-train --name kate_robust --shift-px 16 --negatives 200      # kaydırma augmentation'ı + hasarsız negatifler
-damagelens-eval  --model runs/kate_base/model.pt --shifts 0 8 16 32 --register
-damagelens-eval  --baselines                                          # görüntü farkı, CVA, 1−SSIM, PCA-kmeans
-python app/demo.py --model runs/kate_base/model.pt                    # ham Maxar → hizalama → model → hasar haritası
+uv sync                        # Python 3.12 + all locked dependencies (uv.lock) into .venv
+./download_data.sh kate        # ~450 MB, enough for the main experiment
+./download_data.sh maxar       # STAC index for raw Maxar scenes (imagery is read on demand)
+uv run pytest                  # 10 fast tests, no data needed
 ```
 
-Çıktılar `runs/<ad>/` altına yazılır (`model.pt` + eşik ve metrikleri içeren `model.json`). `app/demo.py` varsayılan olarak Kahramanmaraş merkezini kullanır; `--lon --lat --side-m` ile başka bir alan seçilebilir.
+Other sets: `./download_data.sh xbd` (~24 GB), `flood`, `landslide`, `valencia`, `all`. Everything lands in `data/`. Add a dependency with `uv add <package>` (or `uv add --group experiments <package>` for experiment-only packages) and commit the updated `uv.lock`.
 
-## Repo yapısı
+## Usage
+
+```bash
+uv run damagelens-train --name kate_base                                 # 6-channel U-Net on KATE-CD (~25 min on an M4)
+uv run damagelens-train --name kate_robust --shift-px 16 --negatives 200  # shift augmentation + undamaged negatives
+uv run damagelens-eval  --model runs/kate_base/model.pt --shifts 0 8 16 32 --register
+uv run damagelens-eval  --baselines                                      # image difference, CVA, 1−SSIM, PCA-kmeans
+uv run app/demo.py --model runs/kate_base/model.pt                       # raw Maxar → alignment → model → damage map
+```
+
+Outputs go to `runs/<name>/` (`model.pt` + `model.json` with the threshold and metrics). `app/demo.py` defaults to Kahramanmaraş centre; pick another area with `--lon --lat --side-m`.
+
+### Hand labeling (raw Maxar)
+
+```bash
+uv run damagelens-label serve antakya-center   # http://127.0.0.1:8765 — regenerates missing tiles from the manifest (~1 min)
+uv run damagelens-label status                 # progress
+uv run damagelens-label prepare gaziantep-center --lon 37.38 --lat 37.07 --side-m 2048   # new area
+```
+
+- Pre and post side by side; click in either panel to draw a polygon, Enter closes it. Classes: `1` damaged, `2` destroyed, `3` intact building.
+- Hold `B` to see the pre image in the post panel (to spot change). `V` marks a tile done, `S` skips an unusable tile, `T` jumps to the next empty tile.
+- Every change is saved automatically to `labels/<area>/annotations/<tile>.json`; these are committed. Image tiles are not — they are regenerated identically from the dates in the manifest.
+- When three people share an area, choose 1/3, 2/3 or 3/3 in the "share" menu so tiles do not overlap.
+- Ready areas: `antakya-center` (pre 2022-12-22, closest to the event — start here) and `kahramanmaras-center` (pre 2022-07-26).
+- For training: `damagelens.label.load_labeled("antakya-center")` (KATE-CD convention: damaged + destroyed = 1). For maps: `damagelens-label export <area>` → `labels.geojson`.
+
+## Repository layout
 
 ```
-src/damagelens/            asıl sistem
-  data/                    KATE-CD, xBD, Maxar Open Data okuyucuları, karolama
-  align/                   faz korelasyonu, ORB + RANSAC afin hizalama
-  baselines/               görüntü farkı, CVA, 1−SSIM, PCA-kmeans; dNBR, NDVI, NDWI farkları
-  models/                  6 kanallı U-Net (öncesi + sonrası RGB)
-  augment.py               çevirme/döndürme, öncesi görüntüye rastgele kaydırma
-  train.py, evaluate.py    CLI: damagelens-train, damagelens-eval
-  summarize.py             karo karo hizala + tahmin et, hücre bazlı hasar özeti
-  metrics.py               piksel F1/IoU, xView2 skoru, bina bazlı karışıklık matrisi
-app/demo.py                uçtan uca demo, ham Maxar sahnesi
-tests/                     hızlı birim testleri
-experiments/feasibility/   fizibilite betikleri (01–05), sayılar bunlardan
-experiments/multi-hazard/  xBD 5 sınıf model, deprem dışı afet deneyleri, rapor üreticileri
-docs/                      README grafikleri, afet raporları
-download_data.sh           veri indirme
+src/damagelens/            the system
+  data/                    KATE-CD, xBD and Maxar Open Data readers, tiling
+  align/                   phase correlation, ORB + RANSAC affine alignment
+  baselines/               image difference, CVA, 1−SSIM, PCA-kmeans; dNBR, NDVI, NDWI change
+  models/                  6-channel U-Net (pre + post RGB)
+  augment.py               flips/rotations, random pre-image shift
+  train.py, evaluate.py    CLIs: damagelens-train, damagelens-eval
+  summarize.py             align + predict tile by tile, per-cell damage summary
+  metrics.py               pixel F1/IoU, xView2 score, building-level confusion matrix
+  label/                   hand labeling: tile preparation, local web UI, labels → masks/GeoJSON
+app/demo.py                end-to-end demo on a raw Maxar scene
+labels/<area>/             label manifest and polygons (in git), tiles (not in git)
+tests/                     fast unit tests
+experiments/feasibility/   feasibility scripts (01–05), the numbers above come from these
+experiments/multi-hazard/  xBD 5-class model, non-earthquake hazard tests, report builders
+docs/                      README figures, hazard reports
+download_data.sh           data download
 ```
-`data/`, `runs/`, `outputs/` klasörleri ve model ağırlıkları git'e girmez. `experiments/` donmuş deney kodudur; yeni iş `src/damagelens/` içinde yapılır.
+`data/`, `runs/`, `outputs/` and model weights are not committed. `experiments/` is frozen experiment code; new work goes into `src/damagelens/`.
 
-## Dikkat edilmesi gerekenler
+## Things to watch
 
-- **Etiketli testteki başarı ham sahneye taşınmıyor.** KATE-CD'de F1 0.55–0.58 alan modeller, ham Maxar görüntüsünde ağır hasarlı Kahramanmaraş merkezinde piksellerin yalnızca %0,6'sını (kaydırma + negatif modeli %0,09) hasarlı buluyor; eşik 0,3'e indirilse bile %1'in altında. Sorun eşik veya hizalama değil, alan farkı (farklı sahne seçimi, mevsim, işleme). Projenin asıl problemi bu ve çözümü ham Maxar'dan biraz etiketli veriyle ince ayar.
-- **KATE-CD'nin her karesinde hasar var.** Model hiç hasarsız sahne görmedi, yanlış alarm oranı ölçülemiyor. Eğitime hasarsız negatifler eklenmeli.
-- **KATE-CD koordinatsız**, mekânsal özetin sayısal doğrulaması için koordinatlı bir yer gerçeği lazım. Türkiye için bina bazlı başka açık bir set bulamadık: HOT OSM dosyası boş çıktı, Copernicus EMS EMSR648 giriş istiyor.
-- **Mevsim, bakış açısı, kar ve bulut:** öncesi görüntüler yaz 2022, sonrası Şubat 2023. Kar ve bulut her iki modelde sahte hasar üretiyor. Mümkünse Aralık 2022 ve Ocak 2023 öncesi kareleri kullanın.
-- **Hizalama:** 16 px kayma F1'i 0.55'ten 0.36'ya düşürüyor. Faz korelasyonu 0.49'a geri getiriyor; yüksek binalarda parallaks yüzünden tek bir kaydırma yetmiyor.
-- **Başka afetlerden öğrenme taşınmıyor:** xBD'den Türkiye'ye doğrudan uygulama F1 0.11, xBD ön eğitimi ince ayarda da fayda vermedi.
-- **Test seti küçük (38 kare):** sonuçları 3 tekrar ya da k-fold ile, ortalama ± standart sapma olarak verin.
-- **Lisanslar:** xBD CC BY-NC-SA 4.0, Maxar Open Data CC BY-NC 4.0, ikisi de yalnız ticari olmayan kullanım için. KATE-CD'nin lisansı belirtilmemiş, yazarlara sorulmalı.
+- **Success on the labelled test does not carry over to raw scenes.** Models with F1 0.55–0.58 on KATE-CD flag only 0.6 % of pixels as damaged in heavily damaged Kahramanmaraş centre on raw Maxar imagery (0.09 % for the shift + negatives model), and less than 1 % even at threshold 0.3. The problem is neither the threshold nor alignment but a domain gap (scene selection, season, processing). This is the core problem of the project; the fix is fine-tuning on some labelled raw Maxar data (#2, #3).
+- **Every KATE-CD tile contains damage.** The model never saw an undamaged scene and the false-alarm rate cannot be measured. Undamaged negatives must be added to training.
+- **KATE-CD has no coordinates,** so the spatial summary needs georeferenced ground truth to be validated. We found no other open building-level set for Türkiye: the HOT OSM export was empty and Copernicus EMS EMSR648 requires a login.
+- **Season, viewing angle, snow and cloud:** many pre images are summer 2022, the post images February 2023. Snow and cloud produce false damage in both models. Prefer December 2022 / January 2023 pre images where available (e.g. Antakya).
+- **Alignment:** a 16 px shift drops F1 from 0.55 to 0.36. Phase correlation brings it back to 0.49; tall buildings have parallax, so a single shift is not enough.
+- **Learning from other disasters does not transfer:** xBD applied to Türkiye directly gets F1 0.11–0.14, and xBD pretraining did not help fine-tuning either.
+- **Splits must be deterministic.** The first xBD run used a tier3 split that changed with Python's per-process hash seed, so evaluation overlapped with training (xView2 0.62 instead of 0.60). Fixed in #21; never iterate a `set` when assigning splits.
+- **Small test set (38 tiles):** report results as mean ± std over 3 seeds or k-fold.
+- **Licences:** xBD is CC BY-NC-SA 4.0 and Maxar Open Data CC BY-NC 4.0, both non-commercial only. The KATE-CD licence is not stated; ask the authors (#4).
 
-## Yapılacaklar
+## Roadmap
 
-Rol önerisi: **(A)** veri + hizalama + baseline'lar · **(B)** öğrenilmiş model · **(C)** değerlendirme + mekânsal özet + arayüz + rapor.
+Work is tracked as issues on the [DamageLens project board](https://github.com/orgs/Ceng391-Project/projects/1); each issue has a linked `feat/<no>-<name>` branch. Role labels: **role: A data & alignment**, **role: B model**, **role: C evaluation**.
 
-- [ ] (A) KATE-CD lisansını ve orijinal karelerde koordinat olup olmadığını ITÜ CSCRS'e sor
-- [ ] (A) ORB + RANSAC hizalamayı (`damagelens.align.register_orb`, hazır) faz korelasyonuyla gerçek Maxar çiftlerinde karşılaştır
-- [ ] (A) Piksel bazlı kar/bulut maskesi (tarih seçimi hazır: `damagelens.data.maxar.pick_dates`)
-- [ ] (A) Gerçek hasarsız negatif kareler: Maxar'ın hasar görmemiş mahallelerinden ve xBD'nin hasarsız binalarından (şimdilik sentetik: `--negatives`)
-- [ ] (B) Renk ve gölge augmentation'ı (kaydırma hazır: `--shift-px`)
-- [ ] (B) Siamese / değişim odaklı bir model (örn. ChangeFormer) ile 6 kanallı U-Net'i karşılaştır
-- [ ] (B) Tam çözünürlüklü xBD ile ön eğitim ve sınıf dengesizliği için focal loss
-- [ ] (C) 3 seed veya k-fold değerlendirme, ortalama ± standart sapma
-- [ ] **(C, öncelikli)** Ham Maxar sahnelerinden elle etiketli küçük bir set (birkaç yüz bina; Kahramanmaraş/Antakya), hem test hem ince ayar için
-- [ ] (C) Mahalle/il düzeyinde hasar özeti ve basit bir harita arayüzü
-- [ ] (C) Final rapor ve sunum
+- Priority: #1 labeling tool, #2 raw Maxar label set, #3 fine-tuning and raw-scene evaluation
+- A: #4 KATE-CD licence, #5 ORB vs phase correlation, #6 snow/cloud mask, #7 real negatives
+- B: #8 colour/shadow augmentation, #9 Siamese model, #10 full-resolution xBD + focal loss
+- C: #11 seeds / k-fold, #12 district-level summary + map, #13 final report and presentation
+- Repo: #14 uv-only setup, #15 English translation
 
-## Veri kaynakları
+## Data sources
 
 - KATE-CD: https://huggingface.co/datasets/CSCRS/kate-cd (ITÜ CSCRS)
 - xBD / xView2: https://xview2.org, mirror https://huggingface.co/datasets/hannan022/xview2-xbd
 - Maxar Open Data Program: https://maxar-opendata.s3.amazonaws.com/events/catalog.json
-- Sen1Floods11, Landslide4Sense, İHA heyelan seti, Copernicus EMS EMSR773, NOAA MRMS/SPC/NWS DAT, MODIS LST, Meteostat, NIFC, EFFIS: ayrıntılar `experiments/multi-hazard/` betiklerinde
+- Sen1Floods11, Landslide4Sense, UAV landslide set, Copernicus EMS EMSR773, NOAA MRMS/SPC/NWS DAT, MODIS LST, Meteostat, NIFC, EFFIS: details in the `experiments/multi-hazard/` scripts

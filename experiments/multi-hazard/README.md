@@ -8,7 +8,7 @@ Run order (all write to `outputs/`, then `build_reports.py` + `build_html.py` wr
 - `hail_nebraska.py <config>` — Sentinel-2 ΔNDVI vs MRMS MESH (configs A/B/C)
 - `heat_lst.py` — MODIS LST vs Meteostat Tmax, 10 cities, summer 2023
 - `fire_dnbr.py` — Sentinel-2 dNBR vs NIFC/EFFIS perimeters
-- `earthquake_maxar_random.py` — random Maxar Open Data tiles, 6 Şubat
+- `earthquake_maxar_random.py` — random Maxar Open Data tiles, 6 February
 - shared: `seg.py` (binary U-Net train/predict), `eo.py` (Planetary Computer reads)
 - `maxar_index.py` — builds `data/maxar_tr/index.json` (STAC index of Maxar Open Data, Kahramanmaraş 2023)
 - `gpu_queue.sh` — runs the GPU jobs one after another (two at once on a 16 GB Mac swaps heavily)

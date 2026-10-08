@@ -119,19 +119,19 @@ print(json.dumps(res, indent=1))
 
 fig, ax = plt.subplots(1, 2, figsize=(14, 4.6))
 keys = [k for k in lvl if (L == lvl[k]).any()]
-ax[0].boxplot([s[L == lvl[k]] for k in keys], tick_labels=["hasar yok\n(kontrol)" if k == "none" else k for k in keys], showfliers=False)
-ax[0].set_ylabel("model ağır hasar+yıkılmış olasılığı (20 m çevre)"); ax[0].grid(alpha=.3)
-ax[0].set_title(f"Rolling Fork EF4 hortumu: NWS EF derecesine göre model skoru (Spearman ρ={res['spearman_ef_vs_score']:.2f})")
-ax[1].bar(["herhangi hasar\nvs kontrol", "EF2+\nvs kontrol", "EF3+\nvs EF0–1"], [res["auc_any_vs_control"], res["auc_EF2plus_vs_control"], res["auc_EF3plus_vs_EF0_1"]], color="#3b6ea5")
-ax[1].axhline(.5, color="k", ls="--", lw=.7); ax[1].set_ylim(0, 1); ax[1].set_ylabel("ROC AUC"); ax[1].grid(axis="y", alpha=.3); ax[1].set_title("Ayırt etme gücü")
+ax[0].boxplot([s[L == lvl[k]] for k in keys], tick_labels=["no damage\n(control)" if k == "none" else k for k in keys], showfliers=False)
+ax[0].set_ylabel("model P(major + destroyed) within 20 m"); ax[0].grid(alpha=.3)
+ax[0].set_title(f"Rolling Fork EF4 tornado: model score by NWS EF rating (Spearman ρ={res['spearman_ef_vs_score']:.2f})")
+ax[1].bar(["any damage\nvs control", "EF2+\nvs control", "EF3+\nvs EF0–1"], [res["auc_any_vs_control"], res["auc_EF2plus_vs_control"], res["auc_EF3plus_vs_EF0_1"]], color="#3b6ea5")
+ax[1].axhline(.5, color="k", ls="--", lw=.7); ax[1].set_ylim(0, 1); ax[1].set_ylabel("ROC AUC"); ax[1].grid(axis="y", alpha=.3); ax[1].set_title("Discrimination")
 plt.tight_layout(); plt.savefig(OUT / "metrics.png", dpi=100); plt.close()
 
 COL = np.array([[0, 0, 0], [60, 180, 75], [255, 225, 25], [245, 130, 48], [230, 25, 75]], np.uint8)
 fig, ax = plt.subplots(len(chips), 3, figsize=(10, 3.4 * len(chips)), squeeze=False)
 for r, (e, (a, b, p)) in enumerate(chips):
-    ax[r, 0].imshow(a); ax[r, 0].set_title(f"NAIP 2021 (öncesi) — {e}", fontsize=9)
-    ax[r, 1].imshow(b); ax[r, 1].set_title("NAIP Ağu 2023 (sonrası)", fontsize=9)
-    ax[r, 2].imshow(COL[p]); ax[r, 2].set_title("xBD modeli", fontsize=9)
+    ax[r, 0].imshow(a); ax[r, 0].set_title(f"NAIP 2021 (pre) — {e}", fontsize=9)
+    ax[r, 1].imshow(b); ax[r, 1].set_title("NAIP Aug 2023 (post)", fontsize=9)
+    ax[r, 2].imshow(COL[p]); ax[r, 2].set_title("xBD model", fontsize=9)
     for k in range(3):
         ax[r, k].add_patch(plt.Circle((CHIP / 2, CHIP / 2), 20, fill=False, color="c")); ax[r, k].axis("off")
 plt.tight_layout(); plt.savefig(OUT / "samples.png", dpi=75); plt.close()

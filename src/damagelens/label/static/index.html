@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DamageLens labeling</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="brand">DamageLens <span>labeling</span></div>
+  <div class="tile-nav">
+    <button id="prev" title="Previous (P / ←)">‹</button>
+    <span id="tile-name">–</span>
+    <button id="next" title="Next (N / →)">›</button>
+    <button id="next-todo" title="Next unlabeled tile (T)">next empty</button>
+    <span id="status-chip" class="chip todo">todo</span>
+  </div>
+  <div class="who">
+    <label>name <input id="user" size="10" placeholder="your name"></label>
+    <label>share <select id="shard">
+      <option value="all">all</option><option value="0">1/3</option><option value="1">2/3</option><option value="2">3/3</option>
+    </select></label>
+    <span id="progress">–</span>
+    <span id="save-state" class="saved">saved</span>
+  </div>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>Pre <small id="pre-date"></small></h2>
+    <canvas id="c-pre" width="512" height="512"></canvas>
+  </section>
+  <section class="panel">
+    <h2>Post <small id="post-date"></small> <small id="blink-hint">B held: showing pre</small></h2>
+    <canvas id="c-post" width="512" height="512"></canvas>
+  </section>
+  <aside>
+    <h3>Class</h3>
+    <div id="classes">
+      <button data-cls="damaged" class="cls damaged on"><kbd>1</kbd> damaged</button>
+      <button data-cls="destroyed" class="cls destroyed"><kbd>2</kbd> destroyed</button>
+      <button data-cls="intact" class="cls intact"><kbd>3</kbd> intact building</button>
+    </div>
+    <h3>Tile</h3>
+    <div class="row">
+      <button id="mark-done" class="primary"><kbd>V</kbd> done</button>
+      <button id="mark-skip"><kbd>S</kbd> skip</button>
+    </div>
+    <p id="counts" class="muted"></p>
+    <h3>Shortcuts</h3>
+    <dl class="keys">
+      <dt>click</dt><dd>add a vertex (either panel)</dd>
+      <dt>Enter / double-click</dt><dd>close the polygon</dd>
+      <dt>Esc</dt><dd>cancel the drawing</dd>
+      <dt>⌫</dt><dd>undo the last vertex</dd>
+      <dt>click a polygon</dt><dd>select it; 1/2/3 changes its class</dd>
+      <dt>Del</dt><dd>delete the selected polygon</dd>
+      <dt>B (hold)</dt><dd>show the pre image in the post panel</dd>
+      <dt>wheel</dt><dd>zoom</dd>
+      <dt>right-drag / Space+drag</dt><dd>pan</dd>
+      <dt>0</dt><dd>reset the view</dd>
+      <dt>H</dt><dd>hide/show polygons</dd>
+    </dl>
+    <p class="muted">"Done": every damaged/destroyed building in the tile is drawn (an empty tile is fine if there is no damage). "Skip": unusable because of cloud, snow or bad alignment.</p>
+  </aside>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

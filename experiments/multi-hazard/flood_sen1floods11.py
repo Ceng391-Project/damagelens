@@ -74,9 +74,17 @@ for s in ["test", "bolivia"]:
     preds[("S1 VV threshold", s)] = data[s][2][:, 0] < thr["S1 VV threshold"]
 
 histories = {}
+prev = json.load(open(OUT / "results.json"))["histories"] if (OUT / "results.json").exists() else {}
 for name, fx in feats.items():
-    print("training", name, flush=True)
-    model, hist = train_binary(fx("train"), data["train"][3], fx("valid"), data["valid"][3], epochs=30, crop=256)
+    ckpt = OUT / f"unet_{name.replace('+', '_')}.pt"
+    if ckpt.exists() and f"U-Net {name}" in prev:  # reuse the trained model so re-plotting does not change the numbers
+        import segmentation_models_pytorch as smp
+        from seg import DEV
+        model = smp.Unet("resnet18", encoder_weights=None, in_channels=fx("valid").shape[1], classes=1).to(DEV)
+        model.load_state_dict(torch.load(ckpt, map_location=DEV)); hist = prev[f"U-Net {name}"]
+    else:
+        print("training", name, flush=True)
+        model, hist = train_binary(fx("train"), data["train"][3], fx("valid"), data["valid"][3], epochs=30, crop=256)
     histories[f"U-Net {name}"] = hist
     for s in ["test", "bolivia"]:
         preds[(f"U-Net {name}", s)] = predict(model, fx(s)) > 0.5
@@ -98,10 +106,10 @@ json.dump(dict(thresholds=thr, results=results, histories=histories), open(OUT /
 
 # charts
 fig, ax = plt.subplots(1, 2, figsize=(13, 4.5))
-for a, s, title in [(ax[0], "test", "Test (11 ülke, 90 kare)"), (ax[1], "bolivia", "Bolivia (eğitimde görülmemiş olay)")]:
+for a, s, title in [(ax[0], "test", "Test (11 countries, 90 chips)"), (ax[1], "bolivia", "Bolivia (event unseen in training)")]:
     w = 0.38; x = np.arange(len(methods))
-    a.bar(x - w / 2, [results[f"{m}|{s}"]["all"]["iou"] for m in methods], w, label="Tüm su (IoU)", color="#3b6ea5")
-    a.bar(x + w / 2, [results[f"{m}|{s}"]["flood_only"]["iou"] for m in methods], w, label="Sadece taşkın suyu (IoU)", color="#e07b39")
+    a.bar(x - w / 2, [results[f"{m}|{s}"]["all"]["iou"] for m in methods], w, label="All water (IoU)", color="#3b6ea5")
+    a.bar(x + w / 2, [results[f"{m}|{s}"]["flood_only"]["iou"] for m in methods], w, label="Flood water only (IoU)", color="#e07b39")
     a.set_xticks(x, methods, rotation=25, ha="right"); a.set_ylim(0, 1); a.set_title(title); a.grid(axis="y", alpha=.3)
     for i, m in enumerate(methods):
         a.text(i - w / 2, results[f"{m}|{s}"]["all"]["iou"] + .01, f'{results[f"{m}|{s}"]["all"]["iou"]:.2f}', ha="center", fontsize=8)
@@ -116,13 +124,13 @@ a.set_xticks(range(len(countries)), countries, rotation=30, ha="right"); a.set_y
 for i in range(M.shape[0]):
     for j in range(M.shape[1]):
         a.text(j, i, f"{M[i, j]:.2f}", ha="center", va="center", color="w" if M[i, j] < .6 else "k", fontsize=8)
-plt.colorbar(im, label="IoU"); a.set_title("Ülke/olay bazında IoU (test)")
+plt.colorbar(im, label="IoU"); a.set_title("IoU per country/event (test)")
 plt.tight_layout(); plt.savefig(OUT / "iou_by_country.png", dpi=110); plt.close()
 
 fig, a = plt.subplots(figsize=(7, 4))
 for k, h in histories.items():
     a.plot([e["val_f1"] for e in h], label=k)
-a.set_xlabel("epoch"); a.set_ylabel("val F1"); a.legend(); a.grid(alpha=.3); a.set_title("Eğitim eğrileri")
+a.set_xlabel("epoch"); a.set_ylabel("val F1"); a.legend(); a.grid(alpha=.3); a.set_title("Training curves")
 plt.tight_layout(); plt.savefig(OUT / "training_curves.png", dpi=110); plt.close()
 
 s = "test"
@@ -132,8 +140,8 @@ fig, ax = plt.subplots(4, 5, figsize=(15, 12))
 for r, k in enumerate(pick):
     rgb = np.clip(data[s][1][k][[3, 2, 1]].astype(np.float32).transpose(1, 2, 0) * 3.5, 0, 1)
     y = data[s][3][k].astype(float); y[y == 255] = np.nan
-    panels = [(rgb, f"S2 RGB — {data[s][0][k]}"), (data[s][2][k][0].astype(np.float32), "S1 VV (dB)"), (y, "Etiket"),
-              (preds[("MNDWI", s)][k], "MNDWI eşik"), (preds[("U-Net S1+S2", s)][k], "U-Net S1+S2")]
+    panels = [(rgb, f"S2 RGB — {data[s][0][k]}"), (data[s][2][k][0].astype(np.float32), "S1 VV (dB)"), (y, "Label"),
+              (preds[("MNDWI", s)][k], "MNDWI threshold"), (preds[("U-Net S1+S2", s)][k], "U-Net S1+S2")]
     for c, (im, t) in enumerate(panels):
         ax[r, c].imshow(im, cmap=None if im.ndim == 3 else ("gray" if c == 1 else "Blues"))
         ax[r, c].set_title(t, fontsize=9); ax[r, c].axis("off")

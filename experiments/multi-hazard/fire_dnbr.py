@@ -20,13 +20,13 @@ OUT.mkdir(parents=True, exist_ok=True)
 NIFC = "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/{}/FeatureServer/0/query"
 
 FIRES = {
-    "Palisades (LA, Oca 2025)": dict(src="nifc", svc="WFIGS_Interagency_Perimeters",
+    "Palisades (LA, Jan 2025)": dict(src="nifc", svc="WFIGS_Interagency_Perimeters",
                                      where="poly_IncidentName='PALISADES' AND poly_GISAcres>20000", pre="2024-12-15/2025-01-06", post="2025-01-25/2025-02-15"),
-    "Eaton (LA, Oca 2025)": dict(src="nifc", svc="WFIGS_Interagency_Perimeters",
+    "Eaton (LA, Jan 2025)": dict(src="nifc", svc="WFIGS_Interagency_Perimeters",
                                  where="poly_IncidentName='Eaton' AND poly_GISAcres>10000", pre="2024-12-15/2025-01-06", post="2025-01-25/2025-02-15"),
-    "Camp (Paradise, Kas 2018)": dict(src="nifc", svc="InterAgencyFirePerimeterHistory_All_Years_View",
+    "Camp (Paradise, Nov 2018)": dict(src="nifc", svc="InterAgencyFirePerimeterHistory_All_Years_View",
                                       where="INCIDENT='CAMP' AND FIRE_YEAR_INT=2018 AND GIS_ACRES>100000", pre="2018-10-15/2018-11-07", post="2018-11-26/2018-12-31"),
-    "Manavgat (Antalya, Tem 2021)": dict(src="effis", bbox=[31.2, 36.6, 32.3, 37.3], date="2021-07-2", pre="2021-07-05/2021-07-27", post="2021-08-10/2021-09-05"),
+    "Manavgat (Antalya, Jul 2021)": dict(src="effis", bbox=[31.2, 36.6, 32.3, 37.3], date="2021-07-2", pre="2021-07-05/2021-07-27", post="2021-08-10/2021-09-05"),
 }
 
 
@@ -68,7 +68,7 @@ for name, cfg in FIRES.items():
     valid = np.isfinite(dnbr)
     otsu = float(threshold_otsu(dnbr[valid]))
     r = {}
-    for lab, t in [("dNBR>0.10 (USGS düşük şiddet)", 0.10), ("dNBR>0.27 (USGS orta-düşük)", 0.27), (f"Otsu ({otsu:.2f})", otsu)]:
+    for lab, t in [("dNBR>0.10 (USGS low)", 0.10), ("dNBR>0.27 (USGS moderate-low)", 0.27), (f"Otsu ({otsu:.2f})", otsu)]:
         p = dnbr > t
         sc = binary_scores(p, gt, valid)
         lat = (s + n) / 2
@@ -76,9 +76,9 @@ for name, cfg in FIRES.items():
         sc.update(area_pred_km2=float((p & valid).sum() * px_km2), area_official_km2=float(gt.sum() * px_km2))
         r[lab] = sc
     inside = dnbr[gt & valid]
-    sev = {"yanmamış (<0.1)": float((inside < .1).mean()), "düşük (0.1–0.27)": float(((inside >= .1) & (inside < .27)).mean()),
-           "orta-düşük (0.27–0.44)": float(((inside >= .27) & (inside < .44)).mean()), "orta-yüksek (0.44–0.66)": float(((inside >= .44) & (inside < .66)).mean()),
-           "yüksek (≥0.66)": float((inside >= .66).mean())}
+    sev = {"unburned (<0.1)": float((inside < .1).mean()), "low (0.1–0.27)": float(((inside >= .1) & (inside < .27)).mean()),
+           "moderate-low (0.27–0.44)": float(((inside >= .27) & (inside < .44)).mean()), "moderate-high (0.44–0.66)": float(((inside >= .44) & (inside < .66)).mean()),
+           "high (≥0.66)": float((inside >= .66).mean())}
     results[name] = dict(scores=r, severity_inside=sev, pre_scenes=len(pre_ids), post_scenes=len(post_ids),
                          valid_fraction=float(valid.mean()), res_deg=res)
     fig_maps.append((name, nbr(pre), nbr(post), dnbr, gt, dnbr > 0.10, bbox, valid))
@@ -88,12 +88,12 @@ json.dump(results, open(OUT / "results.json", "w"), indent=2)
 fig, ax = plt.subplots(len(fig_maps), 4, figsize=(18, 4.3 * len(fig_maps)))
 for i, (name, a, b, d, gt, p, bb, vd) in enumerate(fig_maps):
     ext = [bb[0], bb[2], bb[1], bb[3]]
-    ax[i, 0].imshow(a, cmap="RdYlGn", vmin=-.5, vmax=.8, extent=ext); ax[i, 0].set_title(f"{name}\nNBR öncesi")
-    ax[i, 1].imshow(b, cmap="RdYlGn", vmin=-.5, vmax=.8, extent=ext); ax[i, 1].set_title("NBR sonrası")
-    im = ax[i, 2].imshow(d, cmap="inferno", vmin=-.1, vmax=1, extent=ext); ax[i, 2].set_title("dNBR (yanma şiddeti)")
+    ax[i, 0].imshow(a, cmap="RdYlGn", vmin=-.5, vmax=.8, extent=ext); ax[i, 0].set_title(f"{name}\nNBR pre")
+    ax[i, 1].imshow(b, cmap="RdYlGn", vmin=-.5, vmax=.8, extent=ext); ax[i, 1].set_title("NBR post")
+    im = ax[i, 2].imshow(d, cmap="inferno", vmin=-.1, vmax=1, extent=ext); ax[i, 2].set_title("dNBR (burn severity)")
     ax[i, 2].contour(np.flipud(gt).astype(float), [.5], colors="c", linewidths=.8, extent=ext, origin="lower")
     ov = np.zeros(gt.shape + (3,)); ov[p & gt] = [0, .7, 0]; ov[p & ~gt] = [.9, .2, .2]; ov[~p & gt] = [.2, .3, .9]; ov[~vd] = [.6, .6, .6]
-    ax[i, 3].imshow(ov, extent=ext); ax[i, 3].set_title("yeşil=doğru, kırmızı=yanlış alarm,\nmavi=kaçırılan, gri=bulut/veri yok", fontsize=9)
+    ax[i, 3].imshow(ov, extent=ext); ax[i, 3].set_title("green=hit, red=false alarm,\nblue=missed, grey=cloud/no data", fontsize=9)
 plt.tight_layout(); plt.savefig(OUT / "maps.png", dpi=70); plt.close()
 
 names = list(results); labs0 = list(next(iter(results.values()))["scores"])
@@ -101,14 +101,14 @@ fig, ax = plt.subplots(1, 3, figsize=(18, 4.8))
 x = np.arange(len(names))
 ax[0].bar(x - .2, [results[n]["scores"][labs0[0]]["iou"] for n in names], .4, label="dNBR>0.10")
 ax[0].bar(x + .2, [list(results[n]["scores"].values())[2]["iou"] for n in names], .4, label="Otsu")
-ax[0].set_xticks(x, names, rotation=15, ha="right"); ax[0].set_ylim(0, 1); ax[0].set_ylabel("IoU (resmi sınıra göre)"); ax[0].legend(); ax[0].grid(axis="y", alpha=.3)
-ax[0].set_title("Yanık alanı tespiti")
-ax[1].bar(x - .2, [results[n]["scores"][labs0[0]]["area_official_km2"] for n in names], .4, label="Resmi alan")
-ax[1].bar(x + .2, [results[n]["scores"][labs0[0]]["area_pred_km2"] for n in names], .4, label="Uydu (dNBR>0.10)")
-ax[1].set_xticks(x, names, rotation=15, ha="right"); ax[1].set_ylabel("km²"); ax[1].legend(); ax[1].grid(axis="y", alpha=.3); ax[1].set_title("Alan tahmini (tampon bölge dahil)")
+ax[0].set_xticks(x, names, rotation=15, ha="right"); ax[0].set_ylim(0, 1); ax[0].set_ylabel("IoU vs official perimeter"); ax[0].legend(); ax[0].grid(axis="y", alpha=.3)
+ax[0].set_title("Burned-area detection")
+ax[1].bar(x - .2, [results[n]["scores"][labs0[0]]["area_official_km2"] for n in names], .4, label="Official area")
+ax[1].bar(x + .2, [results[n]["scores"][labs0[0]]["area_pred_km2"] for n in names], .4, label="Satellite (dNBR>0.10)")
+ax[1].set_xticks(x, names, rotation=15, ha="right"); ax[1].set_ylabel("km²"); ax[1].legend(); ax[1].grid(axis="y", alpha=.3); ax[1].set_title("Area estimate (incl. buffer)")
 sev_keys = list(next(iter(results.values()))["severity_inside"]); bottom = np.zeros(len(names))
 cols = ["#cfcfcf", "#ffe08a", "#f4a259", "#d1495b", "#5c1a33"]
 for k, c in zip(sev_keys, cols):
     v = np.array([results[n]["severity_inside"][k] for n in names]); ax[2].bar(x, v, bottom=bottom, label=k, color=c); bottom += v
-ax[2].set_xticks(x, names, rotation=15, ha="right"); ax[2].set_ylabel("sınır içi oran"); ax[2].legend(fontsize=8); ax[2].set_title("Resmi sınır içinde yanma şiddeti dağılımı")
+ax[2].set_xticks(x, names, rotation=15, ha="right"); ax[2].set_ylabel("fraction inside perimeter"); ax[2].legend(fontsize=8); ax[2].set_title("Burn severity inside the official perimeter")
 plt.tight_layout(); plt.savefig(OUT / "metrics.png", dpi=100); plt.close()

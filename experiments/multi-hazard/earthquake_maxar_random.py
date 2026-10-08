@@ -23,8 +23,8 @@ ROOT = Path(__file__).parent
 OUT = ROOT / "outputs" / "earthquake_maxar"
 OUT.mkdir(parents=True, exist_ok=True)
 meta = json.load(open(ROOT.parent.parent / "data/maxar_tr/index.json"))
-CITIES = {"Antakya (Hatay)": [36.10, 36.15, 36.25, 36.40], "Kahramanmaraş merkez": [36.88, 37.55, 36.97, 37.61],
-          "Gaziantep merkez": [37.30, 37.03, 37.43, 37.10], "İslahiye / Nurdağı": [36.55, 36.98, 36.72, 37.20]}
+CITIES = {"Antakya (Hatay)": [36.10, 36.15, 36.25, 36.40], "Kahramanmaraş centre": [36.88, 37.55, 36.97, 37.61],
+          "Gaziantep centre": [37.30, 37.03, 37.43, 37.10], "İslahiye / Nurdağı": [36.55, 36.98, 36.72, 37.20]}
 N_PER_CITY, SIZE, GSD = 16, 512, 0.5
 rng = np.random.default_rng(2023)
 
@@ -119,15 +119,15 @@ print(json.dumps(summary, indent=1))
 cs = [c for c in summary if not c.startswith("_")]
 fig, ax = plt.subplots(1, 2, figsize=(15, 4.5)); x = np.arange(len(cs))
 nz = lambda v: 0 if v is None else v
-ax[0].bar(x - .2, [nz(summary[c]["clean_urban"]["kate_damage_frac_mean"]) for c in cs], .4, label="KATE-CD modeli: hasarlı piksel oranı")
-ax[0].bar(x + .2, [nz(summary[c]["clean_urban"]["xbd_damaged_share_mean"]) for c in cs], .4, label="xBD modeli: binaların ağır+yıkık payı")
+ax[0].bar(x - .2, [nz(summary[c]["clean_urban"]["kate_damage_frac_mean"]) for c in cs], .4, label="KATE-CD model: damaged pixel fraction")
+ax[0].bar(x + .2, [nz(summary[c]["clean_urban"]["xbd_damaged_share_mean"]) for c in cs], .4, label="xBD model: major+destroyed share of buildings")
 ax[0].set_xticks(x, [f"{c}\n(n={summary[c]['clean_urban']['tiles']})" for c in cs], fontsize=8); ax[0].legend(fontsize=8); ax[0].grid(axis="y", alpha=.3)
-ax[0].set_title("Temiz kentsel rastgele kareler (yerleşim ≥%40, kar/bulut <%10)")
-g = ["temiz kentsel", "kar/bulut ≥%10"]
-ax[1].bar(np.arange(2) - .2, [summary_all["kate_on_clean"], summary_all["kate_on_snow_cloud"]], .4, label="KATE-CD modeli")
-ax[1].bar(np.arange(2) + .2, [summary_all["xbd_on_clean"], summary_all["xbd_on_snow_cloud"]], .4, label="xBD modeli")
+ax[0].set_title("Clean urban random tiles (built-up ≥40 %, snow/cloud <10 %)")
+g = ["clean urban", "snow/cloud ≥10 %"]
+ax[1].bar(np.arange(2) - .2, [summary_all["kate_on_clean"], summary_all["kate_on_snow_cloud"]], .4, label="KATE-CD model")
+ax[1].bar(np.arange(2) + .2, [summary_all["xbd_on_clean"], summary_all["xbd_on_snow_cloud"]], .4, label="xBD model")
 ax[1].set_xticks(range(2), [f"{g[0]} (n={summary_all['n_clean']})", f"{g[1]} (n={summary_all['n_snow_cloud']})"]); ax[1].legend(); ax[1].grid(axis="y", alpha=.3)
-ax[1].set_title("Başarısızlık modu: kar ve bulut sahte 'hasar' üretiyor")
+ax[1].set_title("Failure mode: snow and cloud produce false 'damage'")
 plt.tight_layout(); plt.savefig(OUT / "city_summary.png", dpi=100); plt.close()
 
 COL = np.array([[0, 0, 0], [60, 180, 75], [255, 225, 25], [245, 130, 48], [230, 25, 75]], np.uint8)
@@ -137,11 +137,11 @@ for c in cs:
 show += sorted([v for v in vis if v[0]["snow_cloud_frac"] >= .1], key=lambda v: -v[3].mean())[:2]
 fig, ax = plt.subplots(len(show), 4, figsize=(14, 3.6 * len(show)))
 for r, (info, a, p, k, cls) in enumerate(show):
-    tag = "" if info["clean_urban"] else f" [kar/bulut %{100 * info['snow_cloud_frac']:.0f}]"
-    ax[r, 0].imshow(a); ax[r, 0].set_title(f"{info['city']}{tag} — öncesi {info['pre']}", fontsize=9)
-    ax[r, 1].imshow(p); ax[r, 1].set_title(f"sonrası {info['post']}", fontsize=9)
+    tag = "" if info["clean_urban"] else f" [snow/cloud {100 * info['snow_cloud_frac']:.0f} %]"
+    ax[r, 0].imshow(a); ax[r, 0].set_title(f"{info['city']}{tag} — pre {info['pre']}", fontsize=9)
+    ax[r, 1].imshow(p); ax[r, 1].set_title(f"post {info['post']}", fontsize=9)
     ov = p.copy(); ov[k] = (0.5 * ov[k] + [127, 0, 0]).astype(np.uint8)
-    ax[r, 2].imshow(ov); ax[r, 2].set_title("KATE-CD modeli (kırmızı = hasar)", fontsize=9)
-    ax[r, 3].imshow(COL[cls]); ax[r, 3].set_title("xBD modeli (yeşil hasarsız → kırmızı yıkık)", fontsize=9)
+    ax[r, 2].imshow(ov); ax[r, 2].set_title("KATE-CD model (red = damage)", fontsize=9)
+    ax[r, 3].imshow(COL[cls]); ax[r, 3].set_title("xBD model (green intact → red destroyed)", fontsize=9)
     for q in ax[r]: q.axis("off")
 plt.tight_layout(); plt.savefig(OUT / "samples.png", dpi=65); plt.close()

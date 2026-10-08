@@ -1,0 +1,847 @@
+{
+ "name": "kahramanmaras-center",
+ "lon": 36.925,
+ "lat": 37.585,
+ "side_m": 2048.0,
+ "gsd": 0.5,
+ "crs": "EPSG:32637",
+ "tile": 512,
+ "pre_date": "2022-07-26",
+ "post_date": "2023-02-08",
+ "created": "2026-10-07T17:01:41+00:00",
+ "source": "Maxar Open Data, Kahramanmaras-turkey-earthquake-23 (CC BY-NC 4.0)",
+ "tiles": [
+  {
+   "id": "kahramanmaras-center_000",
+   "row": 0,
+   "col": 0,
+   "x0": 315764.3506673548,
+   "y0": 4162819.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.06317901611328125
+  },
+  {
+   "id": "kahramanmaras-center_001",
+   "row": 0,
+   "col": 512,
+   "x0": 316020.3506673548,
+   "y0": 4162819.5415006606,
+   "pre_shift_px": [
+    0.0,
+    17.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.09320449829101562
+  },
+  {
+   "id": "kahramanmaras-center_002",
+   "row": 0,
+   "col": 1024,
+   "x0": 316276.3506673548,
+   "y0": 4162819.5415006606,
+   "pre_shift_px": [
+    -27.0,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.06745529174804688
+  },
+  {
+   "id": "kahramanmaras-center_003",
+   "row": 0,
+   "col": 1536,
+   "x0": 316532.3506673548,
+   "y0": 4162819.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.10994338989257812
+  },
+  {
+   "id": "kahramanmaras-center_004",
+   "row": 0,
+   "col": 2048,
+   "x0": 316788.3506673548,
+   "y0": 4162819.5415006606,
+   "pre_shift_px": [
+    0.0,
+    14.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.0595855712890625
+  },
+  {
+   "id": "kahramanmaras-center_005",
+   "row": 0,
+   "col": 2560,
+   "x0": 317044.3506673548,
+   "y0": 4162819.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.10057830810546875
+  },
+  {
+   "id": "kahramanmaras-center_006",
+   "row": 0,
+   "col": 3072,
+   "x0": 317300.3506673548,
+   "y0": 4162819.5415006606,
+   "pre_shift_px": [
+    0.0,
+    21.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.07091522216796875
+  },
+  {
+   "id": "kahramanmaras-center_007",
+   "row": 0,
+   "col": 3584,
+   "x0": 317556.3506673548,
+   "y0": 4162819.5415006606,
+   "pre_shift_px": [
+    -1.25,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.11939620971679688
+  },
+  {
+   "id": "kahramanmaras-center_008",
+   "row": 512,
+   "col": 0,
+   "x0": 315764.3506673548,
+   "y0": 4162563.5415006606,
+   "pre_shift_px": [
+    0.0,
+    15.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.06833267211914062
+  },
+  {
+   "id": "kahramanmaras-center_009",
+   "row": 512,
+   "col": 512,
+   "x0": 316020.3506673548,
+   "y0": 4162563.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.0733489990234375
+  },
+  {
+   "id": "kahramanmaras-center_010",
+   "row": 512,
+   "col": 1024,
+   "x0": 316276.3506673548,
+   "y0": 4162563.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.07390975952148438
+  },
+  {
+   "id": "kahramanmaras-center_011",
+   "row": 512,
+   "col": 1536,
+   "x0": 316532.3506673548,
+   "y0": 4162563.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.09331893920898438
+  },
+  {
+   "id": "kahramanmaras-center_012",
+   "row": 512,
+   "col": 2048,
+   "x0": 316788.3506673548,
+   "y0": 4162563.5415006606,
+   "pre_shift_px": [
+    0.0,
+    7.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.056121826171875
+  },
+  {
+   "id": "kahramanmaras-center_013",
+   "row": 512,
+   "col": 2560,
+   "x0": 317044.3506673548,
+   "y0": 4162563.5415006606,
+   "pre_shift_px": [
+    0.0,
+    6.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.07848739624023438
+  },
+  {
+   "id": "kahramanmaras-center_014",
+   "row": 512,
+   "col": 3072,
+   "x0": 317300.3506673548,
+   "y0": 4162563.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.09722518920898438
+  },
+  {
+   "id": "kahramanmaras-center_015",
+   "row": 512,
+   "col": 3584,
+   "x0": 317556.3506673548,
+   "y0": 4162563.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.0780181884765625
+  },
+  {
+   "id": "kahramanmaras-center_016",
+   "row": 1024,
+   "col": 0,
+   "x0": 315764.3506673548,
+   "y0": 4162307.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.10152435302734375
+  },
+  {
+   "id": "kahramanmaras-center_017",
+   "row": 1024,
+   "col": 512,
+   "x0": 316020.3506673548,
+   "y0": 4162307.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.0929718017578125
+  },
+  {
+   "id": "kahramanmaras-center_018",
+   "row": 1024,
+   "col": 1024,
+   "x0": 316276.3506673548,
+   "y0": 4162307.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.074462890625
+  },
+  {
+   "id": "kahramanmaras-center_019",
+   "row": 1024,
+   "col": 1536,
+   "x0": 316532.3506673548,
+   "y0": 4162307.5415006606,
+   "pre_shift_px": [
+    0.0,
+    12.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.0616607666015625
+  },
+  {
+   "id": "kahramanmaras-center_020",
+   "row": 1024,
+   "col": 2048,
+   "x0": 316788.3506673548,
+   "y0": 4162307.5415006606,
+   "pre_shift_px": [
+    0.0,
+    33.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.06426239013671875
+  },
+  {
+   "id": "kahramanmaras-center_021",
+   "row": 1024,
+   "col": 2560,
+   "x0": 317044.3506673548,
+   "y0": 4162307.5415006606,
+   "pre_shift_px": [
+    0.0,
+    20.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.08988189697265625
+  },
+  {
+   "id": "kahramanmaras-center_022",
+   "row": 1024,
+   "col": 3072,
+   "x0": 317300.3506673548,
+   "y0": 4162307.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.06170654296875
+  },
+  {
+   "id": "kahramanmaras-center_023",
+   "row": 1024,
+   "col": 3584,
+   "x0": 317556.3506673548,
+   "y0": 4162307.5415006606,
+   "pre_shift_px": [
+    0.0,
+    13.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.07391357421875
+  },
+  {
+   "id": "kahramanmaras-center_024",
+   "row": 1536,
+   "col": 0,
+   "x0": 315764.3506673548,
+   "y0": 4162051.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.11401748657226562
+  },
+  {
+   "id": "kahramanmaras-center_025",
+   "row": 1536,
+   "col": 512,
+   "x0": 316020.3506673548,
+   "y0": 4162051.5415006606,
+   "pre_shift_px": [
+    0.0,
+    22.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.08170700073242188
+  },
+  {
+   "id": "kahramanmaras-center_026",
+   "row": 1536,
+   "col": 1024,
+   "x0": 316276.3506673548,
+   "y0": 4162051.5415006606,
+   "pre_shift_px": [
+    2.25,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.06258010864257812
+  },
+  {
+   "id": "kahramanmaras-center_027",
+   "row": 1536,
+   "col": 1536,
+   "x0": 316532.3506673548,
+   "y0": 4162051.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.5
+   ],
+   "registered": true,
+   "snow_cloud": 0.09595870971679688
+  },
+  {
+   "id": "kahramanmaras-center_028",
+   "row": 1536,
+   "col": 2048,
+   "x0": 316788.3506673548,
+   "y0": 4162051.5415006606,
+   "pre_shift_px": [
+    0.0,
+    13.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.057193756103515625
+  },
+  {
+   "id": "kahramanmaras-center_029",
+   "row": 1536,
+   "col": 2560,
+   "x0": 317044.3506673548,
+   "y0": 4162051.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.07859420776367188
+  },
+  {
+   "id": "kahramanmaras-center_030",
+   "row": 1536,
+   "col": 3072,
+   "x0": 317300.3506673548,
+   "y0": 4162051.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.051464080810546875
+  },
+  {
+   "id": "kahramanmaras-center_031",
+   "row": 1536,
+   "col": 3584,
+   "x0": 317556.3506673548,
+   "y0": 4162051.5415006606,
+   "pre_shift_px": [
+    0.0,
+    12.75
+   ],
+   "registered": true,
+   "snow_cloud": 0.058795928955078125
+  },
+  {
+   "id": "kahramanmaras-center_032",
+   "row": 2048,
+   "col": 0,
+   "x0": 315764.3506673548,
+   "y0": 4161795.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.050487518310546875
+  },
+  {
+   "id": "kahramanmaras-center_033",
+   "row": 2048,
+   "col": 512,
+   "x0": 316020.3506673548,
+   "y0": 4161795.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.04708099365234375
+  },
+  {
+   "id": "kahramanmaras-center_034",
+   "row": 2048,
+   "col": 1024,
+   "x0": 316276.3506673548,
+   "y0": 4161795.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.0590667724609375
+  },
+  {
+   "id": "kahramanmaras-center_035",
+   "row": 2048,
+   "col": 1536,
+   "x0": 316532.3506673548,
+   "y0": 4161795.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.056720733642578125
+  },
+  {
+   "id": "kahramanmaras-center_036",
+   "row": 2048,
+   "col": 2048,
+   "x0": 316788.3506673548,
+   "y0": 4161795.5415006606,
+   "pre_shift_px": [
+    0.0,
+    12.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.11260986328125
+  },
+  {
+   "id": "kahramanmaras-center_037",
+   "row": 2048,
+   "col": 2560,
+   "x0": 317044.3506673548,
+   "y0": 4161795.5415006606,
+   "pre_shift_px": [
+    0.0,
+    16.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.082794189453125
+  },
+  {
+   "id": "kahramanmaras-center_038",
+   "row": 2048,
+   "col": 3072,
+   "x0": 317300.3506673548,
+   "y0": 4161795.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.08035659790039062
+  },
+  {
+   "id": "kahramanmaras-center_039",
+   "row": 2048,
+   "col": 3584,
+   "x0": 317556.3506673548,
+   "y0": 4161795.5415006606,
+   "pre_shift_px": [
+    0.0,
+    12.5
+   ],
+   "registered": true,
+   "snow_cloud": 0.07469558715820312
+  },
+  {
+   "id": "kahramanmaras-center_040",
+   "row": 2560,
+   "col": 0,
+   "x0": 315764.3506673548,
+   "y0": 4161539.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.06052398681640625
+  },
+  {
+   "id": "kahramanmaras-center_041",
+   "row": 2560,
+   "col": 512,
+   "x0": 316020.3506673548,
+   "y0": 4161539.5415006606,
+   "pre_shift_px": [
+    0.0,
+    -0.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.054473876953125
+  },
+  {
+   "id": "kahramanmaras-center_042",
+   "row": 2560,
+   "col": 1024,
+   "x0": 316276.3506673548,
+   "y0": 4161539.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.059238433837890625
+  },
+  {
+   "id": "kahramanmaras-center_043",
+   "row": 2560,
+   "col": 1536,
+   "x0": 316532.3506673548,
+   "y0": 4161539.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.060604095458984375
+  },
+  {
+   "id": "kahramanmaras-center_044",
+   "row": 2560,
+   "col": 2048,
+   "x0": 316788.3506673548,
+   "y0": 4161539.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.18138504028320312
+  },
+  {
+   "id": "kahramanmaras-center_045",
+   "row": 2560,
+   "col": 2560,
+   "x0": 317044.3506673548,
+   "y0": 4161539.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.15481185913085938
+  },
+  {
+   "id": "kahramanmaras-center_046",
+   "row": 2560,
+   "col": 3072,
+   "x0": 317300.3506673548,
+   "y0": 4161539.5415006606,
+   "pre_shift_px": [
+    0.0,
+    14.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.09297561645507812
+  },
+  {
+   "id": "kahramanmaras-center_047",
+   "row": 2560,
+   "col": 3584,
+   "x0": 317556.3506673548,
+   "y0": 4161539.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.07196044921875
+  },
+  {
+   "id": "kahramanmaras-center_048",
+   "row": 3072,
+   "col": 0,
+   "x0": 315764.3506673548,
+   "y0": 4161283.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.07550430297851562
+  },
+  {
+   "id": "kahramanmaras-center_049",
+   "row": 3072,
+   "col": 512,
+   "x0": 316020.3506673548,
+   "y0": 4161283.5415006606,
+   "pre_shift_px": [
+    12.75,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.08203887939453125
+  },
+  {
+   "id": "kahramanmaras-center_050",
+   "row": 3072,
+   "col": 1024,
+   "x0": 316276.3506673548,
+   "y0": 4161283.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.11249923706054688
+  },
+  {
+   "id": "kahramanmaras-center_051",
+   "row": 3072,
+   "col": 1536,
+   "x0": 316532.3506673548,
+   "y0": 4161283.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.11793136596679688
+  },
+  {
+   "id": "kahramanmaras-center_052",
+   "row": 3072,
+   "col": 2048,
+   "x0": 316788.3506673548,
+   "y0": 4161283.5415006606,
+   "pre_shift_px": [
+    0.0,
+    16.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.09981918334960938
+  },
+  {
+   "id": "kahramanmaras-center_053",
+   "row": 3072,
+   "col": 2560,
+   "x0": 317044.3506673548,
+   "y0": 4161283.5415006606,
+   "pre_shift_px": [
+    -0.25,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.13530731201171875
+  },
+  {
+   "id": "kahramanmaras-center_054",
+   "row": 3072,
+   "col": 3072,
+   "x0": 317300.3506673548,
+   "y0": 4161283.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.11836624145507812
+  },
+  {
+   "id": "kahramanmaras-center_055",
+   "row": 3072,
+   "col": 3584,
+   "x0": 317556.3506673548,
+   "y0": 4161283.5415006606,
+   "pre_shift_px": [
+    0.0,
+    -20.25
+   ],
+   "registered": true,
+   "snow_cloud": 0.06974029541015625
+  },
+  {
+   "id": "kahramanmaras-center_056",
+   "row": 3584,
+   "col": 0,
+   "x0": 315764.3506673548,
+   "y0": 4161027.5415006606,
+   "pre_shift_px": [
+    0.0,
+    25.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.052494049072265625
+  },
+  {
+   "id": "kahramanmaras-center_057",
+   "row": 3584,
+   "col": 512,
+   "x0": 316020.3506673548,
+   "y0": 4161027.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.08197402954101562
+  },
+  {
+   "id": "kahramanmaras-center_058",
+   "row": 3584,
+   "col": 1024,
+   "x0": 316276.3506673548,
+   "y0": 4161027.5415006606,
+   "pre_shift_px": [
+    0.0,
+    39.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.13453292846679688
+  },
+  {
+   "id": "kahramanmaras-center_059",
+   "row": 3584,
+   "col": 1536,
+   "x0": 316532.3506673548,
+   "y0": 4161027.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.12575531005859375
+  },
+  {
+   "id": "kahramanmaras-center_060",
+   "row": 3584,
+   "col": 2048,
+   "x0": 316788.3506673548,
+   "y0": 4161027.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.102813720703125
+  },
+  {
+   "id": "kahramanmaras-center_061",
+   "row": 3584,
+   "col": 2560,
+   "x0": 317044.3506673548,
+   "y0": 4161027.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.10044097900390625
+  },
+  {
+   "id": "kahramanmaras-center_062",
+   "row": 3584,
+   "col": 3072,
+   "x0": 317300.3506673548,
+   "y0": 4161027.5415006606,
+   "pre_shift_px": [
+    0.0,
+    0.0
+   ],
+   "registered": false,
+   "snow_cloud": 0.10448837280273438
+  },
+  {
+   "id": "kahramanmaras-center_063",
+   "row": 3584,
+   "col": 3584,
+   "x0": 317556.3506673548,
+   "y0": 4161027.5415006606,
+   "pre_shift_px": [
+    5.25,
+    0.0
+   ],
+   "registered": true,
+   "snow_cloud": 0.027118682861328125
+  }
+ ]
+}
