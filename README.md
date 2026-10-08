@@ -16,7 +16,7 @@ Feasibility is done: every step of the assignment was run end to end on open dat
 |---|---|---|
 | Pre/post imagery | `damagelens.data` (`kate`, `xbd`, `maxar`) | KATE-CD (Maxar + Pleiades, 0.3–0.5 m), xBD, raw Maxar Open Data, NAIP aircraft imagery |
 | Align image pairs | `damagelens.align` (phase correlation, ORB + RANSAC) | Raw Maxar pairs are misregistered by a median 12–16 px (~6–8 m) |
-| Find changed regions, segment damage | `damagelens.models`, `damagelens.train` | KATE-CD test F1 **0.55**; xBD 5-class xView2 score **0.62** |
+| Find changed regions, segment damage | `damagelens.models`, `damagelens.train` | KATE-CD test F1 **0.55**; xBD 5-class xView2 score **0.60** |
 | Spatial summary | `damagelens.summarize`, `app/demo.py` | Kahramanmaraş centre, 1.5 km², 48 m cell heat map |
 | Baselines vs learned model | `damagelens.baselines`, `damagelens.evaluate` | 5 classical methods F1 0.08–0.09, U-Net 0.55 |
 
@@ -29,7 +29,7 @@ Feasibility is done: every step of the assignment was run end to end on open dat
 |---|---|---|
 | Image difference (Lab + histogram matching) | 0.083 | 0.043 |
 | CVA / 1−SSIM / PCA-kmeans / CVA+Otsu | 0.083–0.094 | 0.043–0.050 |
-| U-Net trained on xBD, applied to Türkiye directly | 0.108 | 0.057 |
+| U-Net 5-class trained on xBD, applied to Türkiye directly (resolution matched) | 0.139 | 0.075 |
 | U-Net, xBD pretraining + KATE-CD fine-tuning | 0.500 | 0.333 |
 | U-Net, KATE-CD only | 0.552 | 0.382 |
 | **U-Net, KATE-CD + ±16 px shift + 200 undamaged negatives** (`--shift-px 16 --negatives 200`) | **0.579** | **0.407** |
@@ -50,10 +50,10 @@ Detailed reports (method, tables, charts, random cases, limitations per hazard):
 |---|---|---|
 | Flood | Sen1Floods11 (11 countries), Valencia DANA 2024 vs Copernicus EMS | IoU 0.82; Valencia F1 0.66 |
 | Landslide | Landslide4Sense (satellite), UAV set | F1 0.63 / 0.82 |
-| Tornado | xBD; Rolling Fork 2023 NAIP aircraft imagery vs NWS EF points | building F1 0.77; AUC 0.57 on aerial imagery |
+| Tornado | xBD; Rolling Fork 2023 NAIP aircraft imagery vs NWS EF points | building F1 0.76; AUC 0.57 on aerial imagery |
 | Hail | Sentinel-2 ΔNDVI vs NOAA MESH, Nebraska 2022 | ≥60 mm AUC 0.84, ≥25 mm ≈0.6 |
 | Extreme heat | MODIS LST vs stations, 10 cities, summer 2023 | r 0.65, day detection AUC 0.82 |
-| Fire | Sentinel-2 dNBR vs NIFC/EFFIS perimeters; xBD | IoU 0.54–0.86; building F1 0.79 |
+| Fire | Sentinel-2 dNBR vs NIFC/EFFIS perimeters; xBD | IoU 0.54–0.86; building F1 0.81 |
 
 ![xBD by hazard type](docs/figures/xbd_per_type.png)
 
@@ -127,7 +127,8 @@ download_data.sh           data download
 - **KATE-CD has no coordinates,** so the spatial summary needs georeferenced ground truth to be validated. We found no other open building-level set for Türkiye: the HOT OSM export was empty and Copernicus EMS EMSR648 requires a login.
 - **Season, viewing angle, snow and cloud:** many pre images are summer 2022, the post images February 2023. Snow and cloud produce false damage in both models. Prefer December 2022 / January 2023 pre images where available (e.g. Antakya).
 - **Alignment:** a 16 px shift drops F1 from 0.55 to 0.36. Phase correlation brings it back to 0.49; tall buildings have parallax, so a single shift is not enough.
-- **Learning from other disasters does not transfer:** xBD applied to Türkiye directly gets F1 0.11, and xBD pretraining did not help fine-tuning either.
+- **Learning from other disasters does not transfer:** xBD applied to Türkiye directly gets F1 0.11–0.14, and xBD pretraining did not help fine-tuning either.
+- **Splits must be deterministic.** The first xBD run used a tier3 split that changed with Python's per-process hash seed, so evaluation overlapped with training (xView2 0.62 instead of 0.60). Fixed in #21; never iterate a `set` when assigning splits.
 - **Small test set (38 tiles):** report results as mean ± std over 3 seeds or k-fold.
 - **Licences:** xBD is CC BY-NC-SA 4.0 and Maxar Open Data CC BY-NC 4.0, both non-commercial only. The KATE-CD licence is not stated; ask the authors (#4).
 
