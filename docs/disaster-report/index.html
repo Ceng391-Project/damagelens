@@ -40,113 +40,113 @@ a { color: var(--accent); }
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono&display=swap">
 <header><h1>DamageLens</h1>
-<p>Afet türlerine göre uydu ve hava görüntüsü analizi. CENG391 — deprem, sel, heyelan, hortum, dolu, aşırı sıcak ve yangın için açık verilerle yapılan testler: yöntemler, metrikler, grafikler ve rastgele vakalar.</p></header>
-<nav><div class="in"><a href="#genel" data-t="genel">Genel bakış</a><a href="#01-deprem" data-t="01-deprem">Deprem</a><a href="#02-sel" data-t="02-sel">Sel</a><a href="#03-heyelan" data-t="03-heyelan">Heyelan</a><a href="#04-hortum" data-t="04-hortum">Hortum</a><a href="#05-dolu" data-t="05-dolu">Dolu</a><a href="#06-asiri-sicak" data-t="06-asiri-sicak">Aşırı sıcak</a><a href="#07-yangin" data-t="07-yangin">Yangın</a></div></nav>
-<main><section id="genel" class="rep"><h1>DamageLens — afet türlerine göre uydu ve hava görüntüsü analizi</h1>
-<p>Her rapor: veri ve yer gerçeği, yöntemler, metrik tabloları, grafikler, rastgele vaka görselleri, sınırlar ve kaynaklar.
-Kod ve ham çıktılar: <code>experiments/multi-hazard/</code> (her deney bir betik, sonuçlar <code>experiments/multi-hazard/outputs/</code>).</p>
-<p><img alt="Genel bakış" src="img/overview.png" /></p>
+<p>Satellite and aerial image analysis by hazard type. CENG391 — tests on earthquake, flood, landslide, tornado, hail, extreme heat and fire with open data: methods, metrics, charts and random cases.</p></header>
+<nav><div class="in"><a href="#overview" data-t="overview">Overview</a><a href="#01-earthquake" data-t="01-earthquake">Earthquake</a><a href="#02-flood" data-t="02-flood">Flood</a><a href="#03-landslide" data-t="03-landslide">Landslide</a><a href="#04-tornado" data-t="04-tornado">Tornado</a><a href="#05-hail" data-t="05-hail">Hail</a><a href="#06-extreme-heat" data-t="06-extreme-heat">Extreme heat</a><a href="#07-fire" data-t="07-fire">Fire</a></div></nav>
+<main><section id="overview" class="rep"><h1>DamageLens — satellite and aerial image analysis by hazard type</h1>
+<p>Each report: data and ground truth, methods, metric tables, charts, random-case figures, limitations and sources.
+Code and raw outputs: <code>experiments/multi-hazard/</code> (one script per experiment, results in <code>experiments/multi-hazard/outputs/</code>).</p>
+<p><img alt="Overview" src="img/overview.png" /></p>
 <div class="tw"><table>
 <thead>
 <tr>
-<th>afet</th>
-<th>rapor</th>
-<th>platformlar</th>
-<th>ana sonuç</th>
+<th>hazard</th>
+<th>report</th>
+<th>platforms</th>
+<th>headline result</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Deprem</td>
-<td><a href="#01-deprem">01-deprem.md</a></td>
-<td>uydu VHR (Maxar/Pleiades — Google Earth sınıfı)</td>
-<td>6 Şubat F1 0.55; xBD'den aktarım F1 0.11</td>
+<td>Earthquake</td>
+<td><a href="#01-earthquake">01-earthquake.md</a></td>
+<td>VHR satellite (Maxar/Pleiades — Google-Earth-class)</td>
+<td>6 February F1 0.55; transfer from xBD F1 0.14</td>
 </tr>
 <tr>
-<td>Sel</td>
-<td><a href="#02-sel">02-sel.md</a></td>
-<td>uydu (Sentinel-1/2), uydu VHR (xBD)</td>
-<td>11 ülke IoU 0.82; Valencia 2024 F1 0.66</td>
+<td>Flood</td>
+<td><a href="#02-flood">02-flood.md</a></td>
+<td>satellite (Sentinel-1/2), VHR satellite (xBD)</td>
+<td>11 countries IoU 0.82; Valencia 2024 F1 0.66</td>
 </tr>
 <tr>
-<td>Heyelan</td>
-<td><a href="#03-heyelan">03-heyelan.md</a></td>
-<td>uydu (Sentinel-2+DEM), hava (İHA)</td>
-<td>uydu F1 0.63; İHA F1 0.82</td>
+<td>Landslide</td>
+<td><a href="#03-landslide">03-landslide.md</a></td>
+<td>satellite (Sentinel-2 + DEM), aerial (UAV)</td>
+<td>satellite F1 0.63; UAV F1 0.82</td>
 </tr>
 <tr>
-<td>Hortum</td>
-<td><a href="#04-hortum">04-hortum.md</a></td>
-<td>uydu VHR (xBD), hava (NAIP uçak)</td>
-<td>xBD bina F1 0.77; Rolling Fork EF3+ AUC 0.57</td>
+<td>Tornado</td>
+<td><a href="#04-tornado">04-tornado.md</a></td>
+<td>VHR satellite (xBD), aerial (NAIP aircraft)</td>
+<td>xBD building F1 0.76; Rolling Fork EF3+ AUC 0.57</td>
 </tr>
 <tr>
-<td>Dolu</td>
-<td><a href="#05-dolu">05-dolu.md</a></td>
-<td>uydu (Sentinel-2) + radar MESH</td>
+<td>Hail</td>
+<td><a href="#05-hail">05-hail.md</a></td>
+<td>satellite (Sentinel-2) + radar MESH</td>
 <td>≥60 mm AUC 0.84; ≥25 mm AUC 0.61</td>
 </tr>
 <tr>
-<td>Aşırı sıcak</td>
-<td><a href="#06-asiri-sicak">06-asiri-sicak.md</a></td>
-<td>uydu (MODIS LST) + istasyon</td>
-<td>r 0.65; gün tespiti AUC 0.82</td>
+<td>Extreme heat</td>
+<td><a href="#06-extreme-heat">06-extreme-heat.md</a></td>
+<td>satellite (MODIS LST) + stations</td>
+<td>r 0.65; day detection AUC 0.82</td>
 </tr>
 <tr>
-<td>Yangın</td>
-<td><a href="#07-yangin">07-yangin.md</a></td>
-<td>uydu (Sentinel-2), uydu VHR (xBD)</td>
-<td>yanık alanı IoU 0.54–0.86; xBD bina F1 0.79</td>
+<td>Fire</td>
+<td><a href="#07-fire">07-fire.md</a></td>
+<td>satellite (Sentinel-2), VHR satellite (xBD)</td>
+<td>burned area IoU 0.54–0.86; xBD building F1 0.81</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>Google Earth hakkında:</strong> Google Earth görüntüleri kullanım koşulları gereği toplu/otomatik indirilemez. Google Earth'teki afet sonrası çok yüksek çözünürlüklü görüntülerin önemli kısmı Maxar kaynaklıdır; bu çalışmada aynı sınıftaki Maxar Open Data (xBD, KATE-CD, Kahramanmaraş 2023 olayı) kullanıldı. Hava görüntüsü olarak İHA (heyelan) ve uçak (USDA NAIP, hortum) verisi test edildi; helikopter görüntüsü için açık, etiketli bir set bulunamadı.</p></section><section id="01-deprem" class="rep"><h1>Deprem — 6 Şubat 2023 Kahramanmaraş ve xBD depremleri</h1>
-<h2>Özet</h2>
+<p><strong>About Google Earth:</strong> Google Earth imagery cannot be downloaded in bulk or programmatically under its terms of use. Much of the post-disaster very-high-resolution imagery in Google Earth comes from Maxar; this work uses Maxar Open Data of the same class (xBD, KATE-CD, the Kahramanmaraş 2023 event). Aerial imagery was tested with UAV (landslide) and aircraft (USDA NAIP, tornado) data; no open, labelled helicopter dataset was found.</p></section><section id="01-earthquake" class="rep"><h1>Earthquake — 6 February 2023 Kahramanmaraş and the xBD earthquakes</h1>
+<h2>Summary</h2>
 <ul>
-<li><strong>6 Şubat (KATE-CD, Maxar + Pleiades, 0,3–0,5 m — Google Earth sınıfı görüntü):</strong> Türkiye verisiyle eğitilen model test setinde <strong>F1 0.55</strong> (IoU 0.38); basit görüntü farkı 0.08.</li>
-<li><strong>Başka depremlerden öğrenme Türkiye'ye taşınmıyor:</strong> xBD (Meksika 2017, Palu 2018 + diğer afetler) ile eğitilen 5 sınıflı model 6 Şubat'ta doğrudan <strong>F1 0.11</strong>.</li>
-<li><strong>xBD içi deprem/tsunami performansı:</strong> Meksika depreminde bina bulma F1 0.76, ancak binaların yalnızca 0.9%'i hasarlı → hasar sınıfları çok seyrek. Palu tsunamisinde hasarlı/hasarsız bina F1 0.77.</li>
-<li><strong>Rastgele Maxar kareleri (Antakya, Kahramanmaraş, Gaziantep, İslahiye/Nurdağı):</strong> yer gerçeği olmadığı için nitel test. İki bulgu: (1) Şubat görüntülerindeki kar ve bulut her iki modelde sahte hasarı artırıyor; (2) temiz kentsel karelerde iki model çok farklı tahmin veriyor (KATE modeli piksellerin ~%0,3'ünü, xBD modeli binaların ~%10'unu hasarlı sayıyor) — ağır hasarlı Antakya'da bile KATE modelinin neredeyse hiç hasar işaretlememesi, etiketli test setindeki F1'in yeni sahnelere doğrudan taşınmadığını gösteriyor (KATE-CD eğitim karelerinin hepsinde hasar vardı; model yüksek eşikle çalışıyor).</li>
+<li><strong>6 February (KATE-CD, Maxar + Pleiades, 0.3–0.5 m — Google-Earth-class imagery):</strong> a model trained on Türkiye data reaches <strong>F1 0.55</strong> (IoU 0.38) on the test split; plain image differencing gets 0.08.</li>
+<li><strong>Learning from other earthquakes does not transfer to Türkiye:</strong> the 5-class model trained on xBD (Mexico 2017, Palu 2018 and other disasters) scores <strong>F1 0.14</strong> on 6 February without fine-tuning.</li>
+<li><strong>Earthquake/tsunami events inside xBD:</strong> building localisation F1 0.77 for the Mexico earthquake, but only 0.9% of its buildings are damaged, so the damage classes are very sparse. Palu tsunami damaged/undamaged building F1 0.77.</li>
+<li><strong>Random raw Maxar tiles (Antakya, Kahramanmaraş, Gaziantep, İslahiye/Nurdağı):</strong> qualitative, no ground truth. Two findings: (1) snow and cloud in the February images raise false damage in both models; (2) on clean urban tiles the two models disagree a lot (the KATE model flags ~0.3% of pixels, the xBD model ~15% of buildings). The KATE model flags almost nothing even in heavily damaged Antakya, so its F1 on the labelled test split does not carry over to new scenes (every KATE-CD training tile contains damage and the model runs with a high threshold).</li>
 </ul>
-<h2>Veri ve yer gerçeği</h2>
+<h2>Data and ground truth</h2>
 <div class="tw"><table>
 <thead>
 <tr>
 <th>set</th>
 <th>platform</th>
-<th>çözünürlük</th>
-<th>yer gerçeği</th>
+<th>resolution</th>
+<th>ground truth</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>KATE-CD (HF <code>CSCRS/kate-cd</code>)</td>
-<td>uydu: Maxar Open Data + Airbus Pleiades</td>
-<td>0,3–0,5 m</td>
-<td>elle çizilmiş hasarlı bina poligonları (486 çift, 7 il)</td>
+<td>satellite: Maxar Open Data + Airbus Pleiades</td>
+<td>0.3–0.5 m</td>
+<td>hand-drawn damaged-building polygons (486 pairs, 7 provinces)</td>
 </tr>
 <tr>
 <td>xBD: mexico-earthquake, palu-tsunami, sunda-tsunami</td>
-<td>uydu: Maxar</td>
-<td>~0,5 m (modelde ~1 m)</td>
-<td>bina poligonu + 4 seviye hasar</td>
+<td>satellite: Maxar</td>
+<td>~0.5 m (~1 m in the model)</td>
+<td>building polygons + 4 damage levels</td>
 </tr>
 <tr>
 <td>Maxar Open Data <code>Kahramanmaras-turkey-earthquake-23</code></td>
-<td>uydu: Maxar (WorldView/GeoEye)</td>
-<td>~0,3–0,5 m</td>
-<td>yok (nitel test)</td>
+<td>satellite: Maxar (WorldView/GeoEye)</td>
+<td>~0.3–0.5 m</td>
+<td>none (qualitative test)</td>
 </tr>
 </tbody>
 </table></div>
 <blockquote>
-<p>Google Earth görüntüleri kullanım koşulları gereği programla indirilemez; Google Earth'teki deprem sonrası çok yüksek çözünürlüklü görüntülerin büyük kısmı zaten Maxar kaynaklıdır. Burada aynı sınıftaki Maxar Open Data kullanıldı.</p>
+<p>Google Earth imagery cannot be downloaded programmatically under its terms of use; much of the post-disaster very-high-resolution imagery shown in Google Earth comes from Maxar. Maxar Open Data of the same class is used here.</p>
 </blockquote>
-<h2>Sonuçlar — 6 Şubat (KATE-CD test, 38 kare, piksel bazlı)</h2>
+<h2>Results — 6 February (KATE-CD test, 38 tiles, pixel level)</h2>
 <div class="tw"><table>
 <thead>
 <tr>
-<th>yöntem</th>
+<th>method</th>
 <th>precision</th>
 <th>recall</th>
 <th>F1</th>
@@ -155,42 +155,42 @@ Kod ve ham çıktılar: <code>experiments/multi-hazard/</code> (her deney bir be
 </thead>
 <tbody>
 <tr>
-<td>Görüntü farkı (Lab + histogram eşleme)</td>
+<td>Image difference (Lab + histogram matching)</td>
 <td>0.045</td>
 <td>0.502</td>
 <td>0.083</td>
 <td>0.043</td>
 </tr>
 <tr>
-<td>U-Net (ikili), sadece xBD (4 shard) → sıfır-atış</td>
+<td>U-Net (binary), xBD only (4 shards) → zero-shot</td>
 <td>0.096</td>
 <td>0.130</td>
 <td>0.110</td>
 <td>0.058</td>
 </tr>
 <tr>
-<td>U-Net 5 sınıf, tüm xBD → sıfır-atış, 512 ölçek</td>
-<td>0.062</td>
-<td>0.150</td>
-<td>0.088</td>
-<td>0.046</td>
+<td>U-Net 5-class, full xBD → zero-shot, 512 scale</td>
+<td>0.080</td>
+<td>0.154</td>
+<td>0.105</td>
+<td>0.056</td>
 </tr>
 <tr>
-<td>U-Net 5 sınıf, tüm xBD → sıfır-atış, 256 ölçek (çözünürlük eşlenmiş)</td>
-<td>0.060</td>
-<td>0.523</td>
-<td>0.108</td>
-<td>0.057</td>
+<td>U-Net 5-class, full xBD → zero-shot, 256 scale (resolution matched)</td>
+<td>0.082</td>
+<td>0.473</td>
+<td>0.139</td>
+<td>0.075</td>
 </tr>
 <tr>
-<td>U-Net, sadece KATE-CD (404 eğitim karesi)</td>
+<td>U-Net, KATE-CD only (404 training tiles)</td>
 <td>0.624</td>
 <td>0.496</td>
 <td>0.552</td>
 <td>0.382</td>
 </tr>
 <tr>
-<td>U-Net, xBD ön eğitim + KATE-CD ince ayar</td>
+<td>U-Net, xBD pretraining + KATE-CD fine-tuning</td>
 <td>0.571</td>
 <td>0.444</td>
 <td>0.500</td>
@@ -198,138 +198,137 @@ Kod ve ham çıktılar: <code>experiments/multi-hazard/</code> (her deney bir be
 </tr>
 </tbody>
 </table></div>
-<figure><img alt="KATE-CD test: öncesi, sonrası, etiket ve üç modelin tahmini" src="img/eq_kate_predictions.png" loading="lazy"><figcaption>KATE-CD test: öncesi, sonrası, etiket ve üç modelin tahmini</figcaption></figure>
-<figure><img alt="xBD ile eğitilmiş 5 sınıflı modelin 6 Şubat'a doğrudan uygulanması" src="img/eq_kate_zero_shot.png" loading="lazy"><figcaption>xBD ile eğitilmiş 5 sınıflı modelin 6 Şubat'a doğrudan uygulanması</figcaption></figure>
-<h2>Sonuçlar — xBD deprem / tsunami olayları</h2>
-<p><strong>Model:</strong> 6 kanallı (öncesi+sonrası RGB) U-Net/ResNet18, 5 sınıf (arka plan, hasarsız, az, ağır, yıkılmış). xBD train+tier3'ten olay başına ≤250 görüntü (3304 görüntü), 1024→512 küçültülerek (~1 m/px) 12 epoch eğitildi; en iyi doğrulama xView2 skoru 0.628. Test: xBD test bölümü + tier3 olaylarının ayrılmış %20'si (1313 görüntü). <em>Hasar sınıf F1</em> = 4 hasar sınıfının harmonik ortalaması (xView2 tanımı); <em>bina</em> metrikleri bağlantılı bina bileşenleri üzerinden.</p>
+<figure><img alt="KATE-CD test: pre, post, label and three models" src="img/eq_kate_predictions.png" loading="lazy"><figcaption>KATE-CD test: pre, post, label and three models</figcaption></figure>
+<figure><img alt="The xBD-trained 5-class model applied directly to 6 February" src="img/eq_kate_zero_shot.png" loading="lazy"><figcaption>The xBD-trained 5-class model applied directly to 6 February</figcaption></figure>
+<h2>Results — earthquake / tsunami events in xBD</h2>
+<p><strong>Model:</strong> 6-channel (pre + post RGB) U-Net / ResNet18, 5 classes (background, no damage, minor, major, destroyed). Trained on ≤250 images per event from xBD train + tier3 (3304 images), downsampled 1024 → 512 (~1 m/px), 12 epochs; best validation xView2 score 0.590. Test: xBD test split + a held-out 20 % of the tier3 events (1313 images). <em>Damage class F1</em> is the harmonic mean over the four damage classes (xView2 definition); <em>building</em> metrics use connected building components.</p>
 <div class="tw"><table>
 <thead>
 <tr>
-<th>olay</th>
-<th>bina</th>
-<th>bina bulma F1</th>
-<th>hasar sınıf F1</th>
-<th>hasarlı/hasarsız F1 (bina)</th>
-<th>yıkılmış recall</th>
-<th>gerçek hasarlı payı</th>
+<th>event</th>
+<th>buildings</th>
+<th>building localisation F1</th>
+<th>damage class F1</th>
+<th>damaged/undamaged F1 (building)</th>
+<th>destroyed recall</th>
+<th>true damaged share</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>mexico-earthquake</td>
 <td>4745</td>
-<td>0.763</td>
+<td>0.766</td>
 <td>0.000</td>
-<td>0.043</td>
+<td>0.027</td>
 <td>0.000</td>
 <td>0.009</td>
 </tr>
 <tr>
 <td>palu-tsunami</td>
 <td>3649</td>
-<td>0.782</td>
-<td>0.263</td>
+<td>0.785</td>
+<td>0.410</td>
 <td>0.767</td>
-<td>0.719</td>
+<td>0.773</td>
 <td>0.168</td>
 </tr>
 <tr>
 <td>sunda-tsunami</td>
-<td>906</td>
-<td>0.729</td>
+<td>1231</td>
+<td>0.759</td>
 <td>0.000</td>
-<td>0.093</td>
-<td>0.069</td>
-<td>0.040</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.012</td>
 </tr>
 <tr>
-<td><strong>earthquake (toplam)</strong></td>
+<td><strong>earthquake (all)</strong></td>
 <td>4745</td>
-<td>0.763</td>
+<td>0.766</td>
 <td>0.000</td>
-<td>0.043</td>
+<td>0.027</td>
 <td>0.000</td>
 <td>0.009</td>
 </tr>
 <tr>
-<td><strong>tsunami (toplam)</strong></td>
-<td>4555</td>
-<td>0.776</td>
-<td>0.253</td>
-<td>0.741</td>
-<td>0.686</td>
-<td>0.142</td>
+<td><strong>tsunami (all)</strong></td>
+<td>4880</td>
+<td>0.780</td>
+<td>0.407</td>
+<td>0.754</td>
+<td>0.755</td>
+<td>0.128</td>
 </tr>
 </tbody>
 </table></div>
-<figure><img alt="xBD Meksika depremi rastgele test kareleri" src="img/eq_xbd_samples.png" loading="lazy"><figcaption>xBD Meksika depremi rastgele test kareleri</figcaption></figure>
-<h2>Rastgele vakalar — Maxar Open Data, 6 Şubat (Google Earth sınıfı)</h2>
-<p>Her şehirden rastgele 256 m × 256 m kareler (0,5 m/px), en yakın deprem öncesi ve ilk deprem sonrası Maxar görüntüsü.
-Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim ≥%40, kar/bulut &lt;%10) ve <em>diğer</em> (kırsal, karlı ya da bulutlu — Şubat 2023 görüntülerinin bir kısmında kar ve bulut var).
-| şehir | temiz kentsel kare | KATE modeli: hasarlı piksel | xBD modeli: ağır+yıkık bina payı | diğer kare | KATE (diğer) | xBD (diğer) |
+<figure><img alt="Random xBD Mexico-earthquake test tiles" src="img/eq_xbd_samples.png" loading="lazy"><figcaption>Random xBD Mexico-earthquake test tiles</figcaption></figure>
+<h2>Random cases — Maxar Open Data, 6 February (Google-Earth-class)</h2>
+<p>Random 256 m × 256 m tiles (0.5 m/px) per city, with the latest pre-event and the first post-event Maxar acquisition. Tiles are split with WorldCover into <em>clean urban</em> (built-up ≥40 %, snow/cloud &lt;10 %) and <em>other</em> (rural, snowy or cloudy — some February 2023 images have snow and cloud).
+| city | clean urban tiles | KATE model: damaged pixels | xBD model: major+destroyed building share | other tiles | KATE (other) | xBD (other) |
 |---|---|---|---|---|---|---|
-| Antakya (Hatay) | 3 | 0.005 | 0.087 | 10 | 0.002 | 0.175 |
-| Kahramanmaraş merkez | 10 | 0.003 | 0.099 | 3 | 0.058 | 0.120 |
-| Gaziantep merkez | 4 | 0.000 | 0.126 | 12 | 0.013 | 0.296 |
-| İslahiye / Nurdağı | 0 | – | – | 16 | 0.015 | 0.063 |</p>
-<p><strong>Başarısızlık modu:</strong> kar/bulut ≥%10 olan 13 karede KATE modelinin ortalama hasar tahmini 0.012, xBD modelininki 0.25; temiz kentsel 17 karede sırasıyla 0.003 ve 0.10. Kar, öncesi–sonrası farkını büyüttüğü için "hasar" olarak okunuyor; operasyonel kullanımda kar/bulut maskesi şart.
-<img alt="Şehir bazında ortalama tahmin" src="img/eq_maxar_cities.png" />
-<em>Şehir bazında ortalama tahmin</em></p>
-<figure><img alt="Her şehirden en yüksek KATE tahmini alan iki temiz kentsel kare + iki kar/bulutlu kare" src="img/eq_maxar_samples.png" loading="lazy"><figcaption>Her şehirden en yüksek KATE tahmini alan iki temiz kentsel kare + iki kar/bulutlu kare</figcaption></figure>
-<h2>Sınırlar</h2>
+| Antakya (Hatay) | 3 | 0.005 | 0.045 | 10 | 0.002 | 0.189 |
+| Kahramanmaraş centre | 10 | 0.003 | 0.182 | 3 | 0.058 | 0.168 |
+| Gaziantep centre | 4 | 0.000 | 0.146 | 12 | 0.013 | 0.322 |
+| İslahiye / Nurdağı | 0 | – | – | 16 | 0.015 | 0.118 |</p>
+<p><strong>Failure mode:</strong> on the 13 tiles with ≥10 % snow/cloud the mean damage estimate is 0.012 (KATE model) and 0.29 (xBD model), against 0.003 and 0.15 on the 17 clean urban tiles. Snow inflates the pre/post difference and is read as damage, so operational use needs a snow/cloud mask.
+<img alt="Mean prediction per city" src="img/eq_maxar_cities.png" />
+<em>Mean prediction per city</em></p>
+<figure><img alt="Two clean urban tiles per city with the highest KATE prediction, plus two snowy/cloudy tiles" src="img/eq_maxar_samples.png" loading="lazy"><figcaption>Two clean urban tiles per city with the highest KATE prediction, plus two snowy/cloudy tiles</figcaption></figure>
+<h2>Limitations</h2>
 <ul>
-<li>KATE-CD testi 38 kare; tek seed → sayılar ±birkaç puan oynayabilir. KATE-CD'de hasarsız kare yok, yanlış alarm oranı sınırlı ölçülür.</li>
-<li>xBD görüntüleri 2× küçültüldü (~1 m/px); orijinal çözünürlükte bina/hasar skorları daha yüksek olur.</li>
-<li>Maxar rastgele karelerinde yer gerçeği yok; öncesi/sonrası görüntüler farklı bakış açısı ve mevsimden — yanlış alarmlar görsel olarak kontrol edilmeli.</li>
+<li>The KATE-CD test split has 38 tiles and one seed, so numbers can move by a few points. Every KATE-CD tile contains damage, so the false-alarm rate is only partly measurable.</li>
+<li>xBD images were downsampled 2× (~1 m/px); building and damage scores would be higher at native resolution.</li>
+<li>The random Maxar tiles have no ground truth, and pre/post images differ in viewing angle and season — false alarms must be checked by eye.</li>
 </ul>
-<h2>Kaynaklar</h2>
+<h2>Sources</h2>
 <ul>
 <li>KATE-CD: https://huggingface.co/datasets/CSCRS/kate-cd (ITÜ CSCRS)</li>
-<li>xBD / xView2 (Gupta ve ark., 2019), Maxar Open Data görüntüleri, CC BY-NC-SA 4.0 — HF mirror <code>hannan022/xview2-xbd</code></li>
+<li>xBD / xView2 (Gupta et al., 2019), Maxar Open Data imagery, CC BY-NC-SA 4.0 — HF mirror <code>hannan022/xview2-xbd</code></li>
 <li>Maxar Open Data Program: https://maxar-opendata.s3.amazonaws.com/events/catalog.json</li>
-</ul></section><section id="02-sel" class="rep"><h1>Sel — Sen1Floods11 (11 ülke), Valencia DANA 2024 ve xBD</h1>
-<h2>Özet</h2>
+</ul></section><section id="02-flood" class="rep"><h1>Flood — Sen1Floods11 (11 countries), Valencia DANA 2024 and xBD</h1>
+<h2>Summary</h2>
 <ul>
-<li><strong>Uydu (Sentinel-2 optik + Sentinel-1 radar, 10 m), 11 ülke:</strong> en iyi model <strong>U-Net S1+S2 IoU 0.82</strong> (F1 0.90); eğitimsiz NDWI eşiği bile IoU 0.78. Eğitimde hiç görülmeyen Bolivya olayında U-Net S1+S2 IoU 0.79.</li>
-<li><strong>Yakın tarihli büyük sel — Valencia, 29 Ekim 2024:</strong> Copernicus EMS resmi taşkın alanına (≈324 km² inceleme alanında) karşı en iyi yöntem <strong>U-Net S2 (Sen1Floods11'den aktarım): F1 0.66</strong>. İndeks eşikleri çok isabetli (precision ≈0,9+) ama taşkının yalnızca ~üçte birini buluyor.</li>
-<li><strong>Kentsel sel uydudan zor:</strong> Valencia'da yerleşim alanlarında recall 0.60, tarım alanında 0.83.</li>
-<li><strong>Radar tek başına:</strong> 2 gün sonraki Sentinel-1 geçişinde su çekilmeye başladığı için recall 0.18; zamanlama kritik.</li>
-<li><strong>Bina hasarı (xBD sel/kasırga olayları):</strong> sel kaynaklı bina hasarı en zor türlerden — ayrıntı aşağıda.</li>
+<li><strong>Satellite (Sentinel-2 optical + Sentinel-1 radar, 10 m), 11 countries:</strong> best model <strong>U-Net S1+S2, IoU 0.82</strong> (F1 0.90); even the untrained NDWI threshold reaches IoU 0.78. On the Bolivia event, never seen in training, U-Net S1+S2 gets IoU 0.79.</li>
+<li><strong>A recent large flood — Valencia, 29 October 2024:</strong> against the official Copernicus EMS flood extent (≈324 km² in the study area) the best method is <strong>U-Net S2 (transfer from Sen1Floods11): F1 0.66</strong>. Index thresholds are very precise (precision ≈0.9+) but find only about a third of the flood.</li>
+<li><strong>Urban flooding is hard from orbit:</strong> in Valencia, recall is 0.60 on built-up land and 0.83 on cropland.</li>
+<li><strong>Radar alone:</strong> the Sentinel-1 pass two days later sees water already receding, recall 0.18; timing matters.</li>
+<li><strong>Building damage (xBD flood/hurricane events):</strong> flood-driven building damage is among the hardest types — details below.</li>
 </ul>
-<h2>Veri ve yer gerçeği</h2>
+<h2>Data and ground truth</h2>
 <div class="tw"><table>
 <thead>
 <tr>
 <th>set</th>
 <th>platform</th>
-<th>çözünürlük</th>
-<th>yer gerçeği</th>
+<th>resolution</th>
+<th>ground truth</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Sen1Floods11 (HF <code>blumenstiel/Sen1Floods11</code>)</td>
-<td>uydu: Sentinel-1 GRD + Sentinel-2 L1C</td>
+<td>satellite: Sentinel-1 GRD + Sentinel-2 L1C</td>
 <td>10 m</td>
-<td>446 elle etiketli 512×512 kare, 11 olay</td>
+<td>446 hand-labelled 512×512 chips, 11 events</td>
 </tr>
 <tr>
-<td>Valencia DANA, Ekim 2024</td>
-<td>uydu: Sentinel-2 L2A (31 Eki), Sentinel-1 RTC (25 Eki, 1 Kas) — Planetary Computer</td>
+<td>Valencia DANA, October 2024</td>
+<td>satellite: Sentinel-2 L2A (31 Oct), Sentinel-1 RTC (25 Oct, 1 Nov) — Planetary Computer</td>
 <td>10 m</td>
-<td>Copernicus EMS EMSR773 AOI01 taşkın sınırı</td>
+<td>Copernicus EMS EMSR773 AOI01 flood delineation</td>
 </tr>
 <tr>
-<td>xBD: midwest-flooding, nepal-flooding, 4 kasırga</td>
-<td>uydu: Maxar</td>
-<td>~0,5 m</td>
-<td>bina hasar seviyeleri</td>
+<td>xBD: midwest-flooding, nepal-flooding, 4 hurricanes</td>
+<td>satellite: Maxar</td>
+<td>~0.5 m</td>
+<td>building damage levels</td>
 </tr>
 </tbody>
 </table></div>
-<h2>Sonuçlar — Sen1Floods11 test (90 kare) ve Bolivya (eğitimde görülmemiş, 15 kare)</h2>
-<p>Eşikler doğrulama bölümünde seçildi (NDWI&gt;-0.05, MNDWI&gt;0.15, VV&lt;-17 dB). "Sadece taşkın" = JRC kalıcı su pikselleri hariç.
-| yöntem | test IoU | test F1 | test sadece-taşkın IoU | Bolivya IoU | Bolivya F1 |
+<h2>Results — Sen1Floods11 test (90 chips) and Bolivia (unseen event, 15 chips)</h2>
+<p>Thresholds were picked on the validation split (NDWI&gt;-0.05, MNDWI&gt;0.15, VV&lt;-17 dB). "Flood only" excludes JRC permanent-water pixels.
+| method | test IoU | test F1 | test flood-only IoU | Bolivia IoU | Bolivia F1 |
 |---|---|---|---|---|---|
 | NDWI | 0.776 | 0.874 | 0.688 | 0.816 | 0.898 |
 | MNDWI | 0.773 | 0.872 | 0.687 | 0.703 | 0.825 |
@@ -337,172 +336,173 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 | U-Net S1 | 0.659 | 0.794 | 0.533 | 0.633 | 0.775 |
 | U-Net S2 | 0.810 | 0.895 | 0.734 | 0.793 | 0.884 |
 | U-Net S1+S2 | 0.818 | 0.900 | 0.742 | 0.791 | 0.883 |</p>
-<figure><img alt="Yöntem karşılaştırması" src="img/flood_iou_by_method.png" loading="lazy"><figcaption>Yöntem karşılaştırması</figcaption></figure>
-<figure><img alt="Ülke/olay bazında IoU" src="img/flood_iou_by_country.png" loading="lazy"><figcaption>Ülke/olay bazında IoU</figcaption></figure>
-<figure><img alt="Rastgele test kareleri" src="img/flood_samples.png" loading="lazy"><figcaption>Rastgele test kareleri</figcaption></figure>
-<figure><img alt="U-Net eğitim eğrileri" src="img/flood_training.png" loading="lazy"><figcaption>U-Net eğitim eğrileri</figcaption></figure>
-<h2>Vaka — Valencia DANA (29 Ekim 2024)</h2>
-<p>Modeller <strong>yeniden eğitilmeden</strong> Sen1Floods11'den aktarıldı (S2 modeli L1C ile eğitildi, burada L2A'ya uygulandı; B10 bandı eğitim ortalamasıyla dolduruldu). Kalıcı su (ESA WorldCover) hariç.
-| yöntem | precision | recall | F1 | IoU | recall (yerleşim) | recall (tarım) |
+<figure><img alt="Method comparison" src="img/flood_iou_by_method.png" loading="lazy"><figcaption>Method comparison</figcaption></figure>
+<figure><img alt="IoU per country/event" src="img/flood_iou_by_country.png" loading="lazy"><figcaption>IoU per country/event</figcaption></figure>
+<figure><img alt="Random test chips" src="img/flood_samples.png" loading="lazy"><figcaption>Random test chips</figcaption></figure>
+<figure><img alt="U-Net training curves" src="img/flood_training.png" loading="lazy"><figcaption>U-Net training curves</figcaption></figure>
+<h2>Case study — Valencia DANA (29 October 2024)</h2>
+<p>Models were transferred from Sen1Floods11 <strong>without retraining</strong> (the S2 model was trained on L1C and applied to L2A; band B10 was filled with its training mean). Permanent water (ESA WorldCover) is excluded.
+| method | precision | recall | F1 | IoU | recall (built-up) | recall (cropland) |
 |---|---|---|---|---|---|---|
-| NDWI eşik (S2, 31 Eki) | 0.930 | 0.332 | 0.489 | 0.324 | 0.104 | 0.515 |
-| MNDWI eşik (S2, 31 Eki) | 0.994 | 0.346 | 0.513 | 0.345 | 0.014 | 0.551 |
-| U-Net S2 (Sen1Floods11'den aktarım) | 0.575 | 0.767 | 0.658 | 0.490 | 0.599 | 0.830 |
-| S1 VV eşik (1 Kas) | 0.992 | 0.179 | 0.304 | 0.179 | 0.003 | 0.265 |
-| S1 değişim VV(1 Kas)−VV(25 Eki) &lt; −3 dB | 0.460 | 0.340 | 0.391 | 0.243 | 0.166 | 0.547 |
-| U-Net S1 (Sen1Floods11'den aktarım) | 0.984 | 0.180 | 0.304 | 0.179 | 0.005 | 0.254 |</p>
-<figure><img alt="Valencia: yöntemler ve arazi türüne göre recall" src="img/flood_valencia_metrics.png" loading="lazy"><figcaption>Valencia: yöntemler ve arazi türüne göre recall</figcaption></figure>
-<figure><img alt="Valencia: görüntüler, EMS yer gerçeği ve en iyi tahmin" src="img/flood_valencia_maps.png" loading="lazy"><figcaption>Valencia: görüntüler, EMS yer gerçeği ve en iyi tahmin</figcaption></figure>
-<h2>Sonuçlar — sel/kasırga kaynaklı bina hasarı (xBD)</h2>
-<p><strong>Model:</strong> 6 kanallı (öncesi+sonrası RGB) U-Net/ResNet18, 5 sınıf (arka plan, hasarsız, az, ağır, yıkılmış). xBD train+tier3'ten olay başına ≤250 görüntü (3304 görüntü), 1024→512 küçültülerek (~1 m/px) 12 epoch eğitildi; en iyi doğrulama xView2 skoru 0.628. Test: xBD test bölümü + tier3 olaylarının ayrılmış %20'si (1313 görüntü). <em>Hasar sınıf F1</em> = 4 hasar sınıfının harmonik ortalaması (xView2 tanımı); <em>bina</em> metrikleri bağlantılı bina bileşenleri üzerinden.</p>
+| NDWI threshold (S2, 31 Oct) | 0.930 | 0.332 | 0.489 | 0.324 | 0.104 | 0.515 |
+| MNDWI threshold (S2, 31 Oct) | 0.994 | 0.346 | 0.513 | 0.345 | 0.014 | 0.551 |
+| U-Net S2 (transfer from Sen1Floods11) | 0.575 | 0.767 | 0.658 | 0.490 | 0.599 | 0.830 |
+| S1 VV threshold (1 Nov) | 0.992 | 0.179 | 0.304 | 0.179 | 0.003 | 0.265 |
+| S1 change VV(1 Nov)−VV(25 Oct) &lt; −3 dB | 0.460 | 0.340 | 0.391 | 0.243 | 0.166 | 0.547 |
+| U-Net S1 (transfer from Sen1Floods11) | 0.984 | 0.180 | 0.304 | 0.179 | 0.005 | 0.254 |</p>
+<figure><img alt="Valencia: methods and recall by land cover" src="img/flood_valencia_metrics.png" loading="lazy"><figcaption>Valencia: methods and recall by land cover</figcaption></figure>
+<figure><img alt="Valencia: imagery, EMS ground truth and the best prediction" src="img/flood_valencia_maps.png" loading="lazy"><figcaption>Valencia: imagery, EMS ground truth and the best prediction</figcaption></figure>
+<h2>Results — flood/hurricane building damage (xBD)</h2>
+<p><strong>Model:</strong> 6-channel (pre + post RGB) U-Net / ResNet18, 5 classes (background, no damage, minor, major, destroyed). Trained on ≤250 images per event from xBD train + tier3 (3304 images), downsampled 1024 → 512 (~1 m/px), 12 epochs; best validation xView2 score 0.590. Test: xBD test split + a held-out 20 % of the tier3 events (1313 images). <em>Damage class F1</em> is the harmonic mean over the four damage classes (xView2 definition); <em>building</em> metrics use connected building components.</p>
 <div class="tw"><table>
 <thead>
 <tr>
-<th>olay</th>
-<th>bina</th>
-<th>bina bulma F1</th>
-<th>hasar sınıf F1</th>
-<th>hasarlı/hasarsız F1 (bina)</th>
-<th>yıkılmış recall</th>
-<th>gerçek hasarlı payı</th>
+<th>event</th>
+<th>buildings</th>
+<th>building localisation F1</th>
+<th>damage class F1</th>
+<th>damaged/undamaged F1 (building)</th>
+<th>destroyed recall</th>
+<th>true damaged share</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>hurricane-florence</td>
 <td>1934</td>
-<td>0.724</td>
+<td>0.729</td>
 <td>0.000</td>
-<td>0.822</td>
+<td>0.818</td>
 <td>0.000</td>
 <td>0.216</td>
 </tr>
 <tr>
 <td>hurricane-harvey</td>
 <td>6001</td>
-<td>0.780</td>
-<td>0.096</td>
-<td>0.853</td>
-<td>0.018</td>
+<td>0.781</td>
+<td>0.098</td>
+<td>0.844</td>
+<td>0.024</td>
 <td>0.461</td>
 </tr>
 <tr>
 <td>hurricane-matthew</td>
 <td>2889</td>
-<td>0.637</td>
-<td>0.246</td>
-<td>0.804</td>
-<td>0.392</td>
+<td>0.621</td>
+<td>0.244</td>
+<td>0.820</td>
+<td>0.382</td>
 <td>0.841</td>
 </tr>
 <tr>
 <td>hurricane-michael</td>
 <td>5305</td>
-<td>0.752</td>
-<td>0.239</td>
-<td>0.527</td>
-<td>0.052</td>
+<td>0.722</td>
+<td>0.249</td>
+<td>0.533</td>
+<td>0.076</td>
 <td>0.352</td>
 </tr>
 <tr>
 <td>midwest-flooding</td>
 <td>2069</td>
-<td>0.747</td>
-<td>0.095</td>
-<td>0.449</td>
-<td>0.089</td>
+<td>0.745</td>
+<td>0.113</td>
+<td>0.365</td>
+<td>0.111</td>
 <td>0.052</td>
 </tr>
 <tr>
 <td>nepal-flooding</td>
-<td>1884</td>
-<td>0.726</td>
-<td>0.185</td>
-<td>0.586</td>
+<td>1642</td>
+<td>0.741</td>
+<td>0.023</td>
+<td>0.616</td>
 <td>0.000</td>
-<td>0.265</td>
+<td>0.256</td>
 </tr>
 <tr>
-<td><strong>flood (toplam)</strong></td>
-<td>3953</td>
-<td>0.737</td>
-<td>0.129</td>
-<td>0.562</td>
-<td>0.048</td>
-<td>0.153</td>
+<td><strong>flood (all)</strong></td>
+<td>3711</td>
+<td>0.743</td>
+<td>0.121</td>
+<td>0.554</td>
+<td>0.070</td>
+<td>0.142</td>
 </tr>
 <tr>
-<td><strong>hurricane (toplam)</strong></td>
+<td><strong>hurricane (all)</strong></td>
 <td>16129</td>
-<td>0.755</td>
-<td>0.420</td>
-<td>0.742</td>
-<td>0.260</td>
+<td>0.744</td>
+<td>0.394</td>
+<td>0.734</td>
+<td>0.259</td>
 <td>0.464</td>
 </tr>
 </tbody>
 </table></div>
-<figure><img alt="xBD sel olayları — rastgele test kareleri" src="img/flood_xbd_samples.png" loading="lazy"><figcaption>xBD sel olayları — rastgele test kareleri</figcaption></figure>
-<h2>Sınırlar</h2>
+<figure><img alt="xBD flood events — random test tiles" src="img/flood_xbd_samples.png" loading="lazy"><figcaption>xBD flood events — random test tiles</figcaption></figure>
+<h2>Limitations</h2>
 <ul>
-<li>EMS yer gerçeği 30–31 Ekim Landsat-8/Sentinel-2'den üretildi; aynı Sentinel-2 sahnesini kullanan yöntemler bir miktar avantajlı, Sentinel-1 (1 Kas) ise dezavantajlı (su çekilmiş).</li>
-<li>EMS "gözlenen olay" katmanı çamur/taşkın izlerini de içerir; açık su indeksleri bunları görmez → düşük recall'ın bir kısmı tanım farkı.</li>
-<li>Sen1Floods11 kareleri 10 m; ince kentsel sokak taşkınları bu çözünürlükte görünmez.</li>
+<li>The EMS ground truth was produced from the 30–31 October Landsat-8/Sentinel-2 images; methods using the same Sentinel-2 scene have an advantage, Sentinel-1 (1 Nov) a disadvantage (water had receded).</li>
+<li>The EMS "observed event" layer includes mud and flood traces that open-water indices cannot see, so part of the low recall is a definition gap.</li>
+<li>Sen1Floods11 chips are 10 m; narrow urban street flooding is invisible at that resolution.</li>
 </ul>
-<h2>Kaynaklar</h2>
+<h2>Sources</h2>
 <ul>
-<li>Sen1Floods11 (Bonafilia ve ark., 2020): https://github.com/cloudtostreet/Sen1Floods11</li>
+<li>Sen1Floods11 (Bonafilia et al., 2020): https://github.com/cloudtostreet/Sen1Floods11</li>
 <li>Copernicus EMS EMSR773: https://rapidmapping.emergency.copernicus.eu/EMSR773</li>
 <li>Sentinel-1/2, ESA WorldCover: Microsoft Planetary Computer</li>
-<li>xBD / xView2 (Gupta ve ark., 2019), Maxar Open Data görüntüleri, CC BY-NC-SA 4.0 — HF mirror <code>hannan022/xview2-xbd</code></li>
-</ul></section><section id="03-heyelan" class="rep"><h1>Heyelan — Landslide4Sense (uydu) ve İHA heyelan seti (hava)</h1>
-<h2>Özet</h2>
+<li>xBD / xView2 (Gupta et al., 2019), Maxar Open Data imagery, CC BY-NC-SA 4.0 — HF mirror <code>hannan022/xview2-xbd</code></li>
+</ul></section><section id="03-landslide" class="rep"><h1>Landslide — Landslide4Sense (satellite) and a UAV landslide set (aerial)</h1>
+<h2>Summary</h2>
 <ul>
-<li><strong>Uydu (Sentinel-2 14 bant: 12 spektral + eğim + DEM, 10 m), Landslide4Sense test (800 kare):</strong> en iyi <strong>U-Net S2 + eğim + DEM: F1 0.63</strong>, IoU 0.46. Sadece RGB (Google Earth benzeri bilgi) kullanan model F1 0.58 → çok bantlı + topografya katkısı ölçülebilir.</li>
-<li><strong>Kural tabanlı NDVI + eğim</strong> F1 0.19: tek başına yetersiz.</li>
-<li><strong>Hava (İHA, RGB, cm–dm çözünürlük), 897 test karesi:</strong> <strong>U-Net RGB (İHA): F1 0.82</strong>, IoU 0.69; RGB toprak indeksi kuralı F1 0.61.</li>
-<li>Heyelan pikselleri azınlıkta (uyduda 1.9%, İHA'da 19.1%) — precision/recall dengesi eşiğe çok duyarlı.</li>
+<li><strong>Satellite (Sentinel-2, 14 bands: 12 spectral + slope + DEM, 10 m), Landslide4Sense test (800 chips):</strong> best <strong>U-Net S2 + slope + DEM: F1 0.63</strong>, IoU 0.46. A model using RGB only (Google-Earth-like information) reaches F1 0.58, so the gain from multispectral bands + topography is measurable.</li>
+<li><strong>The NDVI + slope rule</strong> gets F1 0.19: not enough on its own.</li>
+<li><strong>Aerial (UAV, RGB, cm–dm resolution), 897 test chips:</strong> <strong>U-Net RGB (UAV): F1 0.82</strong>, IoU 0.69; the RGB soil-index rule gets F1 0.61.</li>
+<li>Landslide pixels are a minority (1.9% in the satellite set, 19.1% in the UAV set), so the precision/recall balance is very threshold-sensitive.</li>
+<li>These two sets are single-date segmentation, not pre/post change detection; they show what the imagery can resolve, not the #30 pipeline itself.</li>
 </ul>
-<h2>Veri ve yer gerçeği</h2>
+<h2>Data and ground truth</h2>
 <div class="tw"><table>
 <thead>
 <tr>
 <th>set</th>
 <th>platform</th>
-<th>çözünürlük</th>
-<th>yer gerçeği</th>
+<th>resolution</th>
+<th>ground truth</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Landslide4Sense (HF <code>ibm-nasa-geospatial/Landslide4sense</code>)</td>
-<td>uydu: Sentinel-2 + ALOS PALSAR eğim/DEM</td>
+<td>satellite: Sentinel-2 + ALOS PALSAR slope/DEM</td>
 <td>~10 m, 128×128</td>
-<td>piksel maskesi; 3799/245/800 train/val/test</td>
+<td>pixel masks; 3799/245/800 train/val/test</td>
 </tr>
 <tr>
-<td>İHA heyelan seti (HF <code>syeddhasnainn/landslide-uav-all</code>, alt küme)</td>
-<td>hava: İHA RGB</td>
-<td>cm–dm (384×384'e küçültüldü)</td>
-<td>piksel maskesi; 1812/431/897 kullanıldı</td>
+<td>UAV landslide set (HF <code>syeddhasnainn/landslide-uav-all</code>, subset)</td>
+<td>aerial: UAV RGB</td>
+<td>cm–dm (downsampled to 384×384)</td>
+<td>pixel masks; 1812/431/897 used</td>
 </tr>
 </tbody>
 </table></div>
-<h2>Sonuçlar — uydu (Landslide4Sense)</h2>
-<p>Kural eşiği doğrulamada seçildi: NDVI &lt; -0.20 ve eğim &gt; 0.99 (normalize).
-| yöntem | precision | recall | F1 | IoU |
+<h2>Results — satellite (Landslide4Sense)</h2>
+<p>Rule thresholds were picked on validation: NDVI &lt; -0.20 and slope &gt; 0.99 (normalised).
+| method | precision | recall | F1 | IoU |
 |---|---|---|---|---|
-| NDVI + eğim kuralı | 0.107 | 0.731 | 0.187 | 0.103 |
-| U-Net RGB (Google Earth benzeri) | 0.579 | 0.575 | 0.577 | 0.405 |
-| U-Net 12 bant S2 | 0.497 | 0.700 | 0.581 | 0.410 |
-| U-Net S2 + eğim + DEM | 0.592 | 0.680 | 0.632 | 0.463 |</p>
-<figure><img alt="Landslide4Sense: metrikler ve precision–recall eğrileri" src="img/landslide_l4s_metrics.png" loading="lazy"><figcaption>Landslide4Sense: metrikler ve precision–recall eğrileri</figcaption></figure>
-<figure><img alt="Rastgele test kareleri (RGB, etiket, kural, U-Net RGB, U-Net çok bantlı)" src="img/landslide_l4s_samples.png" loading="lazy"><figcaption>Rastgele test kareleri (RGB, etiket, kural, U-Net RGB, U-Net çok bantlı)</figcaption></figure>
-<h2>Sonuçlar — hava (İHA)</h2>
+| NDVI + slope rule | 0.107 | 0.731 | 0.187 | 0.103 |
+| U-Net RGB (Google-Earth-like) | 0.579 | 0.575 | 0.577 | 0.405 |
+| U-Net 12-band S2 | 0.497 | 0.700 | 0.581 | 0.410 |
+| U-Net S2 + slope + DEM | 0.592 | 0.680 | 0.632 | 0.463 |</p>
+<figure><img alt="Landslide4Sense: metrics and precision–recall curves" src="img/landslide_l4s_metrics.png" loading="lazy"><figcaption>Landslide4Sense: metrics and precision–recall curves</figcaption></figure>
+<figure><img alt="Random test chips (RGB, label, rule, U-Net RGB, multispectral U-Net)" src="img/landslide_l4s_samples.png" loading="lazy"><figcaption>Random test chips (RGB, label, rule, U-Net RGB, multispectral U-Net)</figcaption></figure>
+<h2>Results — aerial (UAV)</h2>
 <div class="tw"><table>
 <thead>
 <tr>
-<th>yöntem</th>
+<th>method</th>
 <th>precision</th>
 <th>recall</th>
 <th>F1</th>
@@ -511,14 +511,14 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 </thead>
 <tbody>
 <tr>
-<td>RGB toprak indeksi (kural)</td>
+<td>RGB soil index (rule)</td>
 <td>0.516</td>
 <td>0.745</td>
 <td>0.610</td>
 <td>0.439</td>
 </tr>
 <tr>
-<td>U-Net RGB (İHA)</td>
+<td>U-Net RGB (UAV)</td>
 <td>0.795</td>
 <td>0.838</td>
 <td>0.816</td>
@@ -526,236 +526,237 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 </tr>
 </tbody>
 </table></div>
-<figure><img alt="İHA heyelan: metrikler, kare başına IoU dağılımı, eğitim eğrisi" src="img/landslide_uav_metrics.png" loading="lazy"><figcaption>İHA heyelan: metrikler, kare başına IoU dağılımı, eğitim eğrisi</figcaption></figure>
-<figure><img alt="Rastgele İHA test kareleri" src="img/landslide_uav_samples.png" loading="lazy"><figcaption>Rastgele İHA test kareleri</figcaption></figure>
-<h2>Sınırlar</h2>
+<figure><img alt="UAV landslides: metrics, IoU per chip, training curve" src="img/landslide_uav_metrics.png" loading="lazy"><figcaption>UAV landslides: metrics, IoU per chip, training curve</figcaption></figure>
+<figure><img alt="Random UAV test chips" src="img/landslide_uav_samples.png" loading="lazy"><figcaption>Random UAV test chips</figcaption></figure>
+<h2>Limitations</h2>
 <ul>
-<li>İHA setinin yalnızca bir alt kümesi kullanıldı (19 eğitim parçasından 4'ü); görüntüler 384 px'e küçültüldü.</li>
-<li>Landslide4Sense test bölgeleri eğitimle benzer coğrafyalardan; yeni bir bölgeye (örn. 6 Şubat'ın tetiklediği heyelanlar) aktarım ayrıca test edilmeli.</li>
+<li>Only a subset of the UAV set was used (4 of 19 training shards); images were downsampled to 384 px.</li>
+<li>Landslide4Sense test regions resemble the training geography; transfer to a new region (e.g. landslides triggered by 6 February) needs its own test.</li>
 </ul>
-<h2>Kaynaklar</h2>
+<h2>Sources</h2>
 <ul>
-<li>Landslide4Sense (Ghorbanzadeh ve ark., 2022): https://github.com/iarai/Landslide4Sense-2022</li>
-<li>İHA heyelan seti: https://huggingface.co/datasets/syeddhasnainn/landslide-uav-all</li>
-</ul></section><section id="04-hortum" class="rep"><h1>Hortum — xBD (Joplin, Moore, Tuscaloosa) ve Rolling Fork 2023 (hava fotoğrafı)</h1>
-<h2>Özet</h2>
+<li>Landslide4Sense (Ghorbanzadeh et al., 2022): https://github.com/iarai/Landslide4Sense-2022</li>
+<li>UAV landslide set: https://huggingface.co/datasets/syeddhasnainn/landslide-uav-all</li>
+</ul></section><section id="04-tornado" class="rep"><h1>Tornado — xBD (Joplin, Moore, Tuscaloosa) and Rolling Fork 2023 (aerial photography)</h1>
+<h2>Summary</h2>
 <ul>
-<li><strong>Uydu (Maxar, xBD) — 3 hortum olayı:</strong> bina bulma F1 0.78, hasarlı/hasarsız bina F1 <strong>0.77</strong>, yıkılmış bina recall 0.71.</li>
-<li><strong>Hava fotoğrafı (NAIP uçak görüntüsü, 2021 öncesi / Ağustos 2023 sonrası) — Rolling Fork EF4 hortumu (24 Mart 2023):</strong> xBD uydu modeli hiç eğitim almadan uygulandı; ayırt etme gücü zayıf ama yönü doğru (ortalama skor EF0'dan EF4'e artıyor): NWS saha ekiplerinin 341 yapı hasar noktasına karşı <strong>EF3+ ile EF0–1 ayrımı AUC 0.57</strong>, EF2+ ile hasarsız kontrol binaları AUC 0.58; EF derecesi ile model skoru Spearman ρ=0.14.</li>
+<li><strong>Satellite (Maxar, xBD), 3 tornado events:</strong> building localisation F1 0.79, damaged/undamaged building F1 <strong>0.76</strong>, destroyed-building recall 0.69.</li>
+<li><strong>Aerial photography (NAIP aircraft imagery, 2021 pre / August 2023 post), Rolling Fork EF4 tornado (24 March 2023):</strong> the xBD satellite model was applied without any training and barely transfers. Against 341 NWS survey points on structures: <strong>EF3+ vs EF0–1 AUC 0.57</strong>, EF2+ vs undamaged control buildings AUC 0.55, any damage vs control AUC 0.50; Spearman ρ=0.18 between EF rating and model score. Undamaged control buildings score as high as damaged ones (mean 0.38 vs 0.29–0.42 for EF0–EF4), so seasonal change between the November and August flights is read as damage.</li>
 </ul>
-<h2>Veri ve yer gerçeği</h2>
+<h2>Data and ground truth</h2>
 <div class="tw"><table>
 <thead>
 <tr>
 <th>set</th>
 <th>platform</th>
-<th>çözünürlük</th>
-<th>yer gerçeği</th>
+<th>resolution</th>
+<th>ground truth</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>xBD tier3: joplin, moore, tuscaloosa</td>
-<td>uydu: Maxar</td>
-<td>~0,5 m (modelde ~1 m)</td>
-<td>bina hasar seviyeleri</td>
+<td>satellite: Maxar</td>
+<td>~0.5 m (~1 m in the model)</td>
+<td>building damage levels</td>
 </tr>
 <tr>
-<td>NAIP Mississippi 2021-11 ve 2023-08 (Planetary Computer)</td>
-<td>hava: uçak (USDA NAIP)</td>
-<td>0,3 m / 0,6 m → 1 m'ye örneklendi</td>
-<td>NOAA NWS Damage Assessment Toolkit: EF dereceli yapı noktaları</td>
+<td>NAIP Mississippi 2021-11 and 2023-08 (Planetary Computer)</td>
+<td>aerial: aircraft (USDA NAIP)</td>
+<td>0.3 m / 0.6 m → resampled to 1 m</td>
+<td>NOAA NWS Damage Assessment Toolkit: EF-rated structure points</td>
 </tr>
 </tbody>
 </table></div>
-<h2>Sonuçlar — xBD hortum olayları</h2>
-<p><strong>Model:</strong> 6 kanallı (öncesi+sonrası RGB) U-Net/ResNet18, 5 sınıf (arka plan, hasarsız, az, ağır, yıkılmış). xBD train+tier3'ten olay başına ≤250 görüntü (3304 görüntü), 1024→512 küçültülerek (~1 m/px) 12 epoch eğitildi; en iyi doğrulama xView2 skoru 0.628. Test: xBD test bölümü + tier3 olaylarının ayrılmış %20'si (1313 görüntü). <em>Hasar sınıf F1</em> = 4 hasar sınıfının harmonik ortalaması (xView2 tanımı); <em>bina</em> metrikleri bağlantılı bina bileşenleri üzerinden.</p>
+<h2>Results — xBD tornado events</h2>
+<p><strong>Model:</strong> 6-channel (pre + post RGB) U-Net / ResNet18, 5 classes (background, no damage, minor, major, destroyed). Trained on ≤250 images per event from xBD train + tier3 (3304 images), downsampled 1024 → 512 (~1 m/px), 12 epochs; best validation xView2 score 0.590. Test: xBD test split + a held-out 20 % of the tier3 events (1313 images). <em>Damage class F1</em> is the harmonic mean over the four damage classes (xView2 definition); <em>building</em> metrics use connected building components.</p>
 <div class="tw"><table>
 <thead>
 <tr>
-<th>olay</th>
-<th>bina</th>
-<th>bina bulma F1</th>
-<th>hasar sınıf F1</th>
-<th>hasarlı/hasarsız F1 (bina)</th>
-<th>yıkılmış recall</th>
-<th>gerçek hasarlı payı</th>
+<th>event</th>
+<th>buildings</th>
+<th>building localisation F1</th>
+<th>damage class F1</th>
+<th>damaged/undamaged F1 (building)</th>
+<th>destroyed recall</th>
+<th>true damaged share</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>joplin-tornado</td>
-<td>2795</td>
-<td>0.772</td>
-<td>0.652</td>
-<td>0.840</td>
-<td>0.760</td>
-<td>0.423</td>
+<td>2288</td>
+<td>0.789</td>
+<td>0.591</td>
+<td>0.753</td>
+<td>0.712</td>
+<td>0.267</td>
 </tr>
 <tr>
 <td>moore-tornado</td>
-<td>4756</td>
-<td>0.804</td>
-<td>0.330</td>
-<td>0.705</td>
-<td>0.664</td>
-<td>0.097</td>
+<td>3915</td>
+<td>0.807</td>
+<td>0.441</td>
+<td>0.776</td>
+<td>0.802</td>
+<td>0.146</td>
 </tr>
 <tr>
 <td>tuscaloosa-tornado</td>
-<td>2424</td>
-<td>0.754</td>
-<td>0.497</td>
-<td>0.701</td>
-<td>0.504</td>
-<td>0.256</td>
+<td>1934</td>
+<td>0.743</td>
+<td>0.551</td>
+<td>0.759</td>
+<td>0.489</td>
+<td>0.311</td>
 </tr>
 <tr>
-<td><strong>tornado (toplam)</strong></td>
-<td>9975</td>
-<td>0.783</td>
-<td>0.596</td>
-<td>0.772</td>
-<td>0.705</td>
-<td>0.227</td>
+<td><strong>tornado (all)</strong></td>
+<td>8137</td>
+<td>0.788</td>
+<td>0.575</td>
+<td>0.762</td>
+<td>0.695</td>
+<td>0.219</td>
 </tr>
 </tbody>
 </table></div>
-<figure><img alt="xBD hortum olayları — rastgele test kareleri" src="img/tornado_xbd_samples.png" loading="lazy"><figcaption>xBD hortum olayları — rastgele test kareleri</figcaption></figure>
-<h2>Vaka — Rolling Fork, Mississippi (EF4, 24 Mart 2023), hava fotoğrafı</h2>
-<p>Her NWS hasar noktası için 256 m × 256 m öncesi/sonrası NAIP kesiti alındı; skor = noktanın 20 m çevresinde modelin <em>ağır hasar + yıkılmış</em> olasılığı (bina pikselleri ağırlıklı). Kontroller: hasar noktalarına &gt;1,5 km uzaklıkta, modelin bina bulduğu rastgele noktalar (93 adet).
-| seviye | nokta sayısı | ortalama skor |
+<figure><img alt="xBD tornado events — random test tiles" src="img/tornado_xbd_samples.png" loading="lazy"><figcaption>xBD tornado events — random test tiles</figcaption></figure>
+<h2>Case study — Rolling Fork, Mississippi (EF4, 24 March 2023), aerial photography</h2>
+<p>For each NWS damage point a 256 m × 256 m pre/post NAIP chip was cut; score = the model's <em>major + destroyed</em> probability within 20 m of the point (weighted by building pixels). Controls: random built-up points (ESA WorldCover) more than 1.5 km from any damage point where the model finds a building (93 points).
+| level | points | mean score |
 |---|---|---|
-| none | 93 | 0.296 |
-| EF0 | 21 | 0.249 |
-| EF1 | 130 | 0.291 |
-| EF2 | 118 | 0.359 |
-| EF3 | 45 | 0.351 |
-| EF4 | 27 | 0.373 |</p>
-<figure><img alt="Rolling Fork: EF derecesine göre model skoru ve AUC" src="img/tornado_rf_metrics.png" loading="lazy"><figcaption>Rolling Fork: EF derecesine göre model skoru ve AUC</figcaption></figure>
-<figure><img alt="Rastgele NAIP kesitleri (camgöbeği daire = 20 m değerlendirme çevresi)" src="img/tornado_rf_samples.png" loading="lazy"><figcaption>Rastgele NAIP kesitleri (camgöbeği daire = 20 m değerlendirme çevresi)</figcaption></figure>
-<h2>Sınırlar</h2>
+| none | 93 | 0.376 |
+| EF0 | 21 | 0.286 |
+| EF1 | 130 | 0.342 |
+| EF2 | 118 | 0.423 |
+| EF3 | 45 | 0.364 |
+| EF4 | 27 | 0.396 |</p>
+<figure><img alt="Rolling Fork: model score by EF rating and AUC" src="img/tornado_rf_metrics.png" loading="lazy"><figcaption>Rolling Fork: model score by EF rating and AUC</figcaption></figure>
+<figure><img alt="Random NAIP chips (cyan circle = 20 m scoring radius)" src="img/tornado_rf_samples.png" loading="lazy"><figcaption>Random NAIP chips (cyan circle = 20 m scoring radius)</figcaption></figure>
+<h2>Limitations</h2>
 <ul>
-<li>NAIP sonrası görüntü olaydan ~4,5 ay sonra: enkaz kaldırılmış, bazı yapılar onarılmış olabilir → hasar düşük görünür.</li>
-<li>NAIP (uçak, nadir) ile Maxar (uydu, eğik bakış) arasında renk/ölçek farkı; model hava fotoğrafı ile eğitilmedi.</li>
-<li>NWS noktaları yalnızca hasar görmüş yapılardır; "hasarsız" sınıfı kontrol noktalarıyla yaklaşık temsil edildi.</li>
-<li><strong>Gözlenen başarısızlık modu:</strong> EF4 noktalarında enkaz Ağustos 2023'e kadar kaldırılmış; model boş arsayı "bina yok" olarak okuyor ve hasar skoru düşük kalıyor (örnek görsellerin ilk ve üçüncü satırı). xBD'de yıkılmış bina hep enkazla görüldüğü için model "kaybolan binayı" hasar olarak öğrenmemiş. Öncesi görüntüdeki bina konumuna göre puanlama bu hatayı azaltır.</li>
+<li>The NAIP post image was flown ~4.5 months after the event: debris was cleared and some structures repaired, so damage looks smaller.</li>
+<li>NAIP (aircraft, nadir) and Maxar (satellite, oblique) differ in colour and scale; the model never saw aerial imagery.</li>
+<li>NWS points are damaged structures only; the "undamaged" class is approximated with control points.</li>
+<li><strong>Observed failure mode:</strong> at EF4 points the debris had been removed by August 2023; the model reads the empty lot as "no building" and the damage score stays low (first and third rows of the sample figure). In xBD destroyed buildings always appear as rubble, so the model never learned "missing building" as damage. Scoring at the building location found in the pre image would reduce this.</li>
 </ul>
-<h2>Kaynaklar</h2>
+<h2>Sources</h2>
 <ul>
-<li>xBD / xView2 (Gupta ve ark., 2019), Maxar Open Data görüntüleri, CC BY-NC-SA 4.0 — HF mirror <code>hannan022/xview2-xbd</code></li>
+<li>xBD / xView2 (Gupta et al., 2019), Maxar Open Data imagery, CC BY-NC-SA 4.0 — HF mirror <code>hannan022/xview2-xbd</code></li>
 <li>NAIP: Microsoft Planetary Computer <code>naip</code></li>
 <li>NWS Damage Assessment Toolkit: https://apps.dat.noaa.gov/stormdamage/damageviewer/</li>
-</ul></section><section id="05-dolu" class="rep"><h1>Dolu — Nebraska/Iowa, Haziran 2022 (Sentinel-2 vs radar MESH)</h1>
-<h2>Özet</h2>
+</ul></section><section id="05-hail" class="rep"><h1>Hail — Nebraska/Iowa, June 2022 (Sentinel-2 vs radar MESH)</h1>
+<h2>Summary</h2>
 <ul>
-<li>Dolu doğrudan "görülmez"; uydu yalnızca <strong>bitki örtüsündeki hasarı</strong> (NDVI düşüşü) görebilir. Yer gerçeği olarak NOAA MRMS <strong>MESH</strong> (radardan tahmini en büyük dolu çapı, ~1 km) kullanıldı; konumu SPC dolu raporlarıyla doğrulandı (raporlardaki MESH medyanı ~36 mm).</li>
-<li><strong>Küçük/orta dolu (≥25 mm) neredeyse ayırt edilemiyor:</strong> AUC 0.51–0.61.</li>
-<li><strong>Büyük dolu görülebiliyor:</strong> ≥60 mm için AUC <strong>0.84</strong>'e kadar; dolu çapı arttıkça ΔNDVI düzenli artıyor.</li>
-<li>Sonuç tarih penceresine çok duyarlı: Haziran'da ekin hızla büyüdüğü için "öncesi" ile "sonrası" arası uzadıkça sinyal bozuluyor.</li>
+<li>Hail itself is not visible; the satellite only sees <strong>damage to vegetation</strong> (an NDVI drop). Ground truth is NOAA MRMS <strong>MESH</strong> (radar-estimated maximum hail size, ~1 km); its location was checked against SPC hail reports (median MESH at the reports ~36 mm).</li>
+<li><strong>Small/moderate hail (≥25 mm) is barely separable:</strong> AUC 0.51–0.61.</li>
+<li><strong>Large hail is visible:</strong> up to AUC <strong>0.84</strong> for ≥60 mm; ΔNDVI rises steadily with hail size.</li>
+<li>The result is very sensitive to the date window: crops grow fast in June, so the longer the gap between pre and post, the weaker the signal.</li>
 </ul>
-<h2>Veri ve yer gerçeği</h2>
+<h2>Data and ground truth</h2>
 <div class="tw"><table>
 <thead>
 <tr>
-<th>veri</th>
+<th>data</th>
 <th>platform</th>
-<th>çözünürlük</th>
+<th>resolution</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Sentinel-2 L2A (B04, B08, SCL bulut maskesi) — Planetary Computer</td>
-<td>uydu</td>
-<td>10 m → 0,0025° (~250 m) hücreye ortalandı</td>
+<td>Sentinel-2 L2A (B04, B08, SCL cloud mask) — Planetary Computer</td>
+<td>satellite</td>
+<td>10 m → averaged to 0.0025° (~250 m) cells</td>
 </tr>
 <tr>
-<td>ESA WorldCover 2021 (tarım alanı maskesi)</td>
-<td>uydu ürünü</td>
+<td>ESA WorldCover 2021 (cropland mask)</td>
+<td>satellite product</td>
 <td>10 m</td>
 </tr>
 <tr>
-<td>NOAA MRMS MESH_Max_1440min (IEM arşivi)</td>
-<td>yer radarı</td>
-<td>0,01° (~1 km)</td>
+<td>NOAA MRMS MESH_Max_1440min (IEM archive)</td>
+<td>ground radar</td>
+<td>0.01° (~1 km)</td>
 </tr>
 <tr>
-<td>NOAA SPC dolu raporları</td>
-<td>gözlemci</td>
-<td>nokta</td>
+<td>NOAA SPC hail reports</td>
+<td>observers</td>
+<td>points</td>
 </tr>
 </tbody>
 </table></div>
-<h2>Sonuçlar</h2>
-<p>Pozitif: MESH ≥ 25 mm; negatif: aynı dönemde MESH &lt; 10 mm. Skor: ΔNDVI = NDVI(öncesi) − NDVI(sonrası), sadece tarım hücreleri.
-| konfigürasyon | geçerli hücre | dolu hücresi | AUC ≥25 mm | AUC ≥40 mm | AUC ≥60 mm | Spearman (MESH, ΔNDVI) | en iyi F1* |
+<h2>Results</h2>
+<p>Positive: MESH ≥ 25 mm; negative: MESH &lt; 10 mm over the same period. Score: ΔNDVI = NDVI(pre) − NDVI(post), cropland cells only.
+| configuration | valid cells | hail cells | AUC ≥25 mm | AUC ≥40 mm | AUC ≥60 mm | Spearman (MESH, ΔNDVI) | best F1* |
 |---|---|---|---|---|---|---|---|
-| A: tek olay (14 Haz), öncesi 11–14 / sonrası 16–19 Haz | 467573 | 71535 | 0.512 | 0.597 | 0.704 | 0.111 | 0.415 |
-| C: 6–14 Haz olayları, öncesi 1–5 / sonrası 11–14 Haz | 283310 | 65626 | 0.612 | 0.715 | 0.836 | 0.135 | 0.525 |
-| B: 6–19 Haz olayları, öncesi 1–5 / sonrası 16–19 Haz | 374634 | 142313 | 0.526 | 0.626 | 0.783 | 0.126 | 0.576 |</p>
-<p>* F1 eşiği aynı veride seçildi (iyimser); asıl karşılaştırma ölçütü eşikten bağımsız AUC.</p>
-<figure><img alt="Konfigürasyon C: ROC, MESH sınıfına göre ΔNDVI, eşik eğrileri" src="img/hail_C_metrics.png" loading="lazy"><figcaption>Konfigürasyon C: ROC, MESH sınıfına göre ΔNDVI, eşik eğrileri</figcaption></figure>
-<figure><img alt="Konfigürasyon C: NDVI öncesi/sonrası, MESH ve ΔNDVI haritaları" src="img/hail_C_maps.png" loading="lazy"><figcaption>Konfigürasyon C: NDVI öncesi/sonrası, MESH ve ΔNDVI haritaları</figcaption></figure>
-<figure><img alt="Konfigürasyon A: 14 Haziran olayı" src="img/hail_A_maps.png" loading="lazy"><figcaption>Konfigürasyon A: 14 Haziran olayı</figcaption></figure>
-<h2>Sınırlar</h2>
+| A: single event (14 Jun), pre 11–14 / post 16–19 Jun | 467573 | 71535 | 0.512 | 0.597 | 0.704 | 0.111 | 0.415 |
+| C: events 6–14 Jun, pre 1–5 / post 11–14 Jun | 283310 | 65626 | 0.612 | 0.715 | 0.836 | 0.135 | 0.525 |
+| B: events 6–19 Jun, pre 1–5 / post 16–19 Jun | 374634 | 142313 | 0.526 | 0.626 | 0.783 | 0.126 | 0.576 |</p>
+<p>* The F1 threshold was picked on the same data (optimistic); the threshold-free AUC is the real comparison.</p>
+<figure><img alt="Configuration C: ROC, ΔNDVI by MESH class, threshold curves" src="img/hail_C_metrics.png" loading="lazy"><figcaption>Configuration C: ROC, ΔNDVI by MESH class, threshold curves</figcaption></figure>
+<figure><img alt="Configuration C: NDVI pre/post, MESH and ΔNDVI maps" src="img/hail_C_maps.png" loading="lazy"><figcaption>Configuration C: NDVI pre/post, MESH and ΔNDVI maps</figcaption></figure>
+<figure><img alt="Configuration A: the 14 June event" src="img/hail_A_maps.png" loading="lazy"><figcaption>Configuration A: the 14 June event</figcaption></figure>
+<h2>Limitations</h2>
 <ul>
-<li>MESH bir radar tahminidir (dolu çapını sıklıkla abartır, yere düşen doluyu doğrudan ölçmez) — "gerçek" değil, en iyi mevcut alan ölçümü.</li>
-<li>~250 m hücreler tarla sınırlarını karıştırır; tarla bazlı analiz ve daha uzun süreli zaman serisi sinyali güçlendirir.</li>
-<li>Haziran başında mısır/soya küçük olduğu için hasar NDVI'da sınırlı görünür; Temmuz–Ağustos olayları daha belirgin olabilir.</li>
+<li>MESH is a radar estimate (it often overestimates hail size and does not measure hail at the ground) — the best available area measurement, not truth.</li>
+<li>~250 m cells mix field boundaries; field-level analysis and a longer time series would strengthen the signal.</li>
+<li>In early June corn and soy are small, so damage shows little in NDVI; July–August events may be clearer.</li>
 </ul>
-<h2>Kaynaklar</h2>
+<h2>Sources</h2>
 <ul>
-<li>NOAA MRMS (IEM arşivi): https://mtarchive.geol.iastate.edu/</li>
+<li>NOAA MRMS (IEM archive): https://mtarchive.geol.iastate.edu/</li>
 <li>NOAA SPC Storm Reports: https://www.spc.noaa.gov/climo/reports/</li>
-<li>CIMSS uydu blogu, Nebraska/Iowa dolu izleri (Haziran 2022): https://cimss.ssec.wisc.edu/satellite-blog/archives/46975</li>
-</ul></section><section id="06-asiri-sicak" class="rep"><h1>Aşırı sıcak — Yaz 2023 sıcak hava dalgaları (MODIS yüzey sıcaklığı vs istasyon)</h1>
-<h2>Özet</h2>
+<li>CIMSS satellite blog, Nebraska/Iowa hail swaths (June 2022): https://cimss.ssec.wisc.edu/satellite-blog/archives/46975</li>
+</ul></section><section id="06-extreme-heat" class="rep"><h1>Extreme heat — summer 2023 heatwaves (MODIS surface temperature vs stations)</h1>
+<h2>Summary</h2>
 <ul>
-<li><strong>10 şehir</strong> (Phoenix, Las Vegas, El Paso, Sevilla, Roma, Palermo, Atina, Antalya, Adana, Pekin), Haziran–Ağustos 2023; kalibrasyon yalnızca 2022 yazıyla.</li>
-<li>Uydu gündüz yüzey sıcaklığı (LST) ile istasyon günlük maksimum hava sıcaklığı ortalama <strong>r = 0.65</strong>; doğrusal kalibrasyon hatası ortalama <strong>3.0 °C</strong> RMSE.</li>
-<li><strong>Aşırı sıcak günü tespiti</strong> (istasyon Tmax ≥ 2013–2022 yaz P90): sıralama gücü iyi (<strong>havuz AUC 0.82</strong>), fakat eşikleme yöntemi belirleyici: doğrusal kalibrasyon F1 0.20 (tahminler ortalamaya çekiliyor), yüzdelik eşleme F1 <strong>0.50</strong> (precision 0.70, recall 0.40).</li>
-<li>Akdeniz LST anomali haritası Temmuz 2023 "Cerberus" dalgasını Sicilya, Sardunya, Yunanistan, Kuzey Afrika ve Adana çevresinde net gösteriyor (kara ortalaması +0.4 °C).</li>
+<li><strong>10 cities</strong> (Phoenix, Las Vegas, El Paso, Seville, Rome, Palermo, Athens, Antalya, Adana, Beijing), June–August 2023; calibration uses summer 2022 only.</li>
+<li>Daytime satellite land-surface temperature (LST) vs station daily maximum air temperature: mean <strong>r = 0.65</strong>; linear calibration error <strong>3.0 °C</strong> RMSE on average.</li>
+<li><strong>Extreme-heat day detection</strong> (station Tmax ≥ 2013–2022 summer P90): ranking is good (<strong>pooled AUC 0.82</strong>), but the thresholding rule decides the result: linear calibration F1 0.20 (estimates shrink towards the mean), quantile matching F1 <strong>0.50</strong> (precision 0.70, recall 0.40).</li>
+<li>The Mediterranean LST anomaly map clearly shows the July 2023 "Cerberus" heatwave over Sicily, Sardinia, Greece, North Africa and around Adana (land mean +0.4 °C).</li>
+<li>This is a single-date measurement, not pre/post damage detection; it is outside the #30 change-detection pipeline.</li>
 </ul>
-<h2>Veri ve yer gerçeği</h2>
+<h2>Data and ground truth</h2>
 <div class="tw"><table>
 <thead>
 <tr>
-<th>veri</th>
+<th>data</th>
 <th>platform</th>
-<th>çözünürlük</th>
+<th>resolution</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>MODIS Terra MOD11A1 günlük LST (gündüz) — Planetary Computer</td>
-<td>uydu</td>
+<td>MODIS Terra MOD11A1 daily daytime LST — Planetary Computer</td>
+<td>satellite</td>
 <td>1 km</td>
 </tr>
 <tr>
-<td>MODIS Terra MOD11A2 8 günlük LST (anomali haritası)</td>
-<td>uydu</td>
-<td>1 km → 0,05°</td>
+<td>MODIS Terra MOD11A2 8-day LST (anomaly map)</td>
+<td>satellite</td>
+<td>1 km → 0.05°</td>
 </tr>
 <tr>
-<td>Meteostat (NOAA ISD/DWD istasyonları) günlük Tmax, 2013–2023</td>
-<td>yer istasyonu</td>
-<td>nokta</td>
+<td>Meteostat (NOAA ISD/DWD stations) daily Tmax, 2013–2023</td>
+<td>ground station</td>
+<td>point</td>
 </tr>
 </tbody>
 </table></div>
-<h2>Sonuçlar — şehir bazında (test yılı 2023)</h2>
+<h2>Results — per city (test year 2023)</h2>
 <div class="tw"><table>
 <thead>
 <tr>
-<th>şehir</th>
-<th>istasyon</th>
-<th>gün (bulutsuz)</th>
-<th>aşırı sıcak gün</th>
+<th>city</th>
+<th>station</th>
+<th>days (clear)</th>
+<th>extreme days</th>
 <th>r</th>
 <th>RMSE °C</th>
 <th>AUC</th>
-<th>F1 doğrusal</th>
-<th>F1 yüzdelik</th>
+<th>F1 linear</th>
+<th>F1 quantile</th>
 </tr>
 </thead>
 <tbody>
@@ -793,7 +794,7 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>0.512</td>
 </tr>
 <tr>
-<td>Sevilla</td>
+<td>Seville</td>
 <td>Sevilla / San Pablo</td>
 <td>78</td>
 <td>20</td>
@@ -804,7 +805,7 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>0.476</td>
 </tr>
 <tr>
-<td>Roma</td>
+<td>Rome</td>
 <td>Roma Fiumicino</td>
 <td>72</td>
 <td>21</td>
@@ -826,7 +827,7 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>0.125</td>
 </tr>
 <tr>
-<td>Atina</td>
+<td>Athens</td>
 <td>El Venizelos / Liádha</td>
 <td>81</td>
 <td>20</td>
@@ -859,7 +860,7 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>0.432</td>
 </tr>
 <tr>
-<td>Pekin</td>
+<td>Beijing</td>
 <td>Beijing</td>
 <td>46</td>
 <td>24</td>
@@ -871,69 +872,69 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 </tr>
 </tbody>
 </table></div>
-<figure><img alt="LST–Tmax ilişkisi, aşırı sıcak günü ROC ve şehir bazında performans" src="img/heat_metrics.png" loading="lazy"><figcaption>LST–Tmax ilişkisi, aşırı sıcak günü ROC ve şehir bazında performans</figcaption></figure>
-<figure><img alt="Yaz 2023 zaman serileri: istasyon Tmax ve uydu tahmini" src="img/heat_timeseries.png" loading="lazy"><figcaption>Yaz 2023 zaman serileri: istasyon Tmax ve uydu tahmini</figcaption></figure>
-<figure><img alt="12–19 Temmuz 2023 LST anomalisi (2018–2022 ortalamasına göre)" src="img/heat_anomaly_map.png" loading="lazy"><figcaption>12–19 Temmuz 2023 LST anomalisi (2018–2022 ortalamasına göre)</figcaption></figure>
-<h2>Sınırlar</h2>
+<figure><img alt="LST–Tmax relation, extreme-day ROC and per-city performance" src="img/heat_metrics.png" loading="lazy"><figcaption>LST–Tmax relation, extreme-day ROC and per-city performance</figcaption></figure>
+<figure><img alt="Summer 2023 time series: station Tmax and satellite estimate" src="img/heat_timeseries.png" loading="lazy"><figcaption>Summer 2023 time series: station Tmax and satellite estimate</figcaption></figure>
+<figure><img alt="12–19 July 2023 LST anomaly (vs the 2018–2022 mean)" src="img/heat_anomaly_map.png" loading="lazy"><figcaption>12–19 July 2023 LST anomaly (vs the 2018–2022 mean)</figcaption></figure>
+<h2>Limitations</h2>
 <ul>
-<li>LST yüzey sıcaklığıdır, hava sıcaklığı değil; kentsel yüzeyler/çıplak toprak gündüz 10–20 °C daha sıcak olabilir.</li>
-<li>Bulutlu günlerde ölçüm yok (gün sayısı sütunu); Pekin'de muson nedeniyle yaz günlerinin ~yarısı kayıp.</li>
-<li>2023, 2022'den belirgin sıcaktı: 2022 oranıyla kalibre edilen eşikler 2023'teki aşırı gün sayısını eksik tahmin ediyor (recall düşük).</li>
+<li>LST is surface, not air temperature; urban surfaces and bare soil can be 10–20 °C hotter during the day.</li>
+<li>No measurement on cloudy days (see the days column); in Beijing the monsoon removes about half of the summer days.</li>
+<li>2023 was clearly hotter than 2022: thresholds calibrated on the 2022 rate under-predict the number of extreme days in 2023 (low recall).</li>
 </ul>
-<h2>Kaynaklar</h2>
+<h2>Sources</h2>
 <ul>
-<li>MODIS LST (Wan ve ark.), Microsoft Planetary Computer <code>modis-11A1-061</code>, <code>modis-11A2-061</code></li>
+<li>MODIS LST (Wan et al.), Microsoft Planetary Computer <code>modis-11A1-061</code>, <code>modis-11A2-061</code></li>
 <li>Meteostat: https://meteostat.net</li>
-</ul></section><section id="07-yangin" class="rep"><h1>Yangın — yanık alanı (Sentinel-2 dNBR) ve bina hasarı (xBD)</h1>
-<h2>Özet</h2>
+</ul></section><section id="07-fire" class="rep"><h1>Fire — burned area (Sentinel-2 dNBR) and building damage (xBD)</h1>
+<h2>Summary</h2>
 <ul>
-<li><strong>Yanık alanı, 4 yangın, resmi sınırlara karşı:</strong> Palisades IoU 0.86, Eaton IoU 0.72, Camp IoU 0.54, Manavgat IoU 0.72 (en iyi eşik).</li>
-<li>Tek bir standart eşik (USGS dNBR &gt; 0,10) eğitim olmadan çoğu yangında iyi çalışıyor; hatalar resmi sınır içindeki yanmamış adacıklar, hasat edilen tarlalar ve bulut kaynaklı.</li>
-<li><strong>Yangın kaynaklı bina hasarı (xBD, 5 yangın olayı):</strong> hasarlı/hasarsız bina F1 <strong>0.79</strong>, yıkılmış bina recall 0.75 — yangın, xBD'de en iyi tespit edilen afet türlerinden (yanmış binalar ikili: ya ayakta ya kül).</li>
+<li><strong>Burned area, 4 fires, against official perimeters:</strong> Palisades IoU 0.86, Eaton IoU 0.72, Camp IoU 0.54, Manavgat IoU 0.72 (best threshold).</li>
+<li>A single standard threshold (USGS dNBR &gt; 0.10) works well without training on most fires; errors come from unburned islands inside the official perimeter, harvested fields and cloud.</li>
+<li><strong>Fire-driven building damage (xBD, 5 fire events):</strong> damaged/undamaged building F1 <strong>0.81</strong>, destroyed-building recall 0.79 — fire is one of the best-detected hazards in xBD (burned buildings are binary: standing or ash).</li>
 </ul>
-<h2>Veri ve yer gerçeği</h2>
+<h2>Data and ground truth</h2>
 <div class="tw"><table>
 <thead>
 <tr>
-<th>veri</th>
+<th>data</th>
 <th>platform</th>
-<th>çözünürlük</th>
-<th>yer gerçeği</th>
+<th>resolution</th>
+<th>ground truth</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Sentinel-2 L2A B08/B12 öncesi–sonrası mozaik — Planetary Computer</td>
-<td>uydu</td>
+<td>Sentinel-2 L2A B08/B12 pre/post mosaics — Planetary Computer</td>
+<td>satellite</td>
 <td>20 m (~25 m grid)</td>
-<td>NIFC WFIGS / InterAgency yangın sınırları (ABD), EFFIS yanık alanı (Manavgat)</td>
+<td>NIFC WFIGS / InterAgency fire perimeters (US), EFFIS burned area (Manavgat)</td>
 </tr>
 <tr>
 <td>xBD: socal, santa-rosa, woolsey, portugal, pinery</td>
-<td>uydu: Maxar</td>
-<td>~0,5 m (modelde ~1 m)</td>
-<td>bina hasar seviyeleri</td>
+<td>satellite: Maxar</td>
+<td>~0.5 m (~1 m in the model)</td>
+<td>building damage levels</td>
 </tr>
 </tbody>
 </table></div>
-<h2>Sonuçlar — yanık alanı</h2>
+<h2>Results — burned area</h2>
 <div class="tw"><table>
 <thead>
 <tr>
-<th>yangın</th>
-<th>yöntem</th>
+<th>fire</th>
+<th>method</th>
 <th>precision</th>
 <th>recall</th>
 <th>F1</th>
 <th>IoU</th>
-<th>resmi alan km²</th>
-<th>uydu alanı km²**</th>
+<th>official area km²</th>
+<th>satellite area km²**</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Palisades (LA, Oca 2025)</td>
-<td>dNBR&gt;0.10 (USGS düşük şiddet)</td>
+<td>Palisades (LA, Jan 2025)</td>
+<td>dNBR&gt;0.10 (USGS low)</td>
 <td>0.849</td>
 <td>0.967</td>
 <td>0.904</td>
@@ -942,8 +943,8 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>106.656</td>
 </tr>
 <tr>
-<td>Palisades (LA, Oca 2025)</td>
-<td>dNBR&gt;0.27 (USGS orta-düşük)</td>
+<td>Palisades (LA, Jan 2025)</td>
+<td>dNBR&gt;0.27 (USGS moderate-low)</td>
 <td>0.987</td>
 <td>0.860</td>
 <td>0.919</td>
@@ -952,7 +953,7 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>81.654</td>
 </tr>
 <tr>
-<td>Palisades (LA, Oca 2025)</td>
+<td>Palisades (LA, Jan 2025)</td>
 <td>Otsu (0.26)</td>
 <td>0.986</td>
 <td>0.867</td>
@@ -962,8 +963,8 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>82.379</td>
 </tr>
 <tr>
-<td>Eaton (LA, Oca 2025)</td>
-<td>dNBR&gt;0.10 (USGS düşük şiddet)</td>
+<td>Eaton (LA, Jan 2025)</td>
+<td>dNBR&gt;0.10 (USGS low)</td>
 <td>0.755</td>
 <td>0.939</td>
 <td>0.837</td>
@@ -972,8 +973,8 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>52.229</td>
 </tr>
 <tr>
-<td>Eaton (LA, Oca 2025)</td>
-<td>dNBR&gt;0.27 (USGS orta-düşük)</td>
+<td>Eaton (LA, Jan 2025)</td>
+<td>dNBR&gt;0.27 (USGS moderate-low)</td>
 <td>0.974</td>
 <td>0.694</td>
 <td>0.810</td>
@@ -982,7 +983,7 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>29.913</td>
 </tr>
 <tr>
-<td>Eaton (LA, Oca 2025)</td>
+<td>Eaton (LA, Jan 2025)</td>
 <td>Otsu (0.24)</td>
 <td>0.964</td>
 <td>0.743</td>
@@ -992,8 +993,8 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>32.352</td>
 </tr>
 <tr>
-<td>Camp (Paradise, Kas 2018)</td>
-<td>dNBR&gt;0.10 (USGS düşük şiddet)</td>
+<td>Camp (Paradise, Nov 2018)</td>
+<td>dNBR&gt;0.10 (USGS low)</td>
 <td>0.631</td>
 <td>0.792</td>
 <td>0.702</td>
@@ -1002,8 +1003,8 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>780.138</td>
 </tr>
 <tr>
-<td>Camp (Paradise, Kas 2018)</td>
-<td>dNBR&gt;0.27 (USGS orta-düşük)</td>
+<td>Camp (Paradise, Nov 2018)</td>
+<td>dNBR&gt;0.27 (USGS moderate-low)</td>
 <td>0.833</td>
 <td>0.551</td>
 <td>0.663</td>
@@ -1012,7 +1013,7 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>410.582</td>
 </tr>
 <tr>
-<td>Camp (Paradise, Kas 2018)</td>
+<td>Camp (Paradise, Nov 2018)</td>
 <td>Otsu (0.27)</td>
 <td>0.834</td>
 <td>0.549</td>
@@ -1022,8 +1023,8 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>408.195</td>
 </tr>
 <tr>
-<td>Manavgat (Antalya, Tem 2021)</td>
-<td>dNBR&gt;0.10 (USGS düşük şiddet)</td>
+<td>Manavgat (Antalya, Jul 2021)</td>
+<td>dNBR&gt;0.10 (USGS low)</td>
 <td>0.824</td>
 <td>0.853</td>
 <td>0.839</td>
@@ -1032,8 +1033,8 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>568.184</td>
 </tr>
 <tr>
-<td>Manavgat (Antalya, Tem 2021)</td>
-<td>dNBR&gt;0.27 (USGS orta-düşük)</td>
+<td>Manavgat (Antalya, Jul 2021)</td>
+<td>dNBR&gt;0.27 (USGS moderate-low)</td>
 <td>0.909</td>
 <td>0.625</td>
 <td>0.741</td>
@@ -1042,7 +1043,7 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 <td>377.419</td>
 </tr>
 <tr>
-<td>Manavgat (Antalya, Tem 2021)</td>
+<td>Manavgat (Antalya, Jul 2021)</td>
 <td>Otsu (0.28)</td>
 <td>0.913</td>
 <td>0.603</td>
@@ -1053,97 +1054,97 @@ Kareler WorldCover'a göre ikiye ayrıldı: <em>temiz kentsel</em> (yerleşim �
 </tr>
 </tbody>
 </table></div>
-<p>** Uydu alanı, sınırın %25 tamponlu kutusunun tamamında ölçüldü (kutudaki başka yanıklar da sayılır).</p>
-<figure><img alt="IoU, alan karşılaştırması, sınır içi yanma şiddeti dağılımı" src="img/fire_metrics.png" loading="lazy"><figcaption>IoU, alan karşılaştırması, sınır içi yanma şiddeti dağılımı</figcaption></figure>
-<figure><img alt="NBR öncesi/sonrası, dNBR ve hata haritası" src="img/fire_maps.png" loading="lazy"><figcaption>NBR öncesi/sonrası, dNBR ve hata haritası</figcaption></figure>
-<h2>Sonuçlar — bina hasarı (xBD yangın olayları)</h2>
-<p><strong>Model:</strong> 6 kanallı (öncesi+sonrası RGB) U-Net/ResNet18, 5 sınıf (arka plan, hasarsız, az, ağır, yıkılmış). xBD train+tier3'ten olay başına ≤250 görüntü (3304 görüntü), 1024→512 küçültülerek (~1 m/px) 12 epoch eğitildi; en iyi doğrulama xView2 skoru 0.628. Test: xBD test bölümü + tier3 olaylarının ayrılmış %20'si (1313 görüntü). <em>Hasar sınıf F1</em> = 4 hasar sınıfının harmonik ortalaması (xView2 tanımı); <em>bina</em> metrikleri bağlantılı bina bileşenleri üzerinden.</p>
+<p>** The satellite area is measured over the whole perimeter box with a 25 % buffer (other burns inside the box count too).</p>
+<figure><img alt="IoU, area comparison and burn-severity mix inside the perimeter" src="img/fire_metrics.png" loading="lazy"><figcaption>IoU, area comparison and burn-severity mix inside the perimeter</figcaption></figure>
+<figure><img alt="NBR pre/post, dNBR and error map" src="img/fire_maps.png" loading="lazy"><figcaption>NBR pre/post, dNBR and error map</figcaption></figure>
+<h2>Results — building damage (xBD fire events)</h2>
+<p><strong>Model:</strong> 6-channel (pre + post RGB) U-Net / ResNet18, 5 classes (background, no damage, minor, major, destroyed). Trained on ≤250 images per event from xBD train + tier3 (3304 images), downsampled 1024 → 512 (~1 m/px), 12 epochs; best validation xView2 score 0.590. Test: xBD test split + a held-out 20 % of the tier3 events (1313 images). <em>Damage class F1</em> is the harmonic mean over the four damage classes (xView2 definition); <em>building</em> metrics use connected building components.</p>
 <div class="tw"><table>
 <thead>
 <tr>
-<th>olay</th>
-<th>bina</th>
-<th>bina bulma F1</th>
-<th>hasar sınıf F1</th>
-<th>hasarlı/hasarsız F1 (bina)</th>
-<th>yıkılmış recall</th>
-<th>gerçek hasarlı payı</th>
+<th>event</th>
+<th>buildings</th>
+<th>building localisation F1</th>
+<th>damage class F1</th>
+<th>damaged/undamaged F1 (building)</th>
+<th>destroyed recall</th>
+<th>true damaged share</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>pinery-bushfire</td>
-<td>335</td>
-<td>0.722</td>
+<td>242</td>
+<td>0.619</td>
 <td>0.000</td>
-<td>0.205</td>
-<td>0.167</td>
-<td>0.104</td>
+<td>0.386</td>
+<td>0.360</td>
+<td>0.169</td>
 </tr>
 <tr>
 <td>portugal-wildfire</td>
-<td>829</td>
-<td>0.706</td>
+<td>752</td>
+<td>0.689</td>
 <td>0.000</td>
-<td>0.289</td>
-<td>0.194</td>
-<td>0.057</td>
+<td>0.333</td>
+<td>0.192</td>
+<td>0.048</td>
 </tr>
 <tr>
 <td>santa-rosa-wildfire</td>
 <td>3833</td>
-<td>0.753</td>
-<td>0.001</td>
-<td>0.922</td>
-<td>0.924</td>
+<td>0.748</td>
+<td>0.023</td>
+<td>0.921</td>
+<td>0.934</td>
 <td>0.247</td>
 </tr>
 <tr>
 <td>socal-fire</td>
 <td>3575</td>
-<td>0.695</td>
-<td>0.082</td>
-<td>0.603</td>
-<td>0.488</td>
+<td>0.697</td>
+<td>0.106</td>
+<td>0.634</td>
+<td>0.580</td>
 <td>0.131</td>
 </tr>
 <tr>
 <td>woolsey-fire</td>
-<td>743</td>
-<td>0.652</td>
+<td>617</td>
+<td>0.695</td>
 <td>0.000</td>
-<td>0.702</td>
-<td>0.598</td>
-<td>0.289</td>
+<td>0.741</td>
+<td>0.642</td>
+<td>0.311</td>
 </tr>
 <tr>
-<td><strong>fire (toplam)</strong></td>
-<td>9315</td>
-<td>0.718</td>
-<td>0.044</td>
-<td>0.791</td>
-<td>0.746</td>
-<td>0.184</td>
+<td><strong>fire (all)</strong></td>
+<td>9019</td>
+<td>0.717</td>
+<td>0.061</td>
+<td>0.807</td>
+<td>0.787</td>
+<td>0.186</td>
 </tr>
 </tbody>
 </table></div>
-<figure><img alt="xBD yangın olayları — rastgele test kareleri" src="img/fire_xbd_samples.png" loading="lazy"><figcaption>xBD yangın olayları — rastgele test kareleri</figcaption></figure>
-<h2>Sınırlar</h2>
+<figure><img alt="xBD fire events — random test tiles" src="img/fire_xbd_samples.png" loading="lazy"><figcaption>xBD fire events — random test tiles</figcaption></figure>
+<h2>Limitations</h2>
 <ul>
-<li>Resmi sınırlar yanmamış adacıkları da kapsar; IoU üst sınırı 1'in altındadır.</li>
-<li>EFFIS sınırı MODIS/VIIRS + Sentinel-2 tabanlı, NIFC sınırları hava/saha ölçümlü — kaynaklar arası tutarlılık farklı.</li>
-<li>Camp yangınında "sonrası" Aralık mozaiğinde bulut/kar ve hasat edilmiş tarlalar yanlış alarm üretiyor.</li>
+<li>Official perimeters include unburned islands, so the IoU ceiling is below 1.</li>
+<li>The EFFIS perimeter is MODIS/VIIRS + Sentinel-2 based, the NIFC perimeters are airborne/field mapped — consistency differs between sources.</li>
+<li>For the Camp fire the December "post" mosaic has cloud/snow and harvested fields that produce false alarms.</li>
 </ul>
-<h2>Kaynaklar</h2>
+<h2>Sources</h2>
 <ul>
 <li>NIFC WFIGS Interagency Perimeters: https://data-nifc.opendata.arcgis.com</li>
 <li>EFFIS: https://effis.jrc.ec.europa.eu</li>
-<li>xBD / xView2 (Gupta ve ark., 2019), Maxar Open Data görüntüleri, CC BY-NC-SA 4.0 — HF mirror <code>hannan022/xview2-xbd</code></li>
+<li>xBD / xView2 (Gupta et al., 2019), Maxar Open Data imagery, CC BY-NC-SA 4.0 — HF mirror <code>hannan022/xview2-xbd</code></li>
 </ul></section></main>
 <script>
 const tabs = [...document.querySelectorAll("nav a")], reps = [...document.querySelectorAll(".rep")];
 function show(id) {
-  if (!reps.some(r => r.id === id)) id = "genel";
+  if (!reps.some(r => r.id === id)) id = "overview";
   reps.forEach(r => r.classList.toggle("on", r.id === id));
   tabs.forEach(t => t.classList.toggle("on", t.dataset.t === id));
 }
@@ -1151,5 +1152,5 @@ document.addEventListener("click", e => {
   const a = e.target.closest('a[href^="#"]'); if (!a) return;
   e.preventDefault(); const id = a.getAttribute("href").slice(1); show(id); history.replaceState(null, "", "#" + id); window.scrollTo(0, 0);
 });
-show(location.hash.slice(1) || "genel");
+show(location.hash.slice(1) || "overview");
 </script>
