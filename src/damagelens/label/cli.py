@@ -1,13 +1,16 @@
 import argparse
 import json
 from collections import Counter
-from pathlib import Path
 
 from .. import REPO_ROOT
-from .dataset import load_labeled, read_annotation, to_geojson
+from .dataset import read_annotation, to_geojson, validate_area
 from .prepare import ensure_tiles, prepare_area
 
 ROOT = REPO_ROOT / "labels"
+
+
+def areas(name=None):
+    return sorted(d for d in ROOT.iterdir() if (d / "manifest.json").exists() and (not name or d.name == name)) if ROOT.exists() else []
 
 
 def main(argv=None):
@@ -23,6 +26,9 @@ def main(argv=None):
     e.add_argument("name")
     st = sub.add_parser("status", help="progress per area")
     st.add_argument("name", nargs="?")
+    st.add_argument("--markdown", action="store_true", help="print a Markdown table (for CI summaries)")
+    v = sub.add_parser("validate", help="check annotation files against the manifest; exits 1 on errors")
+    v.add_argument("name", nargs="?")
     a = ap.parse_args(argv)
 
     if a.cmd == "prepare":
@@ -35,13 +41,21 @@ def main(argv=None):
         gj = to_geojson(a.name, ROOT); f = ROOT / a.name / "labels.geojson"
         json.dump(gj, open(f, "w")); print(f"{len(gj['features'])} polygons -> {f}")
     elif a.cmd == "status":
-        for area in sorted(d for d in ROOT.iterdir() if (d / "manifest.json").exists() and (not a.name or d.name == a.name)):
+        if a.markdown:
+            print("| area | tiles | done | skipped | todo | damaged | destroyed | intact |\n|---|---|---|---|---|---|---|---|")
+        for area in areas(a.name):
             m = json.load(open(area / "manifest.json"))
             anns = [read_annotation(area, t["id"]) for t in m["tiles"]]
             st = Counter(x.get("status", "todo") for x in anns)
             cls = Counter(p["cls"] for x in anns if x.get("status") == "done" for p in x["polygons"])
-            print(f"{area.name}: {len(anns)} tiles | done {st['done']} skip {st['skip']} todo {st['todo']} | polygons {dict(cls)}")
-
+            if a.markdown:
+                print(f"| {area.name} | {len(anns)} | {st['done']} | {st['skip']} | {st['todo']} | {cls['damaged']} | {cls['destroyed']} | {cls['intact']} |")
+            else:
+                print(f"{area.name}: {len(anns)} tiles | done {st['done']} skip {st['skip']} todo {st['todo']} | polygons {dict(cls)}")
+    elif a.cmd == "validate":
+        errors = [e for area in areas(a.name) for e in validate_area(area)]
+        print("\n".join(errors) if errors else f"labels ok ({len(areas(a.name))} areas)")
+        raise SystemExit(1 if errors else 0)
 
 if __name__ == "__main__":
     main()

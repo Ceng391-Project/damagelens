@@ -1,8 +1,7 @@
 import json
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 from pathlib import Path
 
-import numpy as np
 from PIL import Image
 from pyproj import Transformer
 
@@ -35,7 +34,7 @@ def prepare_area(name, lon, lat, side_m=1536, gsd=0.5, pre_date=None, post_date=
                             pre_shift_px=[float(sh[0]), float(sh[1])], registered=bool(ok),
                             snow_cloud=snow_cloud_fraction(b)))
     manifest = dict(name=name, lon=lon, lat=lat, side_m=side_m, gsd=gsd, crs=CRS, tile=TILE,
-                    pre_date=pre_date, post_date=post_date, created=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                    pre_date=pre_date, post_date=post_date, created=datetime.now(UTC).isoformat(timespec="seconds"),
                     source="Maxar Open Data, Kahramanmaras-turkey-earthquake-23 (CC BY-NC 4.0)", tiles=entries)
     if write_manifest:
         json.dump(manifest, open(out / "manifest.json", "w"), indent=1)

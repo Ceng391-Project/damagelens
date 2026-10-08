@@ -1,7 +1,6 @@
 import argparse
 import json
 import time
-from pathlib import Path
 
 import numpy as np
 import segmentation_models_pytorch as smp

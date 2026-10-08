@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: lock, lint, repo hygiene, labels
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v10.2.0
+      - name: uv.lock matches pyproject.toml
+        run: uv lock --check
+      - name: Lint (ruff)
+        run: uvx ruff@0.14 check
+      - name: No data, weights, tiles or working files in git
+        run: python3 .github/scripts/check_repo.py
+
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v10.2.0
+        with:
+          enable-cache: true
+      - name: Install (locked)
+        run: uv sync --locked --no-group experiments
+      - name: pytest
+        run: uv run --no-group experiments pytest -q
+      - name: Validate hand labels
+        run: uv run --no-group experiments damagelens-label validate
+      - name: Label progress
+        run: |
+          echo "## Labeling progress" >> "$GITHUB_STEP_SUMMARY"
+          uv run --no-group experiments damagelens-label status --markdown >> "$GITHUB_STEP_SUMMARY"

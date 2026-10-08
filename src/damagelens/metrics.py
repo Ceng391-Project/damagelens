@@ -11,7 +11,10 @@ def binary_scores(pred, gt, valid=None) -> dict:
     return dict(precision=p, recall=r, f1=2 * p * r / max(p + r, 1e-9), iou=tp / max(tp + fp + fn, 1))
 
 
-def best_threshold(prob, gt, grid=np.arange(0.1, 0.91, 0.1)) -> tuple[float, float]:
+THRESHOLDS = tuple(round(0.1 * k, 1) for k in range(1, 10))
+
+
+def best_threshold(prob, gt, grid=THRESHOLDS) -> tuple[float, float]:
     f = {float(t): binary_scores(prob > t, gt)["f1"] for t in grid}
     t = max(f, key=f.get)
     return t, f[t]

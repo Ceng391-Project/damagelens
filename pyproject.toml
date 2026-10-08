@@ -54,5 +54,14 @@ where = ["src"]
 [tool.setuptools.package-data]
 "damagelens.label" = ["static/*"]
 
+[tool.ruff]
+line-length = 160
+target-version = "py311"
+extend-exclude = ["experiments"]
+
+[tool.ruff.lint]
+select = ["E9", "F", "B", "UP"]
+ignore = ["E701", "E702"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]

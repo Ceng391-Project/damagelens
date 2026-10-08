@@ -5,9 +5,10 @@ from functools import partial
 from http.server import ThreadingHTTPServer
 
 import numpy as np
+import pytest
 from PIL import Image
 
-from damagelens.label.dataset import load_labeled, rasterize, to_geojson
+from damagelens.label.dataset import load_labeled, rasterize, to_geojson, validate_area
 from damagelens.label.server import Handler
 
 
@@ -43,10 +44,9 @@ def test_server_roundtrip_and_dataset(tmp_path):
         req = urllib.request.Request(f"{base}/api/ann/toy_000", data=body, headers={"Content-Type": "application/json"}, method="POST")
         assert json.load(urllib.request.urlopen(req))["ok"]
         bad = urllib.request.Request(f"{base}/api/ann/..%2Fetc", data=body, method="POST")
-        try:
-            urllib.request.urlopen(bad); assert False
-        except urllib.error.HTTPError as e:
-            assert e.code == 404
+        with pytest.raises(urllib.error.HTTPError) as e:
+            urllib.request.urlopen(bad)
+        assert e.value.code == 404
         saved = json.load(urllib.request.urlopen(f"{base}/api/ann/toy_000"))
         assert saved["status"] == "done" and saved["user"] == "ali" and len(saved["polygons"]) == 1
         assert urllib.request.urlopen(f"{base}/tiles/toy_000_post.png").headers["Content-Type"] == "image/png"
@@ -57,3 +57,17 @@ def test_server_roundtrip_and_dataset(tmp_path):
     gj = to_geojson("toy", root=tmp_path)
     lon, lat = gj["features"][0]["geometry"]["coordinates"][0][0]
     assert 30 < lon < 40 and 30 < lat < 45
+
+
+def test_validate_area(tmp_path):
+    area = make_area(tmp_path)
+    ok = dict(tile="toy_000", status="done", user="ali", polygons=[dict(cls="damaged", points=[[8, 8], [24, 8], [24, 24]])])
+    json.dump(ok, open(area / "annotations" / "toy_000.json", "w"))
+    assert validate_area(area) == []
+    bad = dict(tile="toy_001", status="done", user="", polygons=[dict(cls="rubble", points=[[0, 0], [1, 0], [0, 1]]),
+                                                                dict(cls="damaged", points=[[0, 0], [100, 0], [100, 100]])])
+    json.dump(bad, open(area / "annotations" / "toy_001.json", "w"))
+    json.dump(ok, open(area / "annotations" / "toy_999.json", "w"))
+    errs = " | ".join(validate_area(area))
+    for needle in ("need a user name", "unknown class", "degenerate", "leaves the 64px tile", "toy_999.json: tile id not in manifest"):
+        assert needle in errs, needle
