@@ -25,7 +25,7 @@ def tier3_split():
     _, _, ev = load("tier3")
     rng = np.random.default_rng(0)
     part = np.zeros(len(ev), np.int8)  # 0 train, 1 val, 2 test
-    for e in set(ev):
+    for e in sorted(set(ev)):
         idx = np.array([i for i, x in enumerate(ev) if x == e]); rng.shuffle(idx)
         n = len(idx); part[idx[: int(.2 * n)]] = 2; part[idx[int(.2 * n): int(.3 * n)]] = 1
     return part
