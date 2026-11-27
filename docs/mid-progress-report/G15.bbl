@@ -1,0 +1,68 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Celik}{Celik}{2009}]{celik2009pca}
+Celik, T. (2009).
+\newblock Unsupervised change detection in satellite images using principal component analysis and $k$-means clustering.
+\newblock {\em IEEE Geoscience and Remote Sensing Letters\/}~{\em 6\/}(4), 772--776.
+
+\bibitem[\protect\citeauthoryear{Chen, Qi, and Shi}{Chen et~al.}{2022}]{chen2022bit}
+Chen, H., Z.~Qi, and Z.~Shi (2022).
+\newblock Remote sensing image change detection with transformers.
+\newblock {\em IEEE Transactions on Geoscience and Remote Sensing\/}~{\em 60}, 1--14.
+
+\bibitem[\protect\citeauthoryear{Chen, Song, Dietrich, Broni-Bediako, Xuan, Wang, Shao, Wei, Xia, Lan, Schindler, and Yokoya}{Chen et~al.}{2025}]{chen2025bright}
+Chen, H., J.~Song, O.~Dietrich, C.~Broni-Bediako, W.~Xuan, J.~Wang, X.~Shao, Y.~Wei, J.~Xia, C.~Lan, K.~Schindler, and N.~Yokoya (2025).
+\newblock {BRIGHT}: a globally distributed multimodal building damage assessment dataset with very-high-resolution for all-weather disaster response.
+\newblock {\em Earth System Science Data\/}~{\em 17\/}(11), 6217--6253.
+
+\bibitem[\protect\citeauthoryear{Daudt, Le~Saux, and Boulch}{Daudt et~al.}{2018}]{daudt2018siamese}
+Daudt, R.~C., B.~Le~Saux, and A.~Boulch (2018).
+\newblock Fully convolutional siamese networks for change detection.
+\newblock {\em arXiv preprint arXiv:1810.08462\/}.
+
+\bibitem[\protect\citeauthoryear{Fischler and Bolles}{Fischler and Bolles}{1981}]{fischler1981ransac}
+Fischler, M.~A. and R.~C. Bolles (1981).
+\newblock Random sample consensus: a paradigm for model fitting with applications to image analysis and automated cartography.
+\newblock {\em Communications of the ACM\/}~{\em 24\/}(6), 381--395.
+
+\bibitem[\protect\citeauthoryear{Guizar-Sicairos, Thurman, and Fienup}{Guizar-Sicairos et~al.}{2008}]{guizar2008}
+Guizar-Sicairos, M., S.~T. Thurman, and J.~R. Fienup (2008).
+\newblock Efficient subpixel image registration algorithms.
+\newblock {\em Optics Letters\/}~{\em 33\/}(2), 156--158.
+
+\bibitem[\protect\citeauthoryear{Gupta, Hosfelt, Sajeev, Patel, Goodman, Doshi, Heim, Choset, and Gaston}{Gupta et~al.}{2019}]{gupta2019xbd}
+Gupta, R., R.~Hosfelt, S.~Sajeev, N.~Patel, B.~Goodman, J.~Doshi, E.~Heim, H.~Choset, and M.~Gaston (2019).
+\newblock {xBD}: A dataset for assessing building damage from satellite imagery.
+\newblock {\em arXiv preprint arXiv:1911.09296\/}.
+
+\bibitem[\protect\citeauthoryear{He, Zhang, Ren, and Sun}{He et~al.}{2015}]{he2015resnet}
+He, K., X.~Zhang, S.~Ren, and J.~Sun (2015).
+\newblock Deep residual learning for image recognition.
+\newblock {\em arXiv preprint arXiv:1512.03385\/}.
+
+\bibitem[\protect\citeauthoryear{Musao{\u{g}}lu, Ozaydin, Amirgan, Taskin, Nayir, and Kaya}{Musao{\u{g}}lu et~al.}{2025}]{musaoglu2025kate}
+Musao{\u{g}}lu, N., E.~Ozaydin, B.~Amirgan, G.~Taskin, H.~Nayir, and H.~Kaya (2025).
+\newblock {KATE-CD}: high-resolution change detection dataset from the 2023 {Earthquake} in {Kahramanmara{\c{s}}}, {T{\"u}rkiye}.
+\newblock {\em Journal of Applied Remote Sensing\/}~{\em 19\/}(4), 044508.
+
+\bibitem[\protect\citeauthoryear{Otsu}{Otsu}{1979}]{otsu1979}
+Otsu, N. (1979).
+\newblock A threshold selection method from gray-level histograms.
+\newblock {\em IEEE Transactions on Systems, Man, and Cybernetics\/}~{\em 9\/}(1), 62--66.
+
+\bibitem[\protect\citeauthoryear{Ronneberger, Fischer, and Brox}{Ronneberger et~al.}{2015}]{ronneberger2015unet}
+Ronneberger, O., P.~Fischer, and T.~Brox (2015).
+\newblock {U-Net}: Convolutional networks for biomedical image segmentation.
+\newblock {\em arXiv preprint arXiv:1505.04597\/}.
+
+\bibitem[\protect\citeauthoryear{Rublee, Rabaud, Konolige, and Bradski}{Rublee et~al.}{2011}]{rublee2011orb}
+Rublee, E., V.~Rabaud, K.~Konolige, and G.~Bradski (2011).
+\newblock {ORB}: An efficient alternative to {SIFT} or {SURF}.
+\newblock In {\em 2011 International Conference on Computer Vision}, pp.\  2564--2571.
+
+\bibitem[\protect\citeauthoryear{Wang, Bovik, Sheikh, and Simoncelli}{Wang et~al.}{2004}]{wang2004ssim}
+Wang, Z., A.~C. Bovik, H.~R. Sheikh, and E.~P. Simoncelli (2004).
+\newblock Image quality assessment: from error visibility to structural similarity.
+\newblock {\em IEEE Transactions on Image Processing\/}~{\em 13\/}(4), 600--612.
+
+\end{thebibliography}
